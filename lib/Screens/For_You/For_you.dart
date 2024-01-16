@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:salsol_fitness/Screens/videoScreens/video_screen.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
+import 'package:salsol_fitness/widgets/Great_For_Home.dart';
 import 'package:salsol_fitness/widgets/workout_widget_refactor.dart';
 
 class ForYou extends StatefulWidget {
@@ -15,12 +16,14 @@ class ForYou extends StatefulWidget {
 
 class _ForYouState extends State<ForYou> {
   List<Addvideomodel> videoList = [];
+  List<Addvideomodel> greatForHomeVideos = [];
   Uint8List? adminImageBytes;
 
   @override
   void initState() {
     super.initState();
     fetchVideos();
+    fetchGreatForHomeVideos();
      __getImageFromAdmin();
   }
 
@@ -42,54 +45,87 @@ class _ForYouState extends State<ForYou> {
     });
   }
 
+  Future<void> fetchGreatForHomeVideos() async {
+    final box = await Hive.openBox<Addvideomodel>('videos');
+    final List<Addvideomodel> allVideos = box.values.toList();
+
+    final List<Addvideomodel> filteredVideos = allVideos
+        .where((video) => video.selectedCategory == 'Great From Home')
+        .toList();
+
+    setState(() {
+      greatForHomeVideos = filteredVideos;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 350,
-          width: MediaQuery.of(context).size.width,
-          child: ListView.builder(
-              scrollDirection:Axis.horizontal,
-              itemCount: videoList.length,
-              itemBuilder: (BuildContext context, int index) {
-                final video = videoList[index];
-                  return WorkOutImage(
-                    workimage: video.imageBytes,
-                    worktitle: video.title,
-                    times: video.time,
-                    nav: (){
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => VideoScreenOne(
-                            addvideomodel: video,
-                            ),
-                          )
-                       );
-                    },
-                  );
-                }
-              ),  
-          ),
-          const SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Text('Great For Home',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 350,
+            width: MediaQuery.of(context).size.width,
+            child: ListView.builder(
+              shrinkWrap: true,
+                scrollDirection:Axis.horizontal,
+                itemCount: videoList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final video = videoList[index];
+                    return WorkOutImage(
+                      workimage: video.imageBytes,
+                      worktitle: video.title,
+                      times: video.time,
+                      nav: (){
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => VideoScreenOne(
+                              addvideomodel: video,
+                              ),
+                            )
+                         );
+                      },
+                    );
+                  }
+                ),  
+            ),
+           const  Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Text('Great For Home',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20
+                ),
               ),
             ),
-          ),
-          Expanded(
+            const SizedBox(height: 20,),
+           SizedBox(
+            height: 300,
+            width: MediaQuery.of(context).size.width,
             child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: greatForHomeVideos.length,
               itemBuilder: (BuildContext context, int index){
-                 return ListTile(
-                   
-                 );
-              }))
-      ],
+               final video = greatForHomeVideos[index];
+                return GreatFromHome(
+                  workimage: video.imageBytes,
+                   worktitle: video.title,
+                    times: video.time,
+                     nav: (){
+                      Navigator.of(context).pushReplacement(
+                       MaterialPageRoute(
+                         builder: (context) => VideoScreenOne(
+                         addvideomodel: video
+                           ),
+                         ),
+                       );
+                     });
+              }
+            ),
+           ),
+        ],
+      ),
     );
    }
 }

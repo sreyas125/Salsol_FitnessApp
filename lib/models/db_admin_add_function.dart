@@ -11,7 +11,7 @@ import 'package:hive/hive.dart';
      String title;
 
    @HiveField(1)
-    final String videoUrl;
+     String videoUrl;
 
    @HiveField(2)
      String discription;

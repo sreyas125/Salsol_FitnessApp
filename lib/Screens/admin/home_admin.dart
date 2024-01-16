@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salsol_fitness/Screens/admin/Add_video.dart';
+import 'package:salsol_fitness/Screens/admin/Edit_Guidance.dart';
 import 'package:salsol_fitness/Screens/admin/Edit_workout.dart';
 import 'package:salsol_fitness/Screens/admin/User_Details.dart';
 import 'package:salsol_fitness/Screens/admin/admin_login.dart';
@@ -84,16 +85,17 @@ class _AdministrationScreenState extends State<AdministrationScreen> {
           onTap: (){
             switch(index){
               case 0:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>const UserDetails(),));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const UserDetails()));
               break;
               case 1:
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => EditWorkout()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>  EditWorkout()));
               break;
               case 2:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const AddVideoScreen(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddVideoScreen()));
               break;
+              case 4:
+               Navigator.push(context, MaterialPageRoute(builder: (context) => const AddGuidance(),));
+               break;
               case 5:
                _showLogoutDialog(context);
             }

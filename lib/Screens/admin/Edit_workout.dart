@@ -1,10 +1,13 @@
-import 'dart:typed_data';
+// ignore_for_file: prefer_final_fields, unused_field, unused_local_variable, no_leading_underscores_for_local_identifiers, unnecessary_nullable_for_final_variable_declarations, unused_element
 
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:salsol_fitness/Screens/admin/home_admin.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
+import 'package:salsol_fitness/widgets/Functions.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class EditWorkout extends StatefulWidget {
   EditWorkout({Key? key});
@@ -15,12 +18,15 @@ class EditWorkout extends StatefulWidget {
 
 class _EditWorkoutState extends State<EditWorkout> {
   List<Addvideomodel> videoList = [];
-
+  YoutubePlayerController? _playerController;
+// final TextEditingCntroller linkController = TextEditingControler();
   @override
   void initState() {
     super.initState();
     fetchVideos();
   }
+
+ 
 
   Future<void> fetchVideos() async {
     final box = await Hive.openBox<Addvideomodel>('videos');
@@ -28,64 +34,6 @@ class _EditWorkoutState extends State<EditWorkout> {
       videoList = box.values.toList();
     });
   }
-
-  void _editVideoDetails(int index){
-    showModalBottomSheet(
-      context: context,
-       builder: (BuildContext context){
-        return Container(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                initialValue: videoList[index].title,
-                decoration: InputDecoration(
-                  labelText: 'title',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (newValue) {
-                  setState(() {
-                    videoList[index].title = newValue;
-                  });
-                },
-              ),
-              SizedBox(height: 16.0,),
-              TextFormField(
-                initialValue: videoList[index].discription,
-                decoration: InputDecoration(
-                  labelText: 'Description',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (newValue) {
-                  setState(() {
-                    videoList[index].discription = newValue;
-                  });
-                },
-              ),
-              SizedBox(height: 16.0,),
-              TextFormField(
-                initialValue: videoList[index].time,
-                decoration: InputDecoration(
-                  labelText: 'Time',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (newValue) {
-                  setState(() {
-                    videoList[index].time = newValue;
-                  });
-                },
-              ),
-              SizedBox(height: 16.0,),
-              ElevatedButton(onPressed: (){
-                saveUpdatedDetails(index);
-                Navigator.pop(context);
-              }, child: Text('Save'),)
-            ],
-          ),
-        );
-       });
-   }
      Future<void> saveUpdatedDetails(int index) async{
       final box = await Hive.openBox<Addvideomodel>('videos');
       await box.put(index, videoList[index]);
@@ -102,9 +50,7 @@ class _EditWorkoutState extends State<EditWorkout> {
      final Uint8List? currentImageBytes = video.imageBytes;
      if(currentImageBytes != null){
       await box.deleteAt(index);
-
-     }
-      
+     }     
       video.imageBytes = imageBytes;
       await box.put(index, video);
 
@@ -113,55 +59,144 @@ class _EditWorkoutState extends State<EditWorkout> {
       });
     }
   }
-
-  void _deleteVideoDetails(int index) {
-    showDialog(
-      context: context,
-       builder: (BuildContext context){
-        return AlertDialog(
-          title: Text('Are You sure You Want to delete this details?'),
-          content: Text('This Action will delete the workout details'),
-          actions: [
-            TextButton(
-              onPressed: (){
-                deleteDetails(index);
-                Navigator.of(context).pop();
-            }, child: Text('Delete'),)
-          ],
-        );
-       });
+ String _selectedCategory='';
+  void editCategory(int index){
+    showMenu(
+    context: context,
+    position: const RelativeRect.fromLTRB(0, 0, 0, 0),
+    items: [
+      PopupMenuItem(
+        child: ListTile(
+          title: const Text('Yoga'),
+          onTap: () {
+            _updateCategoryAndPop('Yoga', index);
+          },
+        ),
+      ),
+      PopupMenuItem(
+        child: ListTile(
+          title: const Text('Endurance'),
+          onTap: () {
+            _updateCategoryAndPop('Endurance', index);
+          },  
+        ),
+      ),
+      PopupMenuItem(
+        child: ListTile(
+          title: const Text('Arms & Shoulder'),
+          onTap: () {
+            _updateCategoryAndPop('Arms & Shoulder', index);
+          },  
+        ),
+      ),
+      PopupMenuItem(
+        child: ListTile(
+          title: const Text('Abs & Core'),
+          onTap: () {
+            _updateCategoryAndPop('Abs & Core', index);
+          },  
+        ),
+      ),
+      PopupMenuItem(
+        child: ListTile(
+          title: const Text('Mindfulness'),
+          onTap: () {
+            _updateCategoryAndPop('Mindfulness', index);
+          },  
+        ),
+      ),
+      PopupMenuItem(
+        child: ListTile(
+          title: const Text('Strength'),
+          onTap: () {
+            _updateCategoryAndPop('Strength', index);
+          },  
+        ),
+      ),
+       PopupMenuItem(
+        child: ListTile(
+          title: const Text('Mobility'),
+          onTap: () {
+            _updateCategoryAndPop('Mobility', index);
+          },  
+        ),
+      ),
+       PopupMenuItem(
+        child: ListTile(
+          title: const Text('Overall Fitness'),
+          onTap: () {
+            _updateCategoryAndPop('Overall Fitness',index);
+          },  
+        ),
+      ),
+    ],
+    elevation: 8.0,
+  );
   }
-   Future<void> deleteDetails(int index) async{
-    final Box = await Hive.openBox<Addvideomodel>('videos');
-    await Box.deleteAt(index);
+   Future<void> _updateCategoryAndPop(String category,int index) async{
+     videoList[index].selectedCategory = category;
 
-    setState(() {
-      videoList.removeAt(index);
-    });
+     final box = await Hive.openBox<Addvideomodel>('videos');
+     await box.put(index, videoList[index]);
+     // ignore: use_build_context_synchronously
+     Navigator.of(context).pop();
    }
 
+    Future<void>_editVideoUrl(int index) async{
+      String? updatedVideoUrl = await showVideoUrlEditDialog(context);
+    if(updatedVideoUrl != null){
+      final box = await Hive.openBox<Addvideomodel>('videos');
+      final video = videoList[index];
+      video.videoUrl = updatedVideoUrl;
+      await box.put(index, video);
+      setState(() {
+        videoList[index] = video;
+      });
+
+      _playerController?.load(updatedVideoUrl);
+    }
+     }
+
+     Future<String?> showVideoUrlEditDialog(BuildContext context) async{
+      TextEditingController _videoUrlController = TextEditingController();
+      return showDialog<String?>(
+        context: context,
+         builder: (BuildContext context){
+          return AlertDialog(
+            title: Text('Edit Video URL'),
+            content: TextField(
+              controller: _videoUrlController,
+              decoration: InputDecoration(labelText: 'Enter the New URL'),
+            ),
+            actions: [
+              TextButton(onPressed: (){
+                Navigator.pop(context,_videoUrlController.text);
+              }, child: Text('Save'),
+              ),
+              TextButton(
+                onPressed: (){
+                  Navigator.pop(context,null);
+              }, child: Text('Cancel'),)
+            ],
+          );
+         });
+     }
+    
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
         centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => AdministrationScreen()),
-            );
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
-        title: Text('Edit WorkOuts'),
+        leading: BackButton(),
+        title: const Text('Edit WorkOuts'),
       ),
       body: ListView.builder(
         itemCount: videoList.length,
         itemBuilder: (BuildContext context, int index) {
           final video = videoList[index];
           return Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -177,26 +212,52 @@ class _EditWorkoutState extends State<EditWorkout> {
                       height: 200,
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Text('Title: ${video.title}',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Title: ${video.title}',
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 10,),
                   Text('Description: ${video.discription}'),
+                  const SizedBox(height: 10,),
                   Text('Time: ${video.time}'),
+                    ],
+                  ),
+                    Padding(
+                     padding: const EdgeInsets.all(16.0),
+                     child: TextFormField(
+                          readOnly: true,
+                          controller: TextEditingController(text: video.selectedCategory ?? ''),
+                          decoration: const InputDecoration(
+                            labelText: 'Category',
+                            border: OutlineInputBorder(),
+                          ),
+                          onTap: (){
+                            editCategory(index);
+                          },
+                        ),
+                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
                         onPressed: () {
-                          _editVideoDetails(index); 
+                          editVideoDetails(index,context,videoList, setState,saveUpdatedDetails); 
                         },
-                        icon: Icon(Icons.edit),
+                        icon: const Icon(Icons.edit),
                       ),
+                      IconButton(
+                        onPressed: (){
+                      deleteVideoDetails(index, context,setState);
+                      }, icon: const Icon(Icons.delete_outline_rounded)),
                       IconButton(onPressed: (){
-                        _deleteVideoDetails(index);
-                      }, icon: Icon(Icons.delete_outline_rounded))
+                        _editVideoUrl(index);
+                      }, icon: const Icon(Icons.link))
                     ],
                   ),
-                  Divider(),
+                  const Divider(),  
                 ],
               ),
             ),

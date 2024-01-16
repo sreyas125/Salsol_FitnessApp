@@ -1,6 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
-
-import 'dart:typed_data';
+// ignore_for_file: non_constant_identifier_names, unused_local_variable
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -24,6 +22,20 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
    String? _time;
    int? _selectedCategoryIndex;
    
+   List<Addvideomodel> videoList = [];
+   List<String> selectedCategories = [];
+    List<String> categories=[
+    'Yoga',
+    'Endurance',
+    'Arms & Shoulder',
+    'Abs & core',
+    'Mindfulness',
+    'Strength,mindfulness',
+    'Great From Home',
+    'Mobility',
+    'Overall Fitness',
+   ];
+ 
 
    Future<void> _saveVideoDetails() async{
     if(_title != null &&
@@ -95,6 +107,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
   void initState() {
     super.initState();
     _getImageFromHive();
+    fetchGreatForHomeVideos();
   }
 
   Future<void> _getImageFromHive() async {
@@ -147,6 +160,42 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
  );
 }
 
+ Future<void> fetchGreatForHomeVideos() async{
+  final selectedCategoryIndexBox = await Hive.openBox('Selected_category_from_index');
+  final int? index = selectedCategoryIndexBox.get('index');
+
+  final box = await Hive.openBox<Addvideomodel>('videos');
+  final List<Addvideomodel> allvideos = box.values.toList();
+
+  final List<Addvideomodel> greatForHomeVideos = allvideos
+    .where((video) => video.selectedCategory=='Great From Home')
+    .toList();
+
+  setState(() {
+    videoList = greatForHomeVideos;
+  });
+}
+
+Future<void> fetchNewWorkoutvideos() async{
+  final box = await Hive.openBox<Addvideomodel>('videos');
+  final List<Addvideomodel> allVideos = box.values.toList();
+
+   final List<Addvideomodel> newWorkoutVideos = allVideos
+    .where((video) => video.selectedCategory != 'Great From Home')
+    .toList();
+
+    setState(() {
+      videoList = newWorkoutVideos;
+    });
+}
+
+ void _updateSelectedCategories(String? newValue) {
+  if(newValue != null && !selectedCategories.contains(newValue)){
+    setState(() {
+      selectedCategories.add(newValue);
+    });
+  }
+ }
  
   @override
   Widget build(BuildContext context) {
@@ -241,38 +290,37 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                 ),
               ),
               const SizedBox(height: 20,),
-                DropdownButtonFormField<int>(
-                  value: _selectedCategoryIndex,
-                  items: [
-                    'Yoga',
-                    'Endurance',
-                    'Arms & Shoulder',
-                    'Abs & core',
-                    'Mindfulness',
-                    'Strength,mindfulness',
-                  ].asMap().entries.map((entry) {
-                    return DropdownMenuItem<int>(
-                      value: entry.key,
-                      child: Text(entry.value),
+              Wrap(
+                children: selectedCategories.map((Category){
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(Category,
+                    style: TextStyle(color: Colors.white),
+                    ),
                     );
-                  }).toList(),
-                  onChanged: (int? newValue) {
-                    setState(() {
-                      _selectedCategoryIndex = newValue;
-                      _selectedCategory = [
-                        'Yoga',
-                        'Endurance',
-                        'Arms & Shoulder',
-                        'Abs & core',
-                        'Mindfulness',
-                        'Strength,mindfulness'
-                      ][newValue!];
-                    });
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'category',
-                    hintText: 'Select Category',
-                    border: OutlineInputBorder(),
+                }).toList(),
+              ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropdownButtonFormField<String>(
+                    value: _selectedCategory,
+                    items: categories.map((category) {
+                      return DropdownMenuItem<String>(
+                    value: category,
+                    child: Text(category),
+                  );
+                }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedCategory= newValue;
+                      });
+                      _updateSelectedCategories(newValue);
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'category',
+                      hintText: 'Select Category',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                 ),
 

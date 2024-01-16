@@ -1,7 +1,9 @@
+// ignore_for_file: unnecessary_null_comparison, unnecessary_string_interpolations, use_super_parameters
+
 import 'package:flutter/material.dart';
 import 'package:salsol_fitness/Screens/screen_home.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
-import 'package:salsol_fitness/widgets/youtube_video_refactoring.dart';
+import 'package:salsol_fitness/youtube/video_player.dart';
 
 class VideoScreenOne extends StatefulWidget {
   final Addvideomodel addvideomodel;
@@ -13,7 +15,7 @@ class VideoScreenOne extends StatefulWidget {
 }
 
 class _VideoScreenOneState extends State<VideoScreenOne> {
-  final String videoLink = 'UNa7kaCWCLs';
+  
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +35,13 @@ class _VideoScreenOneState extends State<VideoScreenOne> {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      Image.asset(
-                        'lib/Assets/hq720.webp',
+                      widget.addvideomodel.imageBytes != null?
+                      Image.memory(
+                        widget.addvideomodel.imageBytes,
                         width: double.infinity,
                         fit: BoxFit.cover,
-                      ),
+                      )
+                      :const Placeholder(),
                       Positioned.fill(
                         child: Container(
                           decoration: const BoxDecoration(
@@ -66,7 +70,7 @@ class _VideoScreenOneState extends State<VideoScreenOne> {
                           padding: const EdgeInsets.only(bottom: 40,left: 20),
                           child: Text(
                             '${widget.addvideomodel.title}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color.fromARGB(255, 251, 250, 250),
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -75,9 +79,9 @@ class _VideoScreenOneState extends State<VideoScreenOne> {
                         ),
                         Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10,bottom: 10),
-                              child: const Icon(
+                            const Padding(
+                              padding: EdgeInsets.only(left: 10,bottom: 10),
+                              child: Icon(
                                 Icons.timer,
                                 color: Colors.white,
                               ),
@@ -94,8 +98,8 @@ class _VideoScreenOneState extends State<VideoScreenOne> {
                         ),
                         Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10,bottom: 10),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 10,bottom: 10),
                               child: Icon(
                                 Icons.accessibility_new,
                                 color: Colors.white,
@@ -105,24 +109,24 @@ class _VideoScreenOneState extends State<VideoScreenOne> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'Core Strength,Endurance,Glute Strength',
-                                style: TextStyle(color: Colors.white),
+                                widget.addvideomodel.selectedCategory ?? 'Core Strength',
+                                style: const TextStyle(color: Colors.white),
                               ),
                             ),
                           ],
                         ),
-                        Row(
+                        const Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(left: 10,bottom: 10),
+                              padding: EdgeInsets.only(left: 10,bottom: 10),
                               child: Icon(
                                 Icons.fitness_center,
                                 color: Colors.white,
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 'None (Mat optional)',
                                 style: TextStyle(color: Colors.white),
@@ -149,10 +153,25 @@ class _VideoScreenOneState extends State<VideoScreenOne> {
               left: 16,
               right: 0,
               bottom: 60,
-              child: WorkoutDetailsScreen(
-                videoLink: videoLink,
-                defaultvideourl: widget.addvideomodel.videoUrl,
-              ),
+              child: ElevatedButton(
+            onPressed: (){
+              print('Video URL: ${widget.addvideomodel.videoUrl}');
+           Navigator.push(
+            context,
+             MaterialPageRoute(
+              builder: (context) => YoutubePlayerScreen(
+                videoModel: widget.addvideomodel),));
+            },
+          style: ElevatedButton.styleFrom(
+            
+            backgroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 42),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(38),)
+          ),
+           child: const Text('Start Workout',
+           style: TextStyle(color: Colors.black),
+        ),
+      )
             ),
             Positioned(
               top: 40,

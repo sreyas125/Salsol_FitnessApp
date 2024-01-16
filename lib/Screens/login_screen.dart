@@ -104,31 +104,37 @@ class _ScreenLoginState extends State<ScreenLogin> {
                     ),
                   child: Row(
                     children: [
-                      ElevatedButton(onPressed: (){
-                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => const AdminLogin(),));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                           backgroundColor: const Color.fromARGB(255, 107, 103, 103),
-                         ), child: Padding(
-                        padding: EdgeInsets.symmetric(
-                           horizontal: screenSize.width * 0.05,
-                           vertical: screenSize.height * 0.015,),
-                        child: const Text('Admin',style: TextStyle(color: Color.fromARGB(255, 213, 209, 209)),),
-                         ),
-                       ),
-                     ],
-                   ),
-                ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15,),
+                        child: TextButton(
+                           onPressed: () {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (context) => const AdminLogin()),
+                              );
+                          },
+                          style: TextButton.styleFrom(
+                              textStyle: const TextStyle(
+                                decoration: TextDecoration.underline, 
+                                color: Color.fromARGB(255, 213, 209, 209),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: screenSize.width * 0.05,
+                                vertical: screenSize.height * 0.015,
+                              ),
+                            ),
+                          child: const Text('Admin',style: TextStyle(color: Colors.white)),
+                          ),
+                      )
+                      ],
+                    ),
+                  ),
                 ],
                )
-              ],
-            ),
-          ]
-        ),
-      ),
-    );
-  }
+             ],
+           ),
+         ]
+       ),
+     ),
+   );
+ }
 }

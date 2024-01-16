@@ -1,12 +1,14 @@
 
 import 'package:flutter/material.dart';
+import 'package:salsol_fitness/models/db_admin_add_function.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 
 class YoutubePlayerScreen extends StatefulWidget {
-  final String videoId;
+  // final String videoUrl;
+  final Addvideomodel videoModel;
   // ignore: use_key_in_widget_constructors
-  const YoutubePlayerScreen({Key? key,required this.videoId});
+  const YoutubePlayerScreen({Key? key,required this.videoModel});
 
   @override
   State<YoutubePlayerScreen> createState() => _YoutubePlayerScreenState();
@@ -31,10 +33,11 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
     super.dispose();
   }
    void initializePlayer(){
-      if(isValidYoutubeVideoId(widget.videoId)) {
+    final extractedVideoId = extractVideoId(widget.videoModel.videoUrl);
+      if(isValidYoutubeVideoId(extractedVideoId)) {
+        debugPrint('done');
     _playerController = YoutubePlayerController(
-     initialVideoId: widget.videoId,
-    // _extractVideoId(widget.videoId), 
+     initialVideoId: extractedVideoId, 
     flags: const YoutubePlayerFlags(
       autoPlay: false,
       mute: true,
@@ -44,9 +47,17 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
     ),
   );
       }else{
-        debugPrint('invalid youtube id..........');
+        debugPrint('invalid youtube ID');
        }
      }
+
+   String extractVideoId(String url) {
+    RegExp regExp = RegExp(r'(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([^"&?\/\n\s]{11})');
+    Match? match = regExp.firstMatch(url);
+    return match?.group(1) ?? '';
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +65,6 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
     );
   }
    Widget _buildYoutubePlayer() {
-    if(isValidYoutubeVideoId(widget.videoId)) {
      return YoutubePlayerBuilder(
       player: YoutubePlayer(
         controller: _playerController,
@@ -74,19 +84,16 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
         ],
       ),
        builder: (context,player){
-        return player;
-      },
-    );
-    }else{
+          if(_playerController.value.isReady) {
+             return player;
+         }else{
       return const Center(
         child: CircularProgressIndicator(),
       );
     }
+       
+      },
+    );
+  
    }
-
-  String _extractVideoId(String url) {
-  RegExp regExp = RegExp(r'(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([^"&?\/\n\s]{11})');
-  Match? match = regExp.firstMatch(url);
-  return match?.group(1) ?? '';
-  }
 }

@@ -92,6 +92,7 @@ Future<void> signOutUser() async {
              },
             );
           }
+          return null;
         },
       ),
     );
