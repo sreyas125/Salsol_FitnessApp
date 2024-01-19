@@ -1,5 +1,4 @@
 // ignore_for_file: non_constant_identifier_names, unused_local_variable
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:salsol_fitness/models/db_Guidance_add_function.dart';
+
 
 
 class AddGuidance extends StatefulWidget {
@@ -17,40 +17,41 @@ class AddGuidance extends StatefulWidget {
 }
 
 class _AddGuidanceState extends State<AddGuidance> {
-  File? image;
-  TextEditingController titleController = TextEditingController();
-  TextEditingController paragraphController = TextEditingController();
-  TextEditingController categoryController = TextEditingController();
+  Uint8List? _imageBytes;
+  String? _title;
+  String? _Paragraph;
 
-   Future pickImage() async{
-    final PickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-     if(PickedImage != null){
+   Future<void> _pickImage() async {
+    final PickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if(PickedFile != null){
+      final imageBytes = await PickedFile.readAsBytes();
       setState(() {
-        image = File(PickedImage.path);
+        _imageBytes = imageBytes;
       });
-     }
-   }
-
-   Future<void> SaveGuidance() async{
-    if(titleController.text.isEmpty || 
-    paragraphController.text.isEmpty ||
-     image == null) {
-      return;
+      await Hive.box('Guidanceimages').put('images', imageBytes);
     }
-     final guidanceBox = await Hive.openBox<Guidance>('Guidance');
-      final Uint8List imageBytes = await image!.readAsBytes();
+  }
 
-      final newGuidance = Guidance(
-        title: titleController.text,
-        paragraph: paragraphController.text,
-        Category: categoryController.text, 
-        imageBytes: imageBytes,
+  Future<void> _saveGuidanceDetails() async{
+    if(_imageBytes !=null &&
+     _title != null && 
+     _Paragraph != null){
+  final Guidances = Guidance(
+    title: _title!,
+     paragraph: _Paragraph!,
+      imageBytes: _imageBytes!
       );
 
-      await guidanceBox.add(newGuidance);
-      await guidanceBox.close();
+      final Box<Guidance>readingBox = await Hive.box<Guidance>('Guidance');
+        await readingBox.add(Guidances);
 
-   }
+        setState(() {
+          _Paragraph="";
+          _imageBytes=null;
+          _title="";
+        });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,19 +69,22 @@ class _AddGuidanceState extends State<AddGuidance> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 40),
                 child: Container(
-                decoration: BoxDecoration(
-                  border:Border.all(
-                    color: Colors.black),
-                    ),
+                // decoration: BoxDecoration(
+                //   border:Border.all(
+                //     color: Colors.black
+                //     ),
+                //   ),
                   height: 200,
                   width: 200,
                   child: GestureDetector(
                     onTap: () {
-                     pickImage();
+                     _pickImage();
                     },
                     child:  Center(
-                     child: image != null
-                      ?Image.file(image!,fit: BoxFit.cover,)
+                     child: _imageBytes != null
+                      ?Image.memory(
+                        _imageBytes!,
+                        fit: BoxFit.cover,)
                       : const Icon(CupertinoIcons.camera_on_rectangle_fill),
                     ),
                   )
@@ -88,13 +92,17 @@ class _AddGuidanceState extends State<AddGuidance> {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+          const SizedBox(height: 20,),
             Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
-                    controller: titleController,
+                    onChanged: (value){
+                      setState(() {
+                        _title = value;
+                      });
+                    },
                     decoration: const InputDecoration(
                       labelText: 'Title',
                       border: OutlineInputBorder(),
@@ -105,7 +113,11 @@ class _AddGuidanceState extends State<AddGuidance> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
-                    controller: paragraphController,
+                    onChanged: (value) {
+                      setState(() {
+                        _Paragraph = value;
+                      });
+                    },
                     maxLines: 20,
                     decoration: const InputDecoration(
                       labelText: 'paragraph',
@@ -115,7 +127,7 @@ class _AddGuidanceState extends State<AddGuidance> {
                   ),
                 ),
                 const SizedBox(height: 20,),
-                ElevatedButton(onPressed: SaveGuidance,
+                ElevatedButton(onPressed: _saveGuidanceDetails,
                  child: const Text('Save'),
                  )
               ],

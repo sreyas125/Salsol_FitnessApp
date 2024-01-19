@@ -19,22 +19,19 @@ class GuidanceAdapter extends TypeAdapter<Guidance> {
     return Guidance(
       title: fields[0] as String,
       paragraph: fields[1] as String,
-      Category: fields[2] as String,
-      imageBytes: fields[3] as Uint8List,
+      imageBytes: fields[2] as Uint8List,
     );
   }
 
   @override
   void write(BinaryWriter writer, Guidance obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
       ..write(obj.paragraph)
       ..writeByte(2)
-      ..write(obj.Category)
-      ..writeByte(3)
       ..write(obj.imageBytes);
   }
 

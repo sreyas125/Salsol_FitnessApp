@@ -24,9 +24,9 @@ Future<void>main() async{
   await Hive.openBox('images');
   await Hive.openBox<Addvideomodel>('videos');
   await Hive.openBox<Guidance>('Guidance');
+  await Hive.openBox<Guidance>('Guidanceimages');
 
-    
-    runApp(const MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

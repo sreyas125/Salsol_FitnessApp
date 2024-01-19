@@ -51,7 +51,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
              imageBytes: _imageBytes!,
               time: _time!,
                selectedCategory: _selectedCategory!,
-               index: _selectedCategoryIndex!, 
+               index: _selectedCategoryIndex, 
                
               );
               final Box<Addvideomodel>videoBox = await Hive.box<Addvideomodel>('videos');
@@ -84,7 +84,6 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
       });
     }
    }
-
   Future<void> _pickImage() async {
     final PickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if(PickedFile != null){
@@ -295,8 +294,8 @@ Future<void> fetchNewWorkoutvideos() async{
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(Category,
-                    style: TextStyle(color: Colors.white),
-                    ),
+                    style: const TextStyle(color: Colors.white),
+                     ),
                     );
                 }).toList(),
               ),

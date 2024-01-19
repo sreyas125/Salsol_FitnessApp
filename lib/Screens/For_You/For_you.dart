@@ -121,9 +121,9 @@ class _ForYouState extends State<ForYou> {
                          ),
                        );
                      });
-              }
+                  }
+               ),
             ),
-           ),
         ],
       ),
     );
