@@ -69,11 +69,11 @@ class _AddGuidanceState extends State<AddGuidance> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 40),
                 child: Container(
-                // decoration: BoxDecoration(
-                //   border:Border.all(
-                //     color: Colors.black
-                //     ),
-                //   ),
+                decoration: BoxDecoration(
+                  border:Border.all(
+                    color: Colors.black
+                    ),
+                  ),
                   height: 200,
                   width: 200,
                   child: GestureDetector(

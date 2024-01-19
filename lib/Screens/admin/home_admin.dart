@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:salsol_fitness/Screens/admin/Add_video.dart';
+import 'package:salsol_fitness/Screens/admin/Add_Guidance.dart';
 import 'package:salsol_fitness/Screens/admin/Edit_Guidance.dart';
 import 'package:salsol_fitness/Screens/admin/Edit_workout.dart';
 import 'package:salsol_fitness/Screens/admin/User_Details.dart';
 import 'package:salsol_fitness/Screens/admin/admin_login.dart';
 import 'package:salsol_fitness/Screens/admin/admin_profile.dart';
+import 'package:salsol_fitness/models/db_Guidance_add_function.dart';
+
 
 
 class AdministrationScreen extends StatefulWidget {
@@ -53,6 +57,7 @@ class _AdministrationScreenState extends State<AdministrationScreen> {
     'Add Video',
     'Create Message',
     'Add Guidance',
+    'Edit Guidance',
     'Logout',
   ];
 
@@ -96,7 +101,10 @@ class _AdministrationScreenState extends State<AdministrationScreen> {
               case 4:
                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddGuidance(),));
                break;
-              case 5:
+               case 5:
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => EditGuidance(),));
+                break;
+              case 6:
                _showLogoutDialog(context);
             }
           },

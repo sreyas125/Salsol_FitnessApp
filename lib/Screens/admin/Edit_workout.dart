@@ -18,7 +18,6 @@ class EditWorkout extends StatefulWidget {
 class _EditWorkoutState extends State<EditWorkout> {
   List<Addvideomodel> videoList = [];
   YoutubePlayerController? _playerController;
-// final TextEditingCntroller linkController = TextEditingControler();
   @override
   void initState() {
     super.initState();

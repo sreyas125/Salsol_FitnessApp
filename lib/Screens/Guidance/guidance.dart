@@ -54,7 +54,6 @@ class _GuidanceTabState extends State<GuidanceTab> {
                    guidanceBox != null 
                    ?SizedBox(
                     height: 250,
-                    // width: 200,
                      child: ListView.builder(            
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
@@ -66,7 +65,7 @@ class _GuidanceTabState extends State<GuidanceTab> {
                             width: 200,
                              child: GestureDetector(
                                onTap: (){
-                                 
+                                      
                                },
                                child: Column(
                                  crossAxisAlignment: CrossAxisAlignment.start,
