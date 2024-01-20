@@ -6,6 +6,7 @@ class WorkOutImage extends StatefulWidget {
   final String worktitle;
   final String times;
   final Function() nav;
+  final Function(bool isBookmarked) onBookmarChanged;
   
 
  
@@ -14,7 +15,8 @@ class WorkOutImage extends StatefulWidget {
     required this.workimage,
     required this.worktitle,
     required this.times,
-    required this.nav, 
+    required this.nav,
+    required this.onBookmarChanged,
     });
 
   @override
@@ -52,10 +54,12 @@ class _WorkOutImageState extends State<WorkOutImage> {
                           onPressed: (){
                             setState(() {
                               isBookmarked = !isBookmarked;
+                              widget.onBookmarChanged(isBookmarked);
                             });
                           },
                           icon: Icon(
-                            isBookmarked?Icons.bookmark:Icons.bookmark_border_outlined,
+                            isBookmarked
+                            ?Icons.bookmark:Icons.bookmark_border_outlined,
                             color: isBookmarked ? Colors.black : Colors.white,
                             ),
                           ),

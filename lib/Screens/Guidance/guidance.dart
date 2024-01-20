@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:salsol_fitness/Screens/Guidance/GuidancePage.dart';
 import 'package:salsol_fitness/models/db_Guidance_add_function.dart';
 
 class GuidanceTab extends StatefulWidget {
@@ -65,7 +66,7 @@ class _GuidanceTabState extends State<GuidanceTab> {
                             width: 200,
                              child: GestureDetector(
                                onTap: (){
-                                      
+                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const GuidancePage(),));
                                },
                                child: Column(
                                  crossAxisAlignment: CrossAxisAlignment.start,

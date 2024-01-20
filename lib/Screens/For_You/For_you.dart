@@ -2,6 +2,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:salsol_fitness/Screens/MenuBar_Screens/Saved_Workouts.dart';
 import 'package:salsol_fitness/Screens/videoScreens/video_screen.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
 import 'package:salsol_fitness/widgets/Great_For_Home.dart';
@@ -17,6 +18,7 @@ class ForYou extends StatefulWidget {
 class _ForYouState extends State<ForYou> {
   List<Addvideomodel> videoList = [];
   List<Addvideomodel> greatForHomeVideos = [];
+  List<Addvideomodel> bookmarkedVideos = [];
   Uint8List? adminImageBytes;
 
   @override
@@ -58,6 +60,25 @@ class _ForYouState extends State<ForYou> {
     });
   }
 
+  void handleBookmarkChange(bool isBookmarked, Addvideomodel video){
+    setState(() {
+      if(isBookmarked){
+        bookmarkedVideos.add(video);
+      }else{
+        bookmarkedVideos.remove(video);
+      }
+    });
+  }
+
+   void navigateToSavedWorkouts() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context)=>SavedWorkouts(
+          bookmarkedVideos: bookmarkedVideos,)
+         ),
+      );
+   }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -86,6 +107,8 @@ class _ForYouState extends State<ForYou> {
                             )
                          );
                       },
+                      onBookmarChanged: ((isBookmarked) => 
+                      handleBookmarkChange(isBookmarked, video)),
                     );
                   }
                 ),  

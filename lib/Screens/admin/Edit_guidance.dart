@@ -6,8 +6,8 @@ import 'package:hive/hive.dart';
 import 'package:salsol_fitness/models/db_Guidance_add_function.dart';
 
 class EditGuidance extends StatefulWidget {
-  final Guidance guidance;
-  const EditGuidance({super.key,required this.guidance});
+  final Guidance ?guidance;
+  const EditGuidance({super.key,this.guidance});
 
   @override
   State<EditGuidance> createState() => _EditGuidanceState();
@@ -21,8 +21,8 @@ class _EditGuidanceState extends State<EditGuidance> {
    @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.guidance.title);
-    _paragraphController = TextEditingController(text: widget.guidance.paragraph);
+    _titleController = TextEditingController(text: widget.guidance!.title);
+    _paragraphController = TextEditingController(text: widget.guidance!.paragraph);
   }
 
  void _deleteGuidance() async{
@@ -80,9 +80,9 @@ class _EditGuidanceState extends State<EditGuidance> {
                 
               },
               child: Center(
-                child: widget.guidance.imageBytes != null
+                child: widget.guidance!.imageBytes != null
                 ?Image.memory(
-                  widget.guidance.imageBytes!,
+                  widget.guidance!.imageBytes!,
                 fit: BoxFit.cover,
                 )
                  :const Icon(CupertinoIcons.camera_on_rectangle_fill)
@@ -99,7 +99,7 @@ class _EditGuidanceState extends State<EditGuidance> {
                 enabled: _isEditing,
                 onChanged: (value){
                     setState(() {
-                      widget.guidance.title = value;
+                      widget.guidance!.title = value;
                     });
                 },
                 decoration: InputDecoration(
@@ -127,7 +127,7 @@ class _EditGuidanceState extends State<EditGuidance> {
               controller: _paragraphController,
              onChanged: (value) {
                setState(() {
-                 widget.guidance.paragraph = value;
+                 widget.guidance!.paragraph = value;
                });
              },
              maxLines: 20,

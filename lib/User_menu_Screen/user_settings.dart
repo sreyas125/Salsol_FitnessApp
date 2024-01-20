@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salsol_fitness/Screens/admin/Edit_workout.dart';
 import 'package:salsol_fitness/Screens/login_screen.dart';
 import 'package:salsol_fitness/Screens/screen_home.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_ListTile/User%20Profile.dart';
@@ -79,7 +80,7 @@ class _UserSettingsState extends State<UserSettings> {
                       MaterialPageRoute(builder: (context) => const Userprofile(),));
                  break;
                 case 1:
-                 //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => EditWorkout(),));
+                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => EditWorkout(),));
                 case 6:
                   _showLogoutDialogs(context);
                 break;       
@@ -88,7 +89,7 @@ class _UserSettingsState extends State<UserSettings> {
             },
              child: ListTile(
                title: Text(items[index]),
-               trailing: index == 6? Icon(Icons.exit_to_app_rounded,color: Colors.red,):null,
+               trailing: index == 6? const Icon(Icons.exit_to_app_rounded,color: Colors.red,):null,
              ),
           );
         },

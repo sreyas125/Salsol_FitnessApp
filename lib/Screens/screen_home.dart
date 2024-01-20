@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:salsol_fitness/Screens/For_You/For_you.dart';
 import 'package:salsol_fitness/Screens/Guidance/guidance.dart';
+import 'package:salsol_fitness/Screens/MenuBar_Screens/Saved_Workouts.dart';
 import 'package:salsol_fitness/Screens/browse/BrowseList.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_settings.dart';
+
 
 
 class ScreenHome extends StatefulWidget {
@@ -91,7 +93,8 @@ class _ScreenHomeState extends State<ScreenHome> with SingleTickerProviderStateM
               leading: const Icon(Icons.bookmark, color: Colors.black),
               title: const Text('Saved Workouts'),
               onTap: () {
-            
+             Navigator.push(context, MaterialPageRoute(
+              builder: (context) => const SavedWorkouts(),));
               },
             ),
             ListTile(

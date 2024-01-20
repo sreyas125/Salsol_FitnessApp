@@ -102,7 +102,7 @@ class _AdministrationScreenState extends State<AdministrationScreen> {
                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddGuidance(),));
                break;
                case 5:
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => EditGuidance(),));
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => const EditGuidance(),));
                 break;
               case 6:
                _showLogoutDialog(context);
@@ -110,7 +110,7 @@ class _AdministrationScreenState extends State<AdministrationScreen> {
           },
           child: ListTile(
             title: Text(adminTitles[index]),
-            trailing: index!=5? const Icon(Icons.arrow_forward_ios_outlined): const Icon(Icons.exit_to_app_rounded,color: Colors.red,),
+            trailing: index!=6? const Icon(Icons.arrow_forward_ios_outlined): const Icon(Icons.exit_to_app_rounded,color: Colors.red,),
           ),
         );
       }, 
