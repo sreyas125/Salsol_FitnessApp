@@ -18,15 +18,10 @@ class EditGuidance extends StatefulWidget {
 
 class _EditGuidanceState extends State<EditGuidance> {
   List<Guidance>guidanceList = [];
-  late TextEditingController _titleController;
-  late TextEditingController _paragraphController;
-  bool _isEditing = false;
  
    @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.guidance!.title);
-    _paragraphController = TextEditingController(text: widget.guidance!.paragraph);
     fetchGuidance();
   }
 
@@ -53,7 +48,7 @@ class _EditGuidanceState extends State<EditGuidance> {
           TextButton(
             onPressed: (){
               deletealldetails(index);
-              Navigator.pop(index,);
+              Navigator.pop(context);
             }, child: const Text('Delete')
             ),
             TextButton(onPressed: (){
@@ -68,14 +63,15 @@ class _EditGuidanceState extends State<EditGuidance> {
  Future<void> deletealldetails(int index)async{
   final Box = await Hive.openBox<Guidance>('Guidance');
   await Box.deleteAt(index);
+
+  setState(() {
+    guidanceList.removeAt(index);
+  });
  }
 
  void _SaveUpdatedDetails(int index)async {
   final box = await Hive.openBox<Guidance>('Guidance');
   await box.put(index,guidanceList[index]); 
-  setState(() {
-    _isEditing = false;
-  });
  }
 
  void _editImage(int index) async{
@@ -94,6 +90,46 @@ class _EditGuidanceState extends State<EditGuidance> {
       });
     }
   }
+ }
+
+ editVideoDetails(int index){
+  showModalBottomSheet(context: context,
+   builder: (BuildContext context){
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextFormField(
+            initialValue: guidanceList[index].title,
+            decoration:  InputDecoration(
+              labelText: 'title',
+              border: OutlineInputBorder(),
+              ),
+              onChanged: (newValue){
+                setState(() {
+                  guidanceList[index].title=newValue;
+                });
+              },
+          ),
+          TextFormField(
+            initialValue: guidanceList[index].paragraph,
+            decoration: const InputDecoration(
+              labelText: 'Paragraph',border: OutlineInputBorder(),
+            ),
+            onChanged: (newValue){
+              setState(() {
+                guidanceList[index].paragraph = newValue;
+              });
+            },
+          ),
+          const SizedBox(height: 16.0,),
+          ElevatedButton(onPressed: (){
+            saveUpdatedDetails(index);
+            Navigator.pop(context);
+          }, child: const Text('Save'))
+        ]),
+    );
+   });
  }
   @override
   Widget build(BuildContext context) {
@@ -121,9 +157,9 @@ class _EditGuidanceState extends State<EditGuidance> {
                   _editImage(index);
                 },
                 child: Center(
-                  child: widget.guidance!.imageBytes != null
+                  child: guidances.imageBytes != null
                   ?Image.memory(
-                    widget.guidance!.imageBytes!,
+                   guidances.imageBytes,
                   fit: BoxFit.cover,
                   )
                    :const Icon(CupertinoIcons.camera_on_rectangle_fill)
@@ -132,71 +168,28 @@ class _EditGuidanceState extends State<EditGuidance> {
             ),
            const SizedBox(height: 20,),
            Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: _titleController,
-                  enabled: _isEditing,
-                  onChanged: (value){
-                      setState(() {
-                        widget.guidance!.title = value;
-                      });
-                  },
-                  decoration: InputDecoration(
-                    labelText: "Title",
-                    border:const OutlineInputBorder(),
-                    suffixIcon: _isEditing
-                    ?IconButton(
-                      onPressed: (){
-                        _SaveUpdatedDetails(index);
-                      },
-                       icon: const Icon(Icons.save)
-                       )
-                       :IconButton(
-                        onPressed: (){
-                         setState(() {
-                           _isEditing = true;
-                         });
-                       }, 
-                       icon: const Icon(Icons.edit),
-                    ),
-                  ),
-                ),
-              ),
-             const SizedBox(height: 20,),
-              TextFormField(
-                controller: _paragraphController,
-               onChanged: (value) {
-                 setState(() {
-                   widget.guidance!.paragraph = value;
-                 });
-               },
-               maxLines: 20,
-               decoration: InputDecoration(
-                labelText: 'Paragraph',
-                border: const OutlineInputBorder(),
-                suffixIcon: _isEditing
-                ? IconButton(
-                  onPressed: (){
-                  _SaveUpdatedDetails(index);
-                }, icon: const Icon(Icons.save)
-                )
-                :IconButton(
-                  onPressed: (){
-                  setState(() {
-                    _isEditing = true;
-                  });
-                },
-                 icon: const Icon(Icons.edit),
-                 ),
-                ),
-              )
-            ],
-          )
-        ],
-     );
-   }
+             Text('Title: ${guidances.title}'),
+             Text('Paragraph: ${guidances.paragraph}'),
+
+             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(onPressed: (){
+                  
+                }, icon: const Icon(Icons.edit)),
+                IconButton(onPressed: (){
+                  deletealldetails(index);
+                }, icon: const Icon(Icons.delete)),
+              ],
+             )
+            ]
+           ),
+          ],
+        );
+       }
       ),
   );
  }

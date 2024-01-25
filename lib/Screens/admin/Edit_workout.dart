@@ -9,7 +9,7 @@ import 'package:salsol_fitness/widgets/Functions.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class EditWorkout extends StatefulWidget {
-  const EditWorkout({Key? key});
+   EditWorkout({Key? key});
 
   @override
   State<EditWorkout> createState() => _EditWorkoutState();
