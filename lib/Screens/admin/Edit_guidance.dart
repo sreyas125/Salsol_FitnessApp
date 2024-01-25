@@ -24,19 +24,16 @@ class _EditGuidanceState extends State<EditGuidance> {
     super.initState();
     fetchGuidance();
   }
-
    Future<void>fetchGuidance() async{
     final box = await Hive.openBox<Guidance>('Guidance');
     setState(() {
       guidanceList = box.values.toList();
     });
    }
-
    Future<void>saveUpdatedDetails(int index) async{
     final box = await Hive.openBox<Guidance>('Guidance');
     await box.put(index, guidanceList[index]);
    }
-
  void _deleteGuidance(int index,context) async{
   return showDialog(
     context: context,
@@ -47,7 +44,7 @@ class _EditGuidanceState extends State<EditGuidance> {
         actions: [
           TextButton(
             onPressed: (){
-              deletealldetails(index);
+              deletealldetails(index,context);
               Navigator.pop(context);
             }, child: const Text('Delete')
             ),
@@ -59,21 +56,40 @@ class _EditGuidanceState extends State<EditGuidance> {
       );
      });
  }
-
- Future<void> deletealldetails(int index)async{
-  final Box = await Hive.openBox<Guidance>('Guidance');
-  await Box.deleteAt(index);
-
-  setState(() {
-    guidanceList.removeAt(index);
-  });
- }
-
+Future<void> deletealldetails(int index,BuildContext context) async {
+  final Box<Guidance> guidanceBox = await Hive.openBox<Guidance>('Guidance');
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Delete Confirmation'),
+        content: const Text('Are you sure you want to delete this details?'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              await guidanceBox.deleteAt(index);
+              setState(() {
+                guidanceList.removeAt(index);
+              });
+              Navigator.of(context).pop(); 
+            },
+            child: const Text('Delete',style: TextStyle(color: Colors.red),),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      );
+    },
+  );
+}
  void _SaveUpdatedDetails(int index)async {
   final box = await Hive.openBox<Guidance>('Guidance');
   await box.put(index,guidanceList[index]); 
  }
-
  void _editImage(int index) async{
   final PickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
   if(PickedFile != null){
@@ -84,24 +100,23 @@ class _EditGuidanceState extends State<EditGuidance> {
     final Uint8List? currentImageBytes = image.imageBytes;
     if(currentImageBytes != null){
       await box.put(index, image);
-
       setState(() {
         guidanceList[index] = image;
       });
     }
   }
  }
-
- editVideoDetails(int index){
+editVideoDetails(int index){
   showModalBottomSheet(context: context,
    builder: (BuildContext context){
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextFormField(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
             initialValue: guidanceList[index].title,
-            decoration:  InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'title',
               border: OutlineInputBorder(),
               ),
@@ -111,7 +126,10 @@ class _EditGuidanceState extends State<EditGuidance> {
                 });
               },
           ),
-          TextFormField(
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
             initialValue: guidanceList[index].paragraph,
             decoration: const InputDecoration(
               labelText: 'Paragraph',border: OutlineInputBorder(),
@@ -122,13 +140,16 @@ class _EditGuidanceState extends State<EditGuidance> {
               });
             },
           ),
-          const SizedBox(height: 16.0,),
-          ElevatedButton(onPressed: (){
+        ),
+        const SizedBox(height: 16.0,),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(onPressed: (){
             saveUpdatedDetails(index);
             Navigator.pop(context);
-          }, child: const Text('Save'))
-        ]),
-    );
+          }, child: const Text('Save')),
+        )
+      ]);
    });
  }
   @override
@@ -144,50 +165,53 @@ class _EditGuidanceState extends State<EditGuidance> {
         itemCount: guidanceList.length,
         itemBuilder: (context, index) {
           final guidances = guidanceList[index];
-        return Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-              ),
-              height: 200,
-              width: 200,
-              child: GestureDetector(
-                onTap: () {
-                  _editImage(index);
-                },
-                child: Center(
-                  child: guidances.imageBytes != null
-                  ?Image.memory(
-                   guidances.imageBytes,
-                  fit: BoxFit.cover,
-                  )
-                   :const Icon(CupertinoIcons.camera_on_rectangle_fill)
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                ),
+                height: 200,
+                width: 200,
+                child: GestureDetector(
+                  onTap: () {
+                    _editImage(index);
+                  },
+                  child: Center(
+                    child: guidances.imageBytes != null
+                    ?Image.memory(
+                     guidances.imageBytes,
+                    fit: BoxFit.cover,
+                    )
+                     :const Icon(CupertinoIcons.camera_on_rectangle_fill)
+                  ),
                 ),
               ),
-            ),
-           const SizedBox(height: 20,),
-           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-             Text('Title: ${guidances.title}'),
-             Text('Paragraph: ${guidances.paragraph}'),
-
-             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+             const SizedBox(height: 20,),
+             Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(onPressed: (){
-                  
-                }, icon: const Icon(Icons.edit)),
-                IconButton(onPressed: (){
-                  deletealldetails(index);
-                }, icon: const Icon(Icons.delete)),
-              ],
-             )
-            ]
-           ),
-          ],
+               Text('Title: ${guidances.title}'),
+               Text('Paragraph: ${guidances.paragraph}'),
+        
+               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(onPressed: (){
+                    editVideoDetails(index);
+                  }, icon: const Icon(Icons.edit)),
+                  IconButton(onPressed: (){
+                    deletealldetails(index,context);
+                  }, icon: const Icon(Icons.delete)),
+                ],
+               )
+              ]
+             ),
+            ],
+          ),
         );
        }
       ),
