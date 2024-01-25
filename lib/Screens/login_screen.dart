@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:salsol_fitness/Screens/Screen_SignIn.dart';
-import 'package:salsol_fitness/Screens/Screen_JoinScreen.dart';
+import 'package:salsol_fitness/Screens/screen_SignIn.dart';
+import 'package:salsol_fitness/Screens/screen_JoinScreen.dart';
 import 'package:salsol_fitness/Screens/admin/admin_login.dart';
 
 class ScreenLogin extends StatefulWidget {

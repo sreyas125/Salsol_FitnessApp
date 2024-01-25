@@ -86,12 +86,14 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
    }
   Future<void> _pickImage() async {
     final PickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    
     if(PickedFile != null){
       final imageBytes = await PickedFile.readAsBytes();
       setState(() {
         _imageBytes = imageBytes;
       });
       await Hive.box('images').put('image', imageBytes);
+    
     }
   }
    

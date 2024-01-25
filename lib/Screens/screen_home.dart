@@ -1,9 +1,9 @@
 // ignore_for_file: use_key_in_widget_constructors
 import 'package:flutter/material.dart';
-import 'package:salsol_fitness/Screens/For_You/For_you.dart';
+import 'package:salsol_fitness/Screens/For_You/for_you.dart';
 import 'package:salsol_fitness/Screens/Guidance/guidance.dart';
-import 'package:salsol_fitness/Screens/MenuBar_Screens/Saved_Workouts.dart';
-import 'package:salsol_fitness/Screens/browse/BrowseList.dart';
+import 'package:salsol_fitness/Screens/MenuBar_Screens/saved_Workouts.dart';
+import 'package:salsol_fitness/Screens/browse/browseList.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_settings.dart';
 
 

@@ -23,12 +23,15 @@ class _AddGuidanceState extends State<AddGuidance> {
 
    Future<void> _pickImage() async {
     final PickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+      debugPrint('going to enter');
     if(PickedFile != null){
+        debugPrint('Entered');
       final imageBytes = await PickedFile.readAsBytes();
       setState(() {
         _imageBytes = imageBytes;
       });
-      await Hive.box('Guidanceimages').put('images', imageBytes);
+      await Hive.box('images').put('image', imageBytes);
+        debugPrint('successfully');
     }
   }
 
@@ -44,7 +47,7 @@ class _AddGuidanceState extends State<AddGuidance> {
 
       final Box<Guidance>readingBox = await Hive.box<Guidance>('Guidance');
         await readingBox.add(Guidances);
-
+        debugPrint('Successfully');
         setState(() {
           _Paragraph="";
           _imageBytes=null;
@@ -84,7 +87,8 @@ class _AddGuidanceState extends State<AddGuidance> {
                      child: _imageBytes != null
                       ?Image.memory(
                         _imageBytes!,
-                        fit: BoxFit.cover,)
+                        fit: BoxFit.cover,
+                        )
                       : const Icon(CupertinoIcons.camera_on_rectangle_fill),
                     ),
                   )

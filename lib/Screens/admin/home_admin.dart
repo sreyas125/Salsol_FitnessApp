@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:salsol_fitness/Screens/admin/Add_video.dart';
-import 'package:salsol_fitness/Screens/admin/Add_Guidance.dart';
+import 'package:salsol_fitness/Screens/admin/add_video.dart';
+import 'package:salsol_fitness/Screens/admin/add_Guidance.dart';
 import 'package:salsol_fitness/Screens/admin/Edit_Guidance.dart';
-import 'package:salsol_fitness/Screens/admin/Edit_workout.dart';
-import 'package:salsol_fitness/Screens/admin/User_Details.dart';
+import 'package:salsol_fitness/Screens/admin/edit_workout.dart';
+import 'package:salsol_fitness/Screens/admin/user_Details.dart';
 import 'package:salsol_fitness/Screens/admin/admin_login.dart';
 import 'package:salsol_fitness/Screens/admin/admin_profile.dart';
-import 'package:salsol_fitness/models/db_Guidance_add_function.dart';
+
 
 
 
@@ -69,9 +68,7 @@ class _AdministrationScreenState extends State<AdministrationScreen> {
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
-        leading: IconButton(onPressed: (){ 
-         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>  const AdminLogin(),));
-        }, icon: const Icon(Icons.arrow_back_outlined),color: Colors.black,),
+        leading: BackButton(),
           title: const Text('Administration',
           style: TextStyle(color: Colors.black),),
           actions: [
@@ -102,7 +99,7 @@ class _AdministrationScreenState extends State<AdministrationScreen> {
                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddGuidance(),));
                break;
                case 5:
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => const EditGuidance(),));
+                 Navigator.push(context, MaterialPageRoute(builder: (context) =>  EditGuidance(),));
                 break;
               case 6:
                _showLogoutDialog(context);
@@ -121,7 +118,7 @@ class _AdministrationScreenState extends State<AdministrationScreen> {
           color: Color.fromARGB(255, 0, 0, 0),
         );
       },
-       itemCount: 6),
+       itemCount: 7),
     );
   }
 }

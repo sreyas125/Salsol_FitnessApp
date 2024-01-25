@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:salsol_fitness/Screens/admin/Edit_workout.dart';
+import 'package:salsol_fitness/Screens/admin/edit_workout.dart';
 import 'package:salsol_fitness/Screens/login_screen.dart';
 import 'package:salsol_fitness/Screens/screen_home.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_ListTile/User%20Profile.dart';
