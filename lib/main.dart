@@ -4,6 +4,7 @@ import 'package:salsol_fitness/Screens/splash_screen.dart';
 import 'package:salsol_fitness/models/db_Guidance_add_function.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
 import 'package:salsol_fitness/models/db_admin_function.dart';
+import 'package:salsol_fitness/models/db_saved_workout.dart';
 import 'package:salsol_fitness/models/sign_in_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,6 +20,9 @@ Future<void>main() async{
   Hive.registerAdapter(GuidanceAdapter());
   if(!Hive.isAdapterRegistered(fitnessModelAdapter().typeId)){
     Hive.registerAdapter(fitnessModelAdapter());
+  }
+  if(!Hive.isAdapterRegistered(SavedWorkoutAdapter().typeId)){
+    Hive.registerAdapter(SavedWorkoutAdapter());
   }
   await Hive.openBox('customer_db');
   await Hive.openBox('images');

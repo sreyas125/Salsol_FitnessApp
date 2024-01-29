@@ -54,12 +54,14 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                index: _selectedCategoryIndex, 
                
               );
+             
               final Box<Addvideomodel>videoBox = await Hive.box<Addvideomodel>('videos');
               await videoBox.add(addvideomodel);
               debugPrint('added succesfully.');
+              // await addvideo(addvideomodel);
               
-              final Box<int> categoryIndexBox = await Hive.openBox('selected_category_index');
-              await categoryIndexBox.put('index',_selectedCategoryIndex!);
+              // final Box<int> categoryIndexBox = await Hive.openBox('selected_category_index');
+              // await categoryIndexBox.put('index',_selectedCategoryIndex!);
 
               setState(() {
                 _title='';

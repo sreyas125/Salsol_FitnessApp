@@ -26,7 +26,7 @@ import 'package:hive/hive.dart';
     String? selectedCategory;
 
    @HiveField(6)
-   late int? index;
+     int? index;
 
    Addvideomodel({
     required this.discription,
