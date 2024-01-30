@@ -1,12 +1,20 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:salsol_fitness/db/functions/db_add_function.dart';
+import 'package:salsol_fitness/models/db_admin_add_function.dart';
+import 'package:salsol_fitness/models/db_saved_workout.dart';
 
 class WorkOutImage extends StatefulWidget {
+
   final Uint8List? workimage;
   final String worktitle;
   final String times;
   final Function() nav;
   final Function(bool isBookmarked) onBookmarChanged;
+  final ValueNotifier<List<Addvideomodel>> addVideoListNotifier;
+  final int index;
+  final String selectedCategory;
+  final String videoUrl;
   
 
  
@@ -17,6 +25,10 @@ class WorkOutImage extends StatefulWidget {
     required this.times,
     required this.nav,
     required this.onBookmarChanged,
+    required this.addVideoListNotifier,
+    required this.index, 
+    required this.videoUrl,
+    required this.selectedCategory,
     });
 
   @override
@@ -24,7 +36,15 @@ class WorkOutImage extends StatefulWidget {
 }
 
 class _WorkOutImageState extends State<WorkOutImage> {
+   late ValueNotifier<List<Addvideomodel>> addvideoListNotifier;
    bool isBookmarked = false;
+
+   @override
+  void initState() {
+    super.initState();
+    addvideoListNotifier = widget.addVideoListNotifier;
+  }
+   
   @override
   Widget build(BuildContext context) {
     return  GestureDetector(
@@ -54,7 +74,26 @@ class _WorkOutImageState extends State<WorkOutImage> {
                           onPressed: (){
                             setState(() {
                               isBookmarked = !isBookmarked;
-                              widget.onBookmarChanged(isBookmarked);
+                                 widget.onBookmarChanged(isBookmarked);
+                                if(isBookmarked){
+                                  widget.onBookmarChanged(true);
+
+                                  SavedWorkout workout = SavedWorkout(
+                                    discription: widget.worktitle,
+                                     imageBytes: widget.workimage!,
+                                      index: widget.index, 
+                                      selectedCategory: widget.selectedCategory,
+                                       time: widget.times,
+                                        title:widget.worktitle,
+                                         videoUrl: widget.videoUrl,
+                                         );
+                                  saveWorkouts(workout);
+                                  widget.addVideoListNotifier.value=[...widget.addVideoListNotifier.value, ];
+                              }else{
+                                widget.onBookmarChanged(false);
+                                deleteFromsavedWorkouts(widget.index);
+                                widget.addVideoListNotifier.value = [...widget.addVideoListNotifier.value]..removeWhere((workout) => workout.index == widget.index);
+                              }
                             });
                           },
                           icon: Icon(

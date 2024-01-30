@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salsol_fitness/Screens/videoScreens/video_screen.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
+import 'package:salsol_fitness/models/db_saved_workout.dart';
 
 class SavedWorkouts extends StatefulWidget {
   final List<Addvideomodel>? bookmarkedVideos;
@@ -14,38 +15,46 @@ class SavedWorkouts extends StatefulWidget {
 class _SavedWorkoutsState extends State<SavedWorkouts> {
   @override
   Widget build(BuildContext context) {
-    final List<Addvideomodel> filteredVideos = widget.bookmarkedVideos ?? [];
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.grey,
-        title: Text('Saved Workouts'),
-        leading: BackButton(),
+        title:const Text('Saved Workouts'),
+        leading: const BackButton(),
       ),
       body: Column(
         children: [
           if(widget.bookmarkedVideos == null || widget.bookmarkedVideos!.isEmpty)
-             Center(
-              child: Text('No videos Available'),
+          const Center(
+            child: Text('No videos Available'),
           )
           else
-            Expanded(
-              child: ListView.builder(
-              itemCount: widget.bookmarkedVideos!.length,
+          Expanded(
+            child: ListView.builder(
               itemBuilder: (context,index){
                 final video = widget.bookmarkedVideos![index];
                 return ListTile(
                   title: Text(video.title),
                   subtitle: Text(video.time),
                   onTap: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => VideoScreenOne(addvideomodel: video),));
+                    Navigator.push(context, 
+                    MaterialPageRoute(
+                      builder: (context) => VideoScreenOne(
+                        addvideomodel:Addvideomodel(
+                          discription: video.discription,
+                           title: video.title,
+                            videoUrl: video.videoUrl,
+                             imageBytes: video.imageBytes,
+                              time: video.time,
+                               selectedCategory: video.selectedCategory,
+                                index: index,
+                                )),
+                        ),
+                      );
                   },
-                   
                 );
-              }),
-            )
+              })
+          ),
         ],
       ),
     );

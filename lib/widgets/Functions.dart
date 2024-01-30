@@ -62,7 +62,7 @@ import 'package:salsol_fitness/models/db_admin_add_function.dart';
        });
    }
 
-       deleteVideoDetails(int index,context,setStateCallback) {
+       deleteVideoDetails(int index,context,setStateCallback,List videoList) {
   return  showDialog(
       context: context,
        builder: (BuildContext context){
@@ -72,14 +72,14 @@ import 'package:salsol_fitness/models/db_admin_add_function.dart';
           actions: [
             TextButton(
               onPressed: (){
-                deleteDetails(index,context,setStateCallback);
+                deleteDetails(index,setStateCallback,videoList);
                 Navigator.of(context).pop();
             }, child: const Text('Delete'),)
           ],
         );
        });
   }
-   Future<void> deleteDetails(int index,videoList,SetStateCallback) async{
+   Future<void> deleteDetails(int index,SetStateCallback,List videoList,) async{
     final Box = await Hive.openBox<Addvideomodel>('videos');
     await Box.deleteAt(index);
 

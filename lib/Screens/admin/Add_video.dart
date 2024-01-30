@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:salsol_fitness/Screens/admin/home_admin.dart';
+import 'package:salsol_fitness/db/functions/db_add_function.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
 
 class AddVideoScreen extends StatefulWidget {
@@ -55,10 +56,11 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                
               );
              
-              final Box<Addvideomodel>videoBox = await Hive.box<Addvideomodel>('videos');
-              await videoBox.add(addvideomodel);
-              debugPrint('added succesfully.');
-              // await addvideo(addvideomodel);
+              // final Box<Addvideomodel>videoBox = await Hive.box<Addvideomodel>('videos');
+              // await videoBox.add(addvideomodel);
+              // debugPrint('added succesfully.');
+               await addvideo(addvideomodel);
+               videoList.add(addvideomodel);
               
               // final Box<int> categoryIndexBox = await Hive.openBox('selected_category_index');
               // await categoryIndexBox.put('index',_selectedCategoryIndex!);

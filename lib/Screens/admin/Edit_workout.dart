@@ -248,7 +248,7 @@ class _EditWorkoutState extends State<EditWorkout> {
                       ),
                       IconButton(
                         onPressed: (){
-                      deleteVideoDetails(index, context,setState);
+                      deleteVideoDetails(index, context,setState, videoList);
                       }, icon: const Icon(Icons.delete_outline_rounded)),
                       IconButton(onPressed: (){
                         _editVideoUrl(index);

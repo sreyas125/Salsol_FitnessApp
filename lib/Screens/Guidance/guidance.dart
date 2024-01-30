@@ -51,62 +51,66 @@ class _GuidanceTabState extends State<GuidanceTab> {
                         )
                       ],
                     ),
-    
                    guidanceBox != null 
-                   ?SizedBox(
-                    height: 250,
-                     child: ListView.builder(            
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                       itemCount: guidanceBox.length,
-                        itemBuilder: (BuildContext context,int index) {
-                          final Guidance = guidanceBox.getAt(index);
-                          return SizedBox(
-                            height: 200,
-                            width: 200,
-                             child: GestureDetector(
-                               onTap: (){
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(builder: (context) => const GuidancePage(),));
-                               },
-                               child: Column(
-                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                 children: [
-                                   Expanded(
-                                     child: Padding(
-                                       padding: const EdgeInsets.all(8.0),
-                                       child: Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.black
-                                                  ),
-                                              ),
-                                         child: Image.memory(
-                                           Guidance!.imageBytes,
-                                           fit: BoxFit.cover,
+                   ?Padding(
+                     padding: const EdgeInsets.only(top: 30,left: 20),
+                     child: SizedBox(
+                      height: 650,
+                       child: ListView.builder(            
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                         itemCount: guidanceBox.length,
+                          itemBuilder: (BuildContext context,int index) {
+                            final Guidance = guidanceBox.getAt(index);
+                            return SizedBox(
+                              height: 300,
+                              width: 380,
+                               child: GestureDetector(
+                                 onTap: (){
+                                    Navigator.of(context).push(
+                                     MaterialPageRoute(builder: (context) =>  GuidancePage(guidanceIndex: index,),));
+                                 },
+                                 child: Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   children: [
+                                     Expanded(
+                                       child: Padding(
+                                         padding: const EdgeInsets.all(8.0),
+                                         child: Container(
+                                               height: 200,
+                                               width: 380,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black
+                                                    ),
+                                                ),
+                                           child: Image.memory(
+                                             Guidance!.imageBytes,
+                                             fit: BoxFit.cover,
+                                           ),
                                          ),
                                        ),
                                      ),
-                                   ),
-                                   Padding(
-                                     padding: const EdgeInsets.all(8.0),
-                                     child: Text(Guidance.title,
-                                     style: const TextStyle(
-                                       fontSize: 16,
-                                       fontWeight: FontWeight.bold
+                                     Padding(
+                                       padding: const EdgeInsets.all(8.0),
+                                       child: Text(Guidance.title,
+                                       style: const TextStyle(
+                                         fontSize: 16,
+                                         fontWeight: FontWeight.bold
+                                         ),
                                        ),
                                      ),
-                                   ),
-                                 ],
+                                   ],
+                                 ),
                                ),
-                             ),
-                          );
-                       },
-                      
-                                ),
-                   ):const CircularProgressIndicator(),
-            ],
-         ),
-    );
+                            );
+                         },
+                      ),
+                     ),
+                   )
+                :const CircularProgressIndicator(),
+             ],
+          ),
+       );
    }
 }
