@@ -1,13 +1,16 @@
+// ignore_for_file: file_names
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:salsol_fitness/Screens/videoScreens/video_screen.dart';
 import 'package:salsol_fitness/db/functions/db_add_function.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
+import 'package:salsol_fitness/models/db_saved_workout.dart';
 import 'package:salsol_fitness/widgets/Great_For_Home.dart';
 import 'package:salsol_fitness/widgets/workout_widget_refactor.dart';
 
 class ForYou extends StatefulWidget {
+  // ignore: use_key_in_widget_constructors
   const ForYou({Key? key});
 
   @override
@@ -82,10 +85,24 @@ class _ForYouState extends State<ForYou> {
                   index: video.index ?? -1,
                   videoUrl: video.videoUrl,
                   onBookmarChanged: (bool isBookmarked) {
+                    debugPrint('Bookmark Changed : $isBookmarked');
                     if (isBookmarked) {
+                      debugPrint('Get inside the condition:$isBookmarked');
                      addVideoListNotifier.value = [...addVideoListNotifier.value, video];
+                     SavedWorkout workout = SavedWorkout(
+                      discription: video.title,
+                       imageBytes: video.imageBytes,
+                        index: index,
+                         selectedCategory:video.selectedCategory,
+                          time: video.time, 
+                          title:video.title,
+                           videoUrl:video.videoUrl
+                           );
+                           saveWorkouts(workout);
+                           debugPrint('workout saved:${workout}');
                     } else {
                      addVideoListNotifier.value = [...addVideoListNotifier.value]..remove(video);
+                     deleteFromsavedWorkouts(video.index ?? -1);
                     }
                   },
                   addVideoListNotifier:addvideoListNotifier,

@@ -21,6 +21,7 @@ Future<void>getAllvideos() async{
 }
 
 Future<void> saveWorkouts(SavedWorkout savedWorkout) async{
+  print("saved to box");
   final savedworkoutbox = await Hive.openBox<SavedWorkout>('saved_workouts');
   final savedWorkouts = SavedWorkout(
     discription: savedWorkout.discription,
@@ -32,6 +33,8 @@ Future<void> saveWorkouts(SavedWorkout savedWorkout) async{
           videoUrl: savedWorkout.videoUrl
           );
           await savedworkoutbox.add(savedWorkouts);
+           savedworkoutbox.close();
+
 }
 
  void deleteFromsavedWorkouts(int index) async{
