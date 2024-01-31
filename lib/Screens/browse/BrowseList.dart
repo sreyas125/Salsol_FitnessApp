@@ -1,5 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:salsol_fitness/list_of_Categories/Endurance.dart';
+import 'package:salsol_fitness/list_of_Categories/yoga.dart';
 
 class WorkoutFocus extends StatefulWidget {
   const WorkoutFocus({super.key});
@@ -225,14 +229,34 @@ void _showDropdown(
                 onTap: () {
                   onChanged(value);
                   Navigator.of(context).pop();
+                  _navigateToAnotherPage(value);
                 },
               ),
-            ),
+            ),  
           ),
          );
       }).toList(),
       elevation: 8.0,
     );
+  }
+
+  void _navigateToAnotherPage(String selectedValue){
+     switch(selectedValue){
+     case 'Endurance':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Endurance.create(
+              categoryVideoList: [],
+              selectedCategories:[],
+              ),
+            ), 
+          );
+        break;
+      case 'Yoga':
+      Navigator.push(context, MaterialPageRoute(builder: (context) => YogaScreen(videoSelectedList: [],),));
+      break;
+    }
   }
 
 }

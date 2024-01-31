@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:salsol_fitness/Screens/admin/home_admin.dart';
-import 'package:salsol_fitness/db/functions/db_add_function.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
 
 class AddVideoScreen extends StatefulWidget {
-  const AddVideoScreen({super.key});
+  final List<Addvideomodel> greatForHomeVideos;
+  const AddVideoScreen({super.key,required this.greatForHomeVideos});
 
   @override
   State<AddVideoScreen> createState() => _AddVideoScreenState();
@@ -56,14 +56,14 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                
               );
              
-              // final Box<Addvideomodel>videoBox = await Hive.box<Addvideomodel>('videos');
-              // await videoBox.add(addvideomodel);
-              // debugPrint('added succesfully.');
-               await addvideo(addvideomodel);
-               videoList.add(addvideomodel);
+              final Box<Addvideomodel>videoBox = await Hive.box<Addvideomodel>('videos');
+              await videoBox.add(addvideomodel);
+              debugPrint('added succesfully.');
+              //  await addvideo(addvideomodel);
+              //  videoList.add(addvideomodel);
               
-              // final Box<int> categoryIndexBox = await Hive.openBox('selected_category_index');
-              // await categoryIndexBox.put('index',_selectedCategoryIndex!);
+              final Box<int> categoryIndexBox = await Hive.openBox('selected_category_index');
+              await categoryIndexBox.put('index',_selectedCategoryIndex!);
 
               setState(() {
                 _title='';
@@ -194,11 +194,29 @@ Future<void> fetchNewWorkoutvideos() async{
     });
 }
 
- void _updateSelectedCategories(String? newValue) {
+ void _updateSelectedCategories(String? newValue,int selectedIndex) async{
   if(newValue != null && !selectedCategories.contains(newValue)){
     setState(() {
       selectedCategories.add(newValue);
+      _selectedCategoryIndex = selectedIndex;
     });
+
+    final Box<int> categoryIndexBox = await Hive.openBox('selected_category_index');
+    await categoryIndexBox.put('index', selectedIndex);
+
+    if(newValue =='great from Home'){
+       final Addvideomodel addvideomodel = Addvideomodel(
+        discription: _description ?? '',
+         title: _title ?? '',
+          videoUrl: _videoUrl ?? '',
+           imageBytes: _imageBytes ?? Uint8List(0),
+            time: _time ?? '',
+             selectedCategory: newValue,
+              index: selectedIndex,
+              );
+        widget.greatForHomeVideos.add(addvideomodel);
+
+    }
   }
  }
  
@@ -306,29 +324,31 @@ Future<void> fetchNewWorkoutvideos() async{
                 }).toList(),
               ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DropdownButtonFormField<String>(
-                    value: _selectedCategory,
-                    items: categories.map((category) {
-                      return DropdownMenuItem<String>(
-                    value: category,
-                    child: Text(category),
-                  );
-                }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _selectedCategory= newValue;
-                      });
-                      _updateSelectedCategories(newValue);
-                    },
-                    decoration: const InputDecoration(
-                      labelText: 'category',
-                      hintText: 'Select Category',
-                      border: OutlineInputBorder(),
-                    ),
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownButtonFormField<String>(
+                  value: _selectedCategory,
+                  items: categories.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    String category = entry.value;
+                    return DropdownMenuItem<String>(
+                      value: category,
+                      child: Text(category),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    int selectedIndex = categories.indexOf(newValue!);
+                    setState(() {
+                      _selectedCategory = newValue;
+                    });
+                    _updateSelectedCategories(newValue,selectedIndex);
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'category',
+                    hintText: 'Select Category',
+                    border: OutlineInputBorder(),
                   ),
                 ),
-
+              ),
 
               const SizedBox(height: 20,),
               ElevatedButton(

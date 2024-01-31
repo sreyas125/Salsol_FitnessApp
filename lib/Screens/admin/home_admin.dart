@@ -93,7 +93,7 @@ class _AdministrationScreenState extends State<AdministrationScreen> {
               Navigator.push(context, MaterialPageRoute(builder: (context) =>  EditWorkout()));
               break;
               case 2:
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddVideoScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>  AddVideoScreen(greatForHomeVideos: [],)));
               break;
               case 4:
                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddGuidance(),));
