@@ -24,6 +24,9 @@ class _ForYouState extends State<ForYou> {
   Uint8List? adminImageBytes;
   late ValueNotifier<List<Addvideomodel>> addvideoListNotifier;
 
+  int maxVideosToshow = 6;
+  int newVideosOffset = 0;
+
   @override
   void initState() {
     super.initState();
@@ -62,8 +65,19 @@ class _ForYouState extends State<ForYou> {
     });
   }
 
+  List<Addvideomodel> getLimitedNewWorkouts(){
+    final List<Addvideomodel> limitedList = [];
+    final int endIndex = newVideosOffset + maxVideosToshow;
+
+    for(int i=newVideosOffset;i<endIndex && i<videoList.length;i++){
+      limitedList.add(videoList[i]);
+    }
+    return limitedList;
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Addvideomodel> limitedNewWorkouts = getLimitedNewWorkouts();
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +88,7 @@ class _ForYouState extends State<ForYou> {
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: videoList.length,
+              itemCount: limitedNewWorkouts.length,
               itemBuilder: (BuildContext context, int index) {
                 final video = videoList[index];
                 return WorkOutImage(

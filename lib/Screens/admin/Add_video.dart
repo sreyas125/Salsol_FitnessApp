@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:salsol_fitness/Screens/admin/home_admin.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
 
@@ -25,6 +26,8 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
    
    List<Addvideomodel> videoList = [];
    List<String> selectedCategories = [];
+   List<MultiSelectItem<String>> _items = [];
+
     List<String> categories=[
     'Yoga',
     'Endurance',
@@ -113,7 +116,16 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
     super.initState();
     _getImageFromHive();
     fetchGreatForHomeVideos();
+    _items = categories
+    .map((Category) =>MultiSelectItem<String>(
+      Category, Category)).toList();
   }
+
+    // void _updateSelectedCategories(List<String> selectedValues){
+    //   setState(() {
+    //     selectedCategories = selectedValues;
+    //   });
+    // }
 
   Future<void> _getImageFromHive() async {
     final imageBytes = await Hive.box('images').get('image') as Uint8List?;
@@ -194,11 +206,12 @@ Future<void> fetchNewWorkoutvideos() async{
     });
 }
 
- void _updateSelectedCategories(String? newValue,int selectedIndex) async{
+ void _updateSelectedCategories(List<String?>Values) async{
+   for(String? newValue in Values){
   if(newValue != null && !selectedCategories.contains(newValue)){
+     int selectedIndex = categories.indexOf(newValue);
     setState(() {
       selectedCategories.add(newValue);
-      _selectedCategoryIndex = selectedIndex;
     });
 
     final Box<int> categoryIndexBox = await Hive.openBox('selected_category_index');
@@ -215,7 +228,7 @@ Future<void> fetchNewWorkoutvideos() async{
               index: selectedIndex,
               );
         widget.greatForHomeVideos.add(addvideomodel);
-
+      }
     }
   }
  }
@@ -325,28 +338,16 @@ Future<void> fetchNewWorkoutvideos() async{
               ),
                 Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: DropdownButtonFormField<String>(
-                  value: _selectedCategory,
-                  items: categories.asMap().entries.map((entry) {
-                    int index = entry.key;
-                    String category = entry.value;
-                    return DropdownMenuItem<String>(
-                      value: category,
-                      child: Text(category),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    int selectedIndex = categories.indexOf(newValue!);
-                    setState(() {
-                      _selectedCategory = newValue;
-                    });
-                    _updateSelectedCategories(newValue,selectedIndex);
+                child: MultiSelectBottomSheetField<String?>(
+                  initialValue: selectedCategories,
+                  listType: MultiSelectListType.CHIP,
+                  searchable: true,
+                  buttonText: Text('Select Categories'),
+                  title: Text('Categories'),
+                  items: _items,
+                  onConfirm: (List<String?> values){
+                    _updateSelectedCategories(values);
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'category',
-                    hintText: 'Select Category',
-                    border: OutlineInputBorder(),
-                  ),
                 ),
               ),
 
