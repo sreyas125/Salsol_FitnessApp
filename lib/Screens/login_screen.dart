@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salsol_fitness/Screens/admin/home_admin.dart';
 import 'package:salsol_fitness/Screens/screen_SignIn.dart';
 import 'package:salsol_fitness/Screens/screen_JoinScreen.dart';
 import 'package:salsol_fitness/Screens/admin/admin_login.dart';
@@ -109,7 +110,10 @@ class _ScreenLoginState extends State<ScreenLogin> {
                         child: TextButton(
                            onPressed: () {
                               Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(builder: (context) => const AdminLogin()),
+                                MaterialPageRoute(builder: (context) =>
+                                //  const AdminLogin() 
+                                AdministrationScreen()
+                                 ),
                               );
                           },
                           style: TextButton.styleFrom(
