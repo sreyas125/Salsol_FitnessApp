@@ -20,7 +20,7 @@ class SavedWorkoutAdapter extends TypeAdapter<SavedWorkout> {
       discription: fields[1] as String,
       imageBytes: fields[3] as Uint8List,
       index: fields[6] as int?,
-      selectedCategory: fields[5] as String?,
+      selectedCategory: fields[5] as String,
       time: fields[4] as String,
       title: fields[2] as String,
       videoUrl: fields[0] as String,

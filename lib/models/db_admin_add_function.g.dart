@@ -22,7 +22,7 @@ class AddvideomodelAdapter extends TypeAdapter<Addvideomodel> {
       videoUrl: fields[1] as String,
       imageBytes: fields[3] as Uint8List,
       time: fields[4] as String,
-      selectedCategory: fields[5] as String?,
+      selectedCategory: fields[5] as String,
       index: fields[6] as int?,
     );
   }

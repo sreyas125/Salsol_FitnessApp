@@ -59,7 +59,32 @@ class _SavedWorkoutsState extends State<SavedWorkouts> {
                   itemBuilder: (context, index) {
                     final video = _bookmarkedvideos[index];
                     return ListTile(
-                      trailing: IconButton(onPressed: (){}, icon: Icon(Icons.delete)),
+                      trailing: IconButton(onPressed: () async{
+                        bool deleteconfirmed = await showDialog(
+                          context: context,
+                           builder: (BuildContext context) {
+                             return AlertDialog(
+                              title: Text('Delete video'),
+                               content: Text('Are you sure'),
+                               actions: [
+                                TextButton(onPressed: (){
+                                  Navigator.of(context).pop(false);
+                                }, child: Text('Cancel')),
+                                  TextButton(onPressed: () => Navigator.of(context).pop(true),
+                                   child: Text('Delete'),
+                                   ),
+                               ],
+                             );
+                           }
+                           );
+                           if(deleteconfirmed == true){
+                            setState(() {
+                              _bookmarkedvideos.removeAt(index);
+                            });
+                            savedworkoutbox.deleteAt(index);
+                            print('Successed');
+                           }
+                      }, icon: Icon(Icons.delete)),
                       leading: CircleAvatar(backgroundImage:MemoryImage(video.imageBytes)),
                       title: Text(video.title),
                       subtitle: Text(video.time),

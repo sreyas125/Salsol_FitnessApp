@@ -23,7 +23,7 @@ import 'package:hive/hive.dart';
     String time;
 
    @HiveField(5)
-    String? selectedCategory;
+    String selectedCategory;
 
    @HiveField(6)
      int? index;
