@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:salsol_fitness/Screens/admin/edit_workout.dart';
 import 'package:salsol_fitness/Screens/login_screen.dart';
 import 'package:salsol_fitness/Screens/screen_home.dart';
-import 'package:salsol_fitness/User_menu_Screen/user_ListTile/User%20Profile.dart';
+import 'package:salsol_fitness/User_menu_Screen/user_ListTile/user_edit.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({super.key});
@@ -74,13 +73,14 @@ class _UserSettingsState extends State<UserSettings> {
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
             onTap: () {
-              switch (index) {
+              switch (index) { 
                 case 0:
+                String userEmail = 'UserEmail@example.com';
                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const Userprofile(),));
+                      MaterialPageRoute(builder: (context) =>  UserEditScreen(userEmail: userEmail,),));
                  break;
-                case 1:
-                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => EditWorkout(),));
+                // case 1:
+                //  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => EditWorkout(),));
                 case 6:
                   _showLogoutDialogs(context);
                 break;       
@@ -90,13 +90,13 @@ class _UserSettingsState extends State<UserSettings> {
              child: ListTile(
                title: Text(items[index]),
                trailing: index == 6? const Icon(Icons.exit_to_app_rounded,color: Colors.red,):null,
+                  ),
+                 );
+               },
              ),
-          );
-        },
+           ),
+        ],
       ),
-    ),
- ],
-),
     );
   }
 }

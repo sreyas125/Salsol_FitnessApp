@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:salsol_fitness/User_menu_Screen/user_ListTile/user_edit.dart';
 import 'package:salsol_fitness/Screens/login_screen.dart';
 import 'package:salsol_fitness/Screens/screen_home.dart';
 import 'package:salsol_fitness/main.dart';
@@ -52,6 +53,7 @@ class _SigninScreenState extends State<SigninScreen> {
         final sharedPrefs = await SharedPreferences.getInstance();
         sharedPrefs.setBool(SAVE_KEY_NAME, true);
         // ignore: use_build_context_synchronously
+        Navigator.push(context, MaterialPageRoute(builder: (context) => UserEditScreen(userEmail: email),));
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const ScreenHome()),
         );

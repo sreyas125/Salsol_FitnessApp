@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salsol_fitness/User_menu_Screen/user_ListTile/user_edit.dart';
 import 'package:salsol_fitness/Screens/login_screen.dart';
 import 'package:salsol_fitness/Screens/screen_home.dart';
 import 'package:salsol_fitness/main.dart';
@@ -57,8 +58,12 @@ Future<void> signOutUser() async {
         itemBuilder: (context, index) {
           switch (index) {
             case 0:
-              return const ListTile(
+              return  ListTile(
                 title: Text('User Edit'),
+                onTap: () {
+                  String userEmail = 'user@example.com';
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserEditScreen(userEmail: userEmail,),));
+                },
               );
             case 1:
               return const ListTile(
@@ -70,17 +75,13 @@ Future<void> signOutUser() async {
               );
             case 3:
               return const ListTile(
-                title: Text('Language'),
+                title: Text('Contact Us'),
               );
             case 4:
               return const ListTile(
-                title: Text('Contact Us'),
-              );
-            case 5:
-              return const ListTile(
                 title: Text('Delete Account'),
               );
-             case 6:
+             case 5:
               return ListTile(
                 title: const Text('Log Out',
                 style: TextStyle(color: Colors.red),),

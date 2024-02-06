@@ -1,8 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:salsol_fitness/db/functions/db_add_function.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
-import 'package:salsol_fitness/models/db_saved_workout.dart';
 
 class WorkOutImage extends StatefulWidget {
 
@@ -36,8 +34,9 @@ class WorkOutImage extends StatefulWidget {
 }
 
 class _WorkOutImageState extends State<WorkOutImage> {
+  bool isBookmarked = false;
    late ValueNotifier<List<Addvideomodel>> addvideoListNotifier;
-   bool isBookmarked = false;
+   
 
    @override
   void initState() {
@@ -73,33 +72,37 @@ class _WorkOutImageState extends State<WorkOutImage> {
                         child: IconButton(
                           onPressed: (){
                             setState(() {
+                              print('tapped');
                               isBookmarked = !isBookmarked;
                                  widget.onBookmarChanged(isBookmarked);
-                                if(isBookmarked){
-                                  widget.onBookmarChanged(true);
+                              //   if(isBookmarked){
+                              //     widget.onBookmarChanged(true);
 
-                                  SavedWorkout workout = SavedWorkout(
-                                    discription: widget.worktitle,
-                                     imageBytes: widget.workimage!,
-                                      index: widget.index, 
-                                      selectedCategory: widget.selectedCategory,
-                                       time: widget.times,
-                                        title:widget.worktitle,
-                                         videoUrl: widget.videoUrl,
-                                         );
-                                  saveWorkouts(workout);
-                                  widget.addVideoListNotifier.value=[...widget.addVideoListNotifier.value, ];
-                              }else{
-                                widget.onBookmarChanged(false);
-                                deleteFromsavedWorkouts(widget.index);
-                                widget.addVideoListNotifier.value = [...widget.addVideoListNotifier.value]..removeWhere((workout) => workout.index == widget.index);
-                              }
+                              //     SavedWorkout workout = SavedWorkout(
+                              //       discription: widget.worktitle,
+                              //        imageBytes: widget.workimage!,
+                              //         index: widget.index, 
+                              //         selectedCategory: widget.selectedCategory,
+                              //          time: widget.times,
+                              //           title:widget.worktitle,
+                              //            videoUrl: widget.videoUrl,
+                              //            );
+                              //     saveWorkouts(workout);
+                              //     widget.addVideoListNotifier.value=[...widget.addVideoListNotifier.value, ];
+                              // }else{
+                              //   widget.onBookmarChanged(false);
+                              //   deleteFromsavedWorkouts(widget.index);
+                              //   widget.addVideoListNotifier.value = 
+                              //   [...widget.addVideoListNotifier.value]
+                              //   ..removeWhere((workout) => workout.index == widget.index);
+                              // }
                             });
                           },
                           icon: Icon(
                             isBookmarked
-                            ?Icons.bookmark:Icons.bookmark_border_outlined,
-                            color: isBookmarked ? Colors.black : Colors.white,
+                            ?Icons.bookmark
+                            :Icons.bookmark_border_outlined,
+                            color: isBookmarked==true ? Colors.black : Colors.white,
                             ),
                           ),
                         ),

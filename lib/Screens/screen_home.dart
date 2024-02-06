@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:salsol_fitness/Screens/For_You/for_you.dart';
 import 'package:salsol_fitness/Screens/Guidance/guidance.dart';
-import 'package:salsol_fitness/Screens/MenuBar_Screens/saved_Workouts.dart';
+import 'package:salsol_fitness/Screens/MenuBar_Screens/saved_workouts.dart';
 import 'package:salsol_fitness/Screens/browse/browseList.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_settings.dart';
 
@@ -94,7 +94,7 @@ class _ScreenHomeState extends State<ScreenHome> with SingleTickerProviderStateM
               title: const Text('Saved Workouts'),
               onTap: () {
              Navigator.push(context, MaterialPageRoute(
-              builder: (context) => const SavedWorkouts(),));
+              builder: (context) =>  const SavedWorkouts(),));
               },
             ),
             ListTile(

@@ -22,7 +22,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
    String? _description;
    String? _selectedCategory;
    String? _time;
-   int? _selectedCategoryIndex;
+  //  int? _selectedCategoryIndex;
    
    List<Addvideomodel> videoList = [];
    List<String> selectedCategories = [];
@@ -48,6 +48,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
        _imageBytes !=null &&
          _time != null&&
             _selectedCategory != null) {
+              final id = DateTime.now().millisecondsSinceEpoch;
           final addvideomodel = Addvideomodel(
             discription: _description!,
              title: _title!,
@@ -55,27 +56,25 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
              imageBytes: _imageBytes!,
               time: _time!,
                selectedCategory: _selectedCategory!,
-               index: _selectedCategoryIndex, 
-               
+               index: id, 
               );
              
               final Box<Addvideomodel>videoBox = await Hive.box<Addvideomodel>('videos');
               await videoBox.add(addvideomodel);
               debugPrint('added succesfully.');
+              print('This is the id:${addvideomodel.index}');
               //  await addvideo(addvideomodel);
               //  videoList.add(addvideomodel);
               
               final Box<int> categoryIndexBox = await Hive.openBox('selected_category_index');
-              await categoryIndexBox.put('index',_selectedCategoryIndex!);
+              await categoryIndexBox.put('index',id);
 
               setState(() {
                 _title='';
                 _videoUrl='';
                 _description='';
                 _imageBytes=null;
-                 _selectedCategory = null;
                 _time = '';
-                _selectedCategoryIndex = null;
               });          
     }else{
       showDialog(context: context, builder:(BuildContext context){
@@ -346,7 +345,7 @@ Future<void> fetchNewWorkoutvideos() async{
                   title: Text('Categories'),
                   items: _items,
                   onConfirm: (List<String?> values){
-                    _updateSelectedCategories(values);
+                    // _updateSelectedCategories(values);
                   },
                 ),
               ),

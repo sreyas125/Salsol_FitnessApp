@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:salsol_fitness/Screens/videoScreens/video_screen.dart';
@@ -15,26 +14,28 @@ class SavedWorkouts extends StatefulWidget {
 }
 
 class _SavedWorkoutsState extends State<SavedWorkouts> {
+  late ValueNotifier<List<Addvideomodel>> addvideoListNotifier;
   List _bookmarkedvideos = [];
   late Box<SavedWorkout> savedworkoutbox;
 
   @override
   void initState() {
     super.initState();
-    // Open the 'saved_workouts' box
-    Hive.openBox<SavedWorkout>('saved_workouts').then((box) {
-      savedworkoutbox = box;
+    // addvideoListNotifier = widget.addVideoListNotifier; 
+    _fetchSaved();
 
-      // Load data from the box and update the state
-      _bookmarkedvideos = savedworkoutbox.values.toList();
+    // if (widget.bookmarkedVideos != null) {
+    //   _bookmarkedvideos = List.from(widget.bookmarkedVideos!);
+    // }
+  }
 
-      // Force a rebuild to update the UI
-      setState(() {});
+  Future<void> _fetchSaved()async{
+    await Hive.openBox<SavedWorkout>('saved_workouts').then((box) {
+      setState(() {
+        savedworkoutbox = box;  
+        _bookmarkedvideos = savedworkoutbox.values.toList();  
+      });
     });
-
-    if (widget.bookmarkedVideos != null) {
-      _bookmarkedvideos = List.from(widget.bookmarkedVideos!);
-    }
   }
 
   @override
@@ -50,7 +51,10 @@ class _SavedWorkoutsState extends State<SavedWorkouts> {
         children: [
           if (_bookmarkedvideos.isEmpty)
             const Center(
-              child: Text('No videos Available'),
+              child: Padding(
+                padding: EdgeInsets.only(),
+                child: Text('No videos Available'),
+              ),
             )
           else
             Expanded(
@@ -59,33 +63,47 @@ class _SavedWorkoutsState extends State<SavedWorkouts> {
                   itemBuilder: (context, index) {
                     final video = _bookmarkedvideos[index];
                     return ListTile(
-                      trailing: IconButton(onPressed: () async{
-                        bool deleteconfirmed = await showDialog(
+                      trailing: IconButton(
+                        onPressed: () async{
+                        bool deleteConfirmed = await showDialog( 
                           context: context,
                            builder: (BuildContext context) {
                              return AlertDialog(
-                              title: Text('Delete video'),
-                               content: Text('Are you sure'),
+                              title: const Text('Delete video'),
+                               content: const Text('Are you sure'),
                                actions: [
                                 TextButton(onPressed: (){
                                   Navigator.of(context).pop(false);
-                                }, child: Text('Cancel')),
+                                },
+                                 child: const Text('Cancel')),
                                   TextButton(onPressed: () => Navigator.of(context).pop(true),
-                                   child: Text('Delete'),
+                                   child:const Text('Delete'),
                                    ),
-                               ],
-                             );
-                           }
-                           );
-                           if(deleteconfirmed == true){
+                                 ],
+                               );
+                             }
+                          );
+                           if(deleteConfirmed == true){ 
                             setState(() {
                               _bookmarkedvideos.removeAt(index);
                             });
                             savedworkoutbox.deleteAt(index);
-                            print('Successed');
                            }
-                      }, icon: Icon(Icons.delete)),
-                      leading: CircleAvatar(backgroundImage:MemoryImage(video.imageBytes)),
+                      },
+                       icon:const Icon(Icons.delete)),
+                      leading:Container(
+                        width: 50,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: MemoryImage(
+                              video.imageBytes
+                              ),
+                            ),
+                          ),
+                        ),
                       title: Text(video.title),
                       subtitle: Text(video.time),
                       onTap: () {
@@ -104,11 +122,12 @@ class _SavedWorkoutsState extends State<SavedWorkouts> {
                               ),
                             ),
                           ),
-                        );
-                      },
-                    );
-                  }),
+                       );
+                    },
+                 );
+               }
             ),
+          ),
         ],
       ),
     );

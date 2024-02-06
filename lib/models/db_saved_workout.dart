@@ -24,7 +24,7 @@ class SavedWorkout {
   String selectedCategory;
 
   @HiveField(6)
-  late int? index;
+   int? index;
 
 
   SavedWorkout({

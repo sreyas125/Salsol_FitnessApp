@@ -96,13 +96,13 @@ class _ForYouState extends State<ForYou> {
                   worktitle: video.title,
                   times: video.time,
                   selectedCategory: '',
-                  index: video.index ?? -1,
+                  index: video.index?? -1,
                   videoUrl: video.videoUrl,
                   onBookmarChanged: (bool isBookmarked) {
-                    debugPrint('Bookmark Changed : $isBookmarked');
                     if (isBookmarked) {
-                      debugPrint('Get inside the condition:$isBookmarked');
-                     addVideoListNotifier.value = [...addVideoListNotifier.value, video];
+                      print('isBookmarked');
+                    //  if(!addvideoListNotifier.value.any((video) => video.index == index)){
+                    //  addVideoListNotifier.value = [...addVideoListNotifier.value, video];
                      SavedWorkout workout = SavedWorkout(
                       discription: video.title,
                        imageBytes: video.imageBytes,
@@ -112,14 +112,16 @@ class _ForYouState extends State<ForYou> {
                           title:video.title,
                            videoUrl:video.videoUrl
                            );
+                          
                            saveWorkouts(workout);
-                           debugPrint('workout saved:${workout}');
-                    } else {
-                     addVideoListNotifier.value = [...addVideoListNotifier.value]..remove(video);
-                     deleteFromsavedWorkouts(video.index ?? -1);
-                    }
+                           print('blahh');
+                       }else{
+                           addVideoListNotifier.value = [...addVideoListNotifier.value]..remove(video);
+                            deleteFromsavedWorkouts(video.index ?? -1);
+                       }
+
                   },
-                  addVideoListNotifier:addvideoListNotifier,
+                  addVideoListNotifier: addvideoListNotifier,
                   nav: () {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
