@@ -1,17 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:salsol_fitness/models/db_admin_add_function.dart';
 
-class YogaScreen extends StatefulWidget {
-  final List<Addvideomodel> videoSelectedList;
-  const YogaScreen({super.key,required this.videoSelectedList});
+class MuscleGroupScreen extends StatefulWidget {
+
+  const MuscleGroupScreen({super.key,});
 
   @override
-  State<YogaScreen> createState() => _YogaScreenState();
+  State<MuscleGroupScreen> createState() => MuscleGroupScreenState();
 }
 
-class _YogaScreenState extends State<YogaScreen> {
+class MuscleGroupScreenState extends State<MuscleGroupScreen> {
+   late TabController _tabController;
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: BackButton(),
+          backgroundColor: Colors.grey,
+          bottom: TabBar(
+            controller: _tabController,
+            tabs: [
+              Tab(text: 'Abs & Core',),
+              Tab(text: 'Arms & SHoulders',),
+
+            ]
+            ),
+        ),
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            Column(
+              children: [
+                Text('Abs& Core'),
+              ],
+            )
+          ]),
+      ),
+    );
   }
 }

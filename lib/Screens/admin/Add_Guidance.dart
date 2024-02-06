@@ -125,7 +125,7 @@ class _AddGuidanceState extends State<AddGuidance> {
                     maxLines: 20,
                     decoration: const InputDecoration(
                       labelText: 'paragraph',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10,),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
                       border: OutlineInputBorder(),
                     ),
                   ),

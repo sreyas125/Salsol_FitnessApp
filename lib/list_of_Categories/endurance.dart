@@ -96,7 +96,7 @@ class _EnduranceState extends State<Endurance> with SingleTickerProviderStateMix
           backgroundColor: Colors.grey,
           bottom: TabBar(
             controller: _tabController,
-            tabs: [
+            tabs:const [
               Tab(text: 'Endurance',),
               Tab(text: 'Yoga',),
             ]),
@@ -114,6 +114,7 @@ class _EnduranceState extends State<Endurance> with SingleTickerProviderStateMix
                     itemCount: EnduranceVideos.length,
                     itemBuilder: (context,index){
                        final video = EnduranceVideos[index];
+                       print('Yoga');
                       return ListTile(
                         leading: Container(
                           width: 100,

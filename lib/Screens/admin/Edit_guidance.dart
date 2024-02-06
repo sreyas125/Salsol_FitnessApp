@@ -99,12 +99,14 @@ Future<void> deletealldetails(int index,BuildContext context) async {
 
     final Uint8List? currentImageBytes = image.imageBytes;
     if(currentImageBytes != null){
+       await box.deleteAt(index);
+    }
+      image.imageBytes = imageBytes;
       await box.put(index, image);
       setState(() {
         guidanceList[index] = image;
       });
-    }
-  }
+   }
  }
 editVideoDetails(int index){
   showModalBottomSheet(context: context,

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:salsol_fitness/list_of_Categories/Endurance.dart';
-import 'package:salsol_fitness/list_of_Categories/yoga.dart';
+import 'package:salsol_fitness/list_of_Categories/muscle_group.dart';
 
 class WorkoutFocus extends StatefulWidget {
   const WorkoutFocus({super.key});
@@ -254,7 +254,7 @@ void _showDropdown(
           );
         break;
       case 'Yoga':
-      Navigator.push(context, MaterialPageRoute(builder: (context) => YogaScreen(videoSelectedList: [],),));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MuscleGroupScreen(),));
       break;
     }
   }

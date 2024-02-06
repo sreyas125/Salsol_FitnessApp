@@ -41,7 +41,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
    ];
  
 
-   Future<void> _saveVideoDetails() async{
+   Future<void> _saveVideoDetails(List<String> selectedCategories) async{
     if(_title != null &&
      _videoUrl != null &&
       _description != null &&
@@ -59,7 +59,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                index: id, 
               );
              
-              final Box<Addvideomodel>videoBox = await Hive.box<Addvideomodel>('videos');
+              final Box<Addvideomodel>videoBox = Hive.box<Addvideomodel>('videos');
               await videoBox.add(addvideomodel);
               debugPrint('added succesfully.');
               print('This is the id:${addvideomodel.index}');
@@ -75,6 +75,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
                 _description='';
                 _imageBytes=null;
                 _time = '';
+                _selectedCategory = null;
               });          
     }else{
       showDialog(context: context, builder:(BuildContext context){
@@ -119,12 +120,6 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
     .map((Category) =>MultiSelectItem<String>(
       Category, Category)).toList();
   }
-
-    // void _updateSelectedCategories(List<String> selectedValues){
-    //   setState(() {
-    //     selectedCategories = selectedValues;
-    //   });
-    // }
 
   Future<void> _getImageFromHive() async {
     final imageBytes = await Hive.box('images').get('image') as Uint8List?;
@@ -210,13 +205,15 @@ Future<void> fetchNewWorkoutvideos() async{
   if(newValue != null && !selectedCategories.contains(newValue)){
      int selectedIndex = categories.indexOf(newValue);
     setState(() {
-      selectedCategories.add(newValue);
+      selectedCategories.clear();
+      selectedCategories.addAll(Values.where((Value) => Value != null).map((value) => value!));
+      _selectedCategory = selectedCategories.join(', ');
     });
 
     final Box<int> categoryIndexBox = await Hive.openBox('selected_category_index');
     await categoryIndexBox.put('index', selectedIndex);
 
-    if(newValue =='great from Home'){
+    if(newValue.contains('Great From Home')){
        final Addvideomodel addvideomodel = Addvideomodel(
         discription: _description ?? '',
          title: _title ?? '',
@@ -345,14 +342,14 @@ Future<void> fetchNewWorkoutvideos() async{
                   title: Text('Categories'),
                   items: _items,
                   onConfirm: (List<String?> values){
-                    // _updateSelectedCategories(values);
+                     _updateSelectedCategories(values);
                   },
                 ),
               ),
 
               const SizedBox(height: 20,),
               ElevatedButton(
-                onPressed: _saveVideoDetails,
+                onPressed: () => _saveVideoDetails(selectedCategories),
                child: const Text('Feed The Video')),
                 ]      
               ), 
