@@ -6,7 +6,6 @@ import 'package:salsol_fitness/Screens/videoScreens/video_screen.dart';
 import 'package:salsol_fitness/db/functions/db_add_function.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
 import 'package:salsol_fitness/models/db_saved_workout.dart';
-import 'package:salsol_fitness/widgets/Great_For_Home.dart';
 import 'package:salsol_fitness/widgets/workout_widget_refactor.dart';
 
 class ForYou extends StatefulWidget {
@@ -101,8 +100,6 @@ class _ForYouState extends State<ForYou> {
                   onBookmarChanged: (bool isBookmarked) {
                     if (isBookmarked) {
                       print('isBookmarked');
-                    //  if(!addvideoListNotifier.value.any((video) => video.index == index)){
-                    //  addVideoListNotifier.value = [...addVideoListNotifier.value, video];
                      SavedWorkout workout = SavedWorkout(
                       discription: video.title,
                        imageBytes: video.imageBytes,
@@ -154,19 +151,38 @@ class _ForYouState extends State<ForYou> {
               itemCount: greatForHomeVideos.length,
               itemBuilder: (BuildContext context, int index) {
                 final video = greatForHomeVideos[index];
-                return GreatFromHome(
+                return WorkOutImage(
                   workimage: video.imageBytes,
-                  worktitle: video.title,
-                  times: video.time,
-                  nav: () {
-                    Navigator.of(context).pushReplacement(
+                   worktitle: video.title,
+                    times: video.time,
+                     index: index,
+                     videoUrl: video.videoUrl,
+                     selectedCategory: video.selectedCategory,
+                     nav: (){
+                        Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => VideoScreenOne(
                           addvideomodel: video,
                         ),
-                      ),
-                    );
-                  },
+                      ));
+                     }, onBookmarChanged: (bool isBookmarked) { 
+                        if(isBookmarked){
+                          SavedWorkout workout = SavedWorkout(
+                            discription: video.title,
+                             imageBytes: video.imageBytes,
+                              index: index,
+                               selectedCategory: video.selectedCategory,
+                                time: video.time,
+                                 title: video.title,
+                                  videoUrl: video.videoUrl
+                                  );
+                                  saveWorkouts(workout);
+                        }else{
+                          addvideoListNotifier.value = [...addvideoListNotifier.value]..remove(video);
+
+                          deleteFromsavedWorkouts(video.index ?? -1);
+                        }
+                      }, addVideoListNotifier: addvideoListNotifier, 
                 );
               },
             ),

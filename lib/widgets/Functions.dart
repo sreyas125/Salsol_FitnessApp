@@ -88,5 +88,13 @@ import 'package:salsol_fitness/models/db_admin_add_function.dart';
     });
    }
    
+  //  void _launchURL() async{
+  //   const url = 'https://sites.google.com/view/salsolfitness-privacy-policy/home';
+  //   if(await canLaunchUrl(url)){
+  //     await launchUrl(url);
+  //   }else{
+  //     throw 'Could not Launch $url';
+  //   }
+  //  }
 
   

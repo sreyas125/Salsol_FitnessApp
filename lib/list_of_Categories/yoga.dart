@@ -1,92 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:salsol_fitness/Screens/videoScreens/video_screen.dart';
-import 'package:salsol_fitness/list_of_Categories/yoga.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
-class Endurance extends StatefulWidget {
-  final List<Addvideomodel> VideoList;
+
+class YogaScreen extends StatefulWidget {
   final List<String> selectedCategories;
-   const Endurance( {super.key,
-  required this.VideoList,
+  final List<Addvideomodel> videoList;
+
+  const YogaScreen({
+    super.key,
+  required this.videoList,
   required this.selectedCategories
   });
 
-  factory Endurance.create({
-    required List<Addvideomodel> categoryVideoList,
+  factory YogaScreen.create({
+    required List<Addvideomodel>categoryVideoList,
     required List<String> selectedCategories,
   }){
-    return Endurance(
+    return YogaScreen(
       key: UniqueKey(),
-     VideoList: [],
-       selectedCategories: selectedCategories
-       );
+      videoList: [],
+      selectedCategories: selectedCategories,
+      );
   }
-  
 
   @override
-  State<Endurance> createState() => _EnduranceState();
+  State<YogaScreen> createState() => _YogaScreenState();
 }
 
-class _EnduranceState extends State<Endurance> with SingleTickerProviderStateMixin {
-  List<Addvideomodel>EnduranceVideos=[];
+class _YogaScreenState extends State<YogaScreen> {
+    List<Addvideomodel>YogaVideos=[];
 
-  late TabController _tabController;
-
-  @override
-  void initState() {
-  super.initState();
-  _tabController = TabController(length: 2, vsync: this);
-  _fetchdata();
-  }
-
-  Future<void> _fetchdata() async{
+  Future<void> _fetchyogadata() async{
+    print('inside the box');
      final box = await Hive.openBox<Addvideomodel>('videos');
     final List<Addvideomodel> allVideos = box.values.toList();
 
     final List<Addvideomodel> filteredVideos = allVideos
-        .where((video) => video.selectedCategory.contains('Endurance'))
+        .where((video) => video.selectedCategory.contains('Yoga'))
         .toList();
 
          setState(() {
-      EnduranceVideos = filteredVideos;
+     YogaVideos = filteredVideos;
     });
 
   }
-  
-
   @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _fetchyogadata();
   }
-
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          leading: BackButton(),
-          backgroundColor: Colors.grey,
-          bottom: TabBar(
-            controller: _tabController,
-            tabs:const [
-              Tab(text: 'Endurance',),
-              Tab(text: 'Yoga',),
-            ]),
-        ),
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            Column(
+    return  Scaffold(
+      body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: ListView.builder(
                      shrinkWrap: true,
-                    itemCount: EnduranceVideos.length,
+                    itemCount: YogaVideos.length,
                     itemBuilder: (context,index){
-                       final video = EnduranceVideos[index];
+                       final video = YogaVideos[index];
                       return ListTile(
                         leading: Container(
                           width: 100,
@@ -122,11 +97,6 @@ class _EnduranceState extends State<Endurance> with SingleTickerProviderStateMix
                 )
               ],
             ),
-            YogaScreen(videoList: widget.VideoList,
-             selectedCategories: widget.selectedCategories,
-             )
-          ]),
-      ),
     );
   }
 }

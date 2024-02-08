@@ -67,7 +67,7 @@ class _WorkOutImageState extends State<WorkOutImage> {
                         height: 40,
                        decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Color.fromARGB(255, 172, 156, 156),
+                        color: Color.fromARGB(255, 255, 255, 255),
                        ),
                         child: IconButton(
                           onPressed: (){
@@ -75,34 +75,13 @@ class _WorkOutImageState extends State<WorkOutImage> {
                               print('tapped');
                               isBookmarked = !isBookmarked;
                                  widget.onBookmarChanged(isBookmarked);
-                              //   if(isBookmarked){
-                              //     widget.onBookmarChanged(true);
-
-                              //     SavedWorkout workout = SavedWorkout(
-                              //       discription: widget.worktitle,
-                              //        imageBytes: widget.workimage!,
-                              //         index: widget.index, 
-                              //         selectedCategory: widget.selectedCategory,
-                              //          time: widget.times,
-                              //           title:widget.worktitle,
-                              //            videoUrl: widget.videoUrl,
-                              //            );
-                              //     saveWorkouts(workout);
-                              //     widget.addVideoListNotifier.value=[...widget.addVideoListNotifier.value, ];
-                              // }else{
-                              //   widget.onBookmarChanged(false);
-                              //   deleteFromsavedWorkouts(widget.index);
-                              //   widget.addVideoListNotifier.value = 
-                              //   [...widget.addVideoListNotifier.value]
-                              //   ..removeWhere((workout) => workout.index == widget.index);
-                              // }
                             });
                           },
                           icon: Icon(
                             isBookmarked
                             ?Icons.bookmark
                             :Icons.bookmark_border_outlined,
-                            color: isBookmarked==true ? Colors.black : Colors.white,
+                            color: isBookmarked ? Colors.black : const Color.fromARGB(255, 72, 72, 72),
                             ),
                           ),
                         ),

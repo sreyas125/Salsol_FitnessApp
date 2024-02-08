@@ -12,7 +12,8 @@ class WorkoutFocus extends StatefulWidget {
   State<WorkoutFocus> createState() => _WorkoutFocusState();
 }
 
-class _WorkoutFocusState extends State<WorkoutFocus> {
+class _WorkoutFocusState extends State<WorkoutFocus> with SingleTickerProviderStateMixin{
+  late TabController _tabController;
   RoundedRectangleBorder roundedRectangleBorder = const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
     topLeft: Radius.circular(20),
@@ -27,6 +28,11 @@ class _WorkoutFocusState extends State<WorkoutFocus> {
   String selectedEquipments = 'Full Equipment';
 
  double opacityvalue = 0.3;
+ @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -254,8 +260,18 @@ void _showDropdown(
           );
         break;
       case 'Yoga':
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MuscleGroupScreen(),));
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) => Endurance.create(
+          categoryVideoList: [],
+          selectedCategories: [],
+        ),));
       break;
+      case 'Abs & Core':
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) => MuscleGroupScreen.create(
+          categoryvideoList: [],
+          selectedCategories: [],
+        ),));
     }
   }
 

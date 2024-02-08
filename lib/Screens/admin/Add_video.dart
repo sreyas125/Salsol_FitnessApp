@@ -38,6 +38,8 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
     'Great From Home',
     'Mobility',
     'Overall Fitness',
+    'Full Equipment',
+    'No Equipment',
    ];
  
 

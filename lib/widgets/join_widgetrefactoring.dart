@@ -25,7 +25,8 @@ class CustomTextFieldtwo extends StatelessWidget {
       child: SizedBox(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: TextFormField(keyboardType: keyboardType,
+          child: TextFormField(
+            keyboardType: keyboardType,
             controller: controller,enabled: boolValue,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: validator,

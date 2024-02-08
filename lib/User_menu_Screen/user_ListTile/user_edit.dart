@@ -39,11 +39,21 @@ class _UserEditScreenState extends State<UserEditScreen> {
         ),
         SizedBox(height: 20,),
         TextFormField(
-          decoration: InputDecoration(
-            hintText: 'Enter the current Email',
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            style: const TextStyle(color: Colors.black),
+            decoration: InputDecoration(
+              hintText: 'Current Email',
+              hintStyle: const TextStyle(color: Colors.grey),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(7.0),
+                borderSide: const BorderSide(color: Colors.grey),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(7.0),
+                borderSide: const BorderSide(color: Colors.blue),
+              ),
+            ),
           ),
-          
-        )
       ],
     ),
   );
