@@ -18,7 +18,7 @@ class _UserEditScreenState extends State<UserEditScreen> {
         centerTitle: true,
         title: const Text('User Edit'),
         backgroundColor: Colors.grey,
-        leading: BackButton(),
+        leading: const BackButton(),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -37,7 +37,7 @@ class _UserEditScreenState extends State<UserEditScreen> {
             ),
           ],
         ),
-        SizedBox(height: 20,),
+       const SizedBox(height: 20,),
         TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             style: const TextStyle(color: Colors.black),

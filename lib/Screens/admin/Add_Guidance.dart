@@ -49,9 +49,9 @@ class _AddGuidanceState extends State<AddGuidance> {
         await readingBox.add(Guidances);
         debugPrint('Successfully');
         setState(() {
-          _Paragraph="";
+          _Paragraph=' ';
           _imageBytes=null;
-          _title="";
+          _title=' ';
         });
     }
   }

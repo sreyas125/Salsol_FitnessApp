@@ -82,7 +82,7 @@ class _ForYouState extends State<ForYou> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 350,
+            height: 300,
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
               shrinkWrap: true,
@@ -132,6 +132,7 @@ class _ForYouState extends State<ForYou> {
               },
             ),
           ),
+          SizedBox(height: 30,),
           const Padding(
             padding: EdgeInsets.only(left: 20),
             child: Text(
