@@ -56,7 +56,7 @@ class _ForYouState extends State<ForYou> {
     final List<Addvideomodel> allVideos = box.values.toList();
 
     final List<Addvideomodel> filteredVideos = allVideos
-        .where((video) => video.selectedCategory == 'Great From Home')
+        .where((video) => video.selectedCategory.contains('Great From Home'))
         .toList();
 
     setState(() {

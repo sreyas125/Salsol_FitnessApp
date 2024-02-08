@@ -181,7 +181,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
   final List<Addvideomodel> allvideos = box.values.toList();
 
   final List<Addvideomodel> greatForHomeVideos = allvideos
-    .where((video) => video.selectedCategory=='Great From Home')
+    .where((video) => video.selectedCategory.contains('Great From Home'))
     .toList();
 
   setState(() {

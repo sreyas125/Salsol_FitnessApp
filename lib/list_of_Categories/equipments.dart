@@ -4,7 +4,23 @@ import 'package:salsol_fitness/Screens/videoScreens/video_screen.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
 
 class EquipmentScreen extends StatefulWidget {
-  const EquipmentScreen({super.key});
+  final List<Addvideomodel> videoList;
+  final List<String> selectedCategories;
+  const EquipmentScreen({super.key,
+  required this.videoList,
+  required this.selectedCategories,
+  });
+
+  factory EquipmentScreen.create({
+    required List<Addvideomodel>categoryVideoList,
+    required List<String> selectedCategories,
+  }){
+    return EquipmentScreen(
+      key: UniqueKey(),
+      videoList: [],
+       selectedCategories: selectedCategories
+       );
+  }
 
   @override
   State<EquipmentScreen> createState() => _EquipmentScreenState();

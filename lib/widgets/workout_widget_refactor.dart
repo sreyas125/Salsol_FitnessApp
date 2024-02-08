@@ -87,9 +87,9 @@ class _WorkOutImageState extends State<WorkOutImage> {
                         ),
                       ),
                     Positioned(
-                      bottom: 40,
-                      left: 0,
-                      right: 40,
+                      bottom: 15,
+                      left: 10,
+                      right: 140,
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20,top: 30,right: 0,bottom: 60),
@@ -109,8 +109,8 @@ class _WorkOutImageState extends State<WorkOutImage> {
                     ),
           Positioned(
              bottom: 30,
-               left: 9,
-               right: 100,
+               left: 0,
+               right: 120,
                top: 200,
                  child: Center(
                  child: Padding(

@@ -28,7 +28,7 @@ class _UserEditScreenState extends State<UserEditScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 100,left: 90),
                 child: Center(
-                  child: Text('Your Current account email address is:\n         ${widget.userEmail}',
+                  child: Text('Your Current account email address is:\n ${widget.userEmail}',
                   style: const TextStyle(fontSize: 1,
                   fontWeight: FontWeight.bold,
                   ),

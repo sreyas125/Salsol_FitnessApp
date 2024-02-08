@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:salsol_fitness/list_of_Categories/Endurance.dart';
+import 'package:salsol_fitness/list_of_Categories/equipments.dart';
 import 'package:salsol_fitness/list_of_Categories/muscle_group.dart';
 
 class WorkoutFocus extends StatefulWidget {
@@ -272,6 +273,14 @@ void _showDropdown(
           categoryvideoList: [],
           selectedCategories: [],
         ),));
+        break;
+        case 'Full Equipment':
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => EquipmentScreen.create(
+          categoryVideoList: [],
+           selectedCategories: [],
+           ),));
+           break;
     }
   }
 
