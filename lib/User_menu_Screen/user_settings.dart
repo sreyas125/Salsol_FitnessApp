@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:salsol_fitness/Screens/login_screen.dart';
 import 'package:salsol_fitness/Screens/screen_home.dart';
+import 'package:salsol_fitness/User_menu_Screen/user_ListTile/about_you.dart';
+import 'package:salsol_fitness/User_menu_Screen/user_ListTile/privacy.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_ListTile/user_edit.dart';
+import 'package:salsol_fitness/models/sign_in_model.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({super.key});
@@ -31,7 +35,10 @@ class _UserSettingsState extends State<UserSettings> {
           TextButton(
             child: const Text('Logout',style: TextStyle(color: Colors.red),),
             onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>const ScreenLogin(),), (route) => false);
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) =>const ScreenLogin()),
+                   (route) => false);
             },
           ),
         ],
@@ -44,7 +51,6 @@ class _UserSettingsState extends State<UserSettings> {
    'User Edit',
    'About You',
    'Privacy',
-   'Language',
    'Contact Us',
    'Delete Account',
    'Log Out',
@@ -75,13 +81,17 @@ class _UserSettingsState extends State<UserSettings> {
             onTap: () {
               switch (index) { 
                 case 0:
-                String userEmail = 'UserEmail@example.com';
+                final userModel = Hive.box<fitnessModel>('customer_db').getAt(index);
                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) =>  UserEditScreen(userEmail: userEmail,),));
+                      MaterialPageRoute(
+                        builder: (context) =>  UserEditScreen(userModelFuture: Future.value(userModel),),));
                  break;
-                // case 1:
-                //  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => EditWorkout(),));
-                case 6:
+                case 1:
+                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AboutYouScreen(),));
+                 break;
+                 case 2:
+                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PrivacyScreen(),));
+                case 5:
                   _showLogoutDialogs(context);
                 break;       
               }
@@ -89,7 +99,7 @@ class _UserSettingsState extends State<UserSettings> {
             },
              child: ListTile(
                title: Text(items[index]),
-               trailing: index == 6? const Icon(Icons.exit_to_app_rounded,color: Colors.red,):null,
+               trailing: index == 5? const Icon(Icons.exit_to_app_rounded,color: Colors.red,):null,
                   ),
                  );
                },

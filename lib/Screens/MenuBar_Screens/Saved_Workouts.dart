@@ -21,12 +21,7 @@ class _SavedWorkoutsState extends State<SavedWorkouts> {
   @override
   void initState() {
     super.initState();
-    // addvideoListNotifier = widget.addVideoListNotifier; 
     _fetchSaved();
-
-    // if (widget.bookmarkedVideos != null) {
-    //   _bookmarkedvideos = List.from(widget.bookmarkedVideos!);
-    // }
   }
 
   Future<void> _fetchSaved()async{

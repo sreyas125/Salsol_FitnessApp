@@ -14,7 +14,7 @@ Future<void> addcustomer(fitnessModel value,userid) async{
 }
 
 Future<List<fitnessModel>>getAllCustomer() async{
-  final userid = await Hive.openBox('customer_db');
+  final userid = await Hive.box<fitnessModel>('customer_db');
   List<fitnessModel> allCustomers = [];
 
   for(var key in userid.keys){

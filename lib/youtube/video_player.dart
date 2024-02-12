@@ -16,6 +16,7 @@ class YoutubePlayerScreen extends StatefulWidget {
 
 class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
   late YoutubePlayerController _playerController;
+  bool _isPlayerReady = false;
  
  bool isValidYoutubeVideoId(String videoId) {
  RegExp regExp = RegExp(r'^[a-zA-Z0-9_-]{11}$');
@@ -43,9 +44,14 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
       mute: true,
       controlsVisibleAtStart: true,
       showLiveFullscreenButton: true,
-      
     ),
-  );
+  )..addListener(() {
+    if(_playerController.value.isReady){
+      setState(() {
+        _isPlayerReady = true;
+      });
+    }
+  });
       }else{
         debugPrint('invalid youtube ID');
        }
@@ -71,7 +77,8 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.black,
         onReady: () => debugPrint('Ready'),
-        bottomActions: [      
+        bottomActions: [  
+          if(_isPlayerReady)...[
           CurrentPosition(),
           ProgressBar(
             isExpanded: true,
@@ -82,18 +89,18 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
           ),
           const PlaybackSpeedButton(),
         ],
-      ),
+      ]
+    ),
        builder: (context,player){
           if(_playerController.value.isReady) {
              return player;
          }else{
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-       
+      return  const Center(
+        child: CircularProgressIndicator(
+          color: Colors.red,),
+          );
+        }   
       },
     );
-  
    }
 }

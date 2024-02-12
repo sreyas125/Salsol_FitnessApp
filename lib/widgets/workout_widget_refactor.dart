@@ -72,7 +72,6 @@ class _WorkOutImageState extends State<WorkOutImage> {
                         child: IconButton(
                           onPressed: (){
                             setState(() {
-                              print('tapped');
                               isBookmarked = !isBookmarked;
                                  widget.onBookmarChanged(isBookmarked);
                             });

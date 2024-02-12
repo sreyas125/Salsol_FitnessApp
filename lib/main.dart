@@ -24,7 +24,7 @@ Future<void>main() async{
   if(!Hive.isAdapterRegistered(SavedWorkoutAdapter().typeId)){
     Hive.registerAdapter(SavedWorkoutAdapter());
   }
-  await Hive.openBox('customer_db');
+  await Hive.openBox<fitnessModel>('customer_db');
   await Hive.openBox('images');
   await Hive.openBox<Addvideomodel>('videos');
   await Hive.openBox<Guidance>('Guidance');

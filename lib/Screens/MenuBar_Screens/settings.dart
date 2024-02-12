@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_ListTile/user_edit.dart';
 import 'package:salsol_fitness/Screens/login_screen.dart';
 import 'package:salsol_fitness/Screens/screen_home.dart';
 import 'package:salsol_fitness/main.dart';
+import 'package:salsol_fitness/models/sign_in_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
@@ -61,8 +63,8 @@ Future<void> signOutUser() async {
               return  ListTile(
                 title: Text('User Edit'),
                 onTap: () {
-                  String userEmail = 'user@example.com';
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserEditScreen(userEmail: userEmail,),));
+                 final userModel = Hive.box<fitnessModel>('customer_db').getAt(index);
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserEditScreen(userModelFuture: Future.value(userModel),),));
                 },
               );
             case 1:

@@ -59,7 +59,7 @@ class _JoinScreenState extends State<JoinScreen> {
   TextEditingController surnamecontroller = TextEditingController();
   @override
   void initState() {
-userid = Hive.box('customer_db');
+userid = Hive.box<fitnessModel>('customer_db');
     super.initState();
   }
   

@@ -109,7 +109,7 @@ class _VideoScreenOneState extends State<VideoScreenOne> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                widget.addvideomodel.selectedCategory ?? 'Core Strength',
+                                widget.addvideomodel.selectedCategory,
                                 style: const TextStyle(color: Colors.white),
                               ),
                             ),
@@ -160,7 +160,9 @@ class _VideoScreenOneState extends State<VideoScreenOne> {
             context,
              MaterialPageRoute(
               builder: (context) => YoutubePlayerScreen(
-                videoModel: widget.addvideomodel),));
+                videoModel: widget.addvideomodel),
+                ),
+              );
             },
           style: ElevatedButton.styleFrom(
             

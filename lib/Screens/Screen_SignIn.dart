@@ -4,6 +4,7 @@ import 'package:salsol_fitness/User_menu_Screen/user_ListTile/user_edit.dart';
 import 'package:salsol_fitness/Screens/login_screen.dart';
 import 'package:salsol_fitness/Screens/screen_home.dart';
 import 'package:salsol_fitness/main.dart';
+import 'package:salsol_fitness/models/sign_in_model.dart';
 import 'package:salsol_fitness/widgets/custom_password_text_field.dart';
 import 'package:salsol_fitness/widgets/signin_widgetrefactoring.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +20,7 @@ class _SigninScreenState extends State<SigninScreen> {
    bool agreed = false;
    @override
   void initState() {
-    userid = Hive.box('customer_db');
+    userid = Hive.box<fitnessModel>('customer_db');
     super.initState();
   }
    
@@ -52,8 +53,7 @@ class _SigninScreenState extends State<SigninScreen> {
       if (credentialsMatch) {
         final sharedPrefs = await SharedPreferences.getInstance();
         sharedPrefs.setBool(SAVE_KEY_NAME, true);
-        // ignore: use_build_context_synchronously
-        Navigator.push(context, MaterialPageRoute(builder: (context) => UserEditScreen(userEmail: email),));
+
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const ScreenHome()),
         );
