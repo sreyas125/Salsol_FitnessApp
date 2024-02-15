@@ -5,10 +5,10 @@ import 'package:salsol_fitness/models/db_admin_add_function.dart';
 
 
  editVideoDetails(int index,context,videoList, setStateCallback,saveUpdatedDetails){
-    showModalBottomSheet(
-      context: context,
-       builder: (BuildContext context){
-        return Container(
+    showDialog(context: context, builder: (context) {
+      return AlertDialog(
+        title: Text('Edit'),
+        content: Container(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -58,8 +58,9 @@ import 'package:salsol_fitness/models/db_admin_add_function.dart';
               }, child: const Text('Save'),)
             ],
           ),
-        );
-       });
+        ),
+      );
+    },);
    }
 
        deleteVideoDetails(int index,context,setStateCallback,List videoList) {

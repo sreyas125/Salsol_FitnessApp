@@ -61,7 +61,7 @@ class _UserSettingsState extends State<UserSettings> {
       appBar: AppBar(
         backgroundColor: Colors.grey,
         leading: IconButton(onPressed: (){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ScreenHome(),));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ScreenHome(),));
         }, icon: const Icon(Icons.arrow_back)),
         title: const Text('Settings',
         style: TextStyle(
@@ -87,10 +87,10 @@ class _UserSettingsState extends State<UserSettings> {
                         builder: (context) =>  UserEditScreen(userModelFuture: Future.value(userModel),),));
                  break;
                 case 1:
-                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AboutYouScreen(),));
+                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutYouScreen(),));
                  break;
                  case 2:
-                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PrivacyScreen(),));
+                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PrivacyScreen(),));
                 case 5:
                   _showLogoutDialogs(context);
                 break;       
@@ -99,7 +99,8 @@ class _UserSettingsState extends State<UserSettings> {
             },
              child: ListTile(
                title: Text(items[index]),
-               trailing: index == 5? const Icon(Icons.exit_to_app_rounded,color: Colors.red,):null,
+               trailing: index == 5? const Icon(Icons.exit_to_app_rounded,
+               color: Colors.red,):null,
                   ),
                  );
                },

@@ -90,20 +90,21 @@ class _ForYouState extends State<ForYou> {
               itemCount: limitedNewWorkouts.length,
               itemBuilder: (BuildContext context, int index) {
                 final video = videoList[index];
+                print('id: ${video.index}');
                 return WorkOutImage(
                   workimage: video.imageBytes,
                   worktitle: video.title,
                   times: video.time,
                   selectedCategory: '',
-                  index: video.index?? -1,
+                  index: index,
                   videoUrl: video.videoUrl,
                   onBookmarChanged: (bool isBookmarked) {
-                    if (isBookmarked) {
+                    if (isBookmarked == true) {
                       print('isBookmarked');
                      SavedWorkout workout = SavedWorkout(
                       discription: video.title,
                        imageBytes: video.imageBytes,
-                        index: index,
+                        index: video.index,
                          selectedCategory:video.selectedCategory,
                           time: video.time, 
                           title:video.title,
@@ -113,10 +114,10 @@ class _ForYouState extends State<ForYou> {
                            saveWorkouts(workout);
                            print('blahh');
                        }else{
+                        print('inside the delete');
                            addVideoListNotifier.value = [...addVideoListNotifier.value]..remove(video);
-                            deleteFromsavedWorkouts(video.index ?? -1);
+                            deleteFromsavedWorkouts(video.index!);
                        }
-
                   },
                   addVideoListNotifier: addvideoListNotifier,
                   nav: () {
@@ -171,7 +172,7 @@ class _ForYouState extends State<ForYou> {
                           SavedWorkout workout = SavedWorkout(
                             discription: video.title,
                              imageBytes: video.imageBytes,
-                              index: index,
+                              index: index+1,
                                selectedCategory: video.selectedCategory,
                                 time: video.time,
                                  title: video.title,
@@ -181,7 +182,7 @@ class _ForYouState extends State<ForYou> {
                         }else{
                           addvideoListNotifier.value = [...addvideoListNotifier.value]..remove(video);
 
-                          deleteFromsavedWorkouts(video.index ?? -1);
+                          deleteFromsavedWorkouts(index);
                         }
                       }, addVideoListNotifier: addvideoListNotifier, 
                 );

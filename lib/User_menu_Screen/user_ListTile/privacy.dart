@@ -48,14 +48,22 @@ you can also contact me in my linkedin. linkedin.com/in/sreyas-ps-9a1b06250/.'''
 
     return Scaffold(
       appBar: AppBar(
-
+        centerTitle: true,
+        title:const Text('Privacy'),
+        backgroundColor: Colors.grey,
+        leading:const BackButton(),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Text(text)
+              Text(
+              text,
+              style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                 ),
+              )
             ],
           ),
         ),

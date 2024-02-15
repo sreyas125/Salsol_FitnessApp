@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:salsol_fitness/Screens/admin/add_video.dart';
 import 'package:salsol_fitness/Screens/admin/add_Guidance.dart';
 import 'package:salsol_fitness/Screens/admin/Edit_Guidance.dart';
+import 'package:salsol_fitness/Screens/admin/create_message.dart';
 import 'package:salsol_fitness/Screens/admin/edit_workout.dart';
 import 'package:salsol_fitness/Screens/admin/user_Details.dart';
 import 'package:salsol_fitness/Screens/admin/admin_login.dart';
@@ -95,6 +96,8 @@ class _AdministrationScreenState extends State<AdministrationScreen> {
               case 2:
                 Navigator.push(context, MaterialPageRoute(builder: (context) =>  AddVideoScreen(greatForHomeVideos: [],)));
               break;
+              case 3:
+               Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMeessage(),));
               case 4:
                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddGuidance(),));
                break;

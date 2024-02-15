@@ -18,10 +18,6 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
   late YoutubePlayerController _playerController;
   bool _isPlayerReady = false;
  
- bool isValidYoutubeVideoId(String videoId) {
- RegExp regExp = RegExp(r'^[a-zA-Z0-9_-]{11}$');
- return regExp.hasMatch(videoId);
-}
      @override
     void initState(){
       super.initState();
@@ -34,11 +30,11 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
     super.dispose();
   }
    void initializePlayer(){
-    final extractedVideoId = extractVideoId(widget.videoModel.videoUrl);
-      if(isValidYoutubeVideoId(extractedVideoId)) {
-        debugPrint('done');
+    final extractedVideoId = YoutubePlayer.convertUrlToId(widget.videoModel.videoUrl);
+     if(extractedVideoId != null){
+      print('......object');
     _playerController = YoutubePlayerController(
-     initialVideoId: extractedVideoId, 
+     initialVideoId: extractedVideoId!, 
     flags: const YoutubePlayerFlags(
       autoPlay: false,
       mute: true,
@@ -47,21 +43,18 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
     ),
   )..addListener(() {
     if(_playerController.value.isReady){
+      print('object...');
       setState(() {
         _isPlayerReady = true;
+        print(_isPlayerReady);
       });
     }
   });
-      }else{
-        debugPrint('invalid youtube ID');
-       }
-     }
+   }else{
+      debugPrint('Invalid Youtube video URL');
 
-   String extractVideoId(String url) {
-    RegExp regExp = RegExp(r'(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([^"&?\/\n\s]{11})');
-    Match? match = regExp.firstMatch(url);
-    return match?.group(1) ?? '';
-  }
+   }
+     }
 
 
   @override
@@ -96,7 +89,8 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
              return player;
          }else{
       return  const Center(
-        child: CircularProgressIndicator(
+        child: 
+         CircularProgressIndicator(
           color: Colors.red,),
           );
         }   

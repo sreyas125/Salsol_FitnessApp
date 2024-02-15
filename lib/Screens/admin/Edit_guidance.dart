@@ -154,69 +154,80 @@ editVideoDetails(int index){
       ]);
    });
  }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.grey,
-        title: const Text('Edit Guidance'),
-        centerTitle: true,
-        leading: const BackButton(),
-      ),
-      body: ListView.builder(
-        itemCount: guidanceList.length,
-        itemBuilder: (context, index) {
-          final guidances = guidanceList[index];
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                ),
-                height: 200,
-                width: 200,
-                child: GestureDetector(
-                  onTap: () {
-                    _editImage(index);
-                  },
-                  child: Center(
-                    child: guidances.imageBytes != null
-                    ?Image.memory(
-                     guidances.imageBytes,
-                    fit: BoxFit.cover,
-                    )
-                     :const Icon(CupertinoIcons.camera_on_rectangle_fill)
-                  ),
-                ),
-              ),
-             const SizedBox(height: 20,),
-             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-               Text('Title: ${guidances.title}'),
-               Text('Paragraph: ${guidances.paragraph}'),
-        
-               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      backgroundColor: Colors.grey,
+      title: const Text('Edit Guidance'),
+      centerTitle: true,
+      leading: const BackButton(),
+    ),
+    body: GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: SingleChildScrollView(
+        child: Column(
+          children: guidanceList.map((guidance) {
+            final index = guidanceList.indexOf(guidance);
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
                 children: [
-                  IconButton(onPressed: (){
-                    editVideoDetails(index);
-                  }, icon: const Icon(Icons.edit)),
-                  IconButton(onPressed: (){
-                    deletealldetails(index,context);
-                  }, icon: const Icon(Icons.delete)),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                    ),
+                    height: 200,
+                    width: 200,
+                    child: GestureDetector(
+                      onTap: () {
+                        _editImage(index);
+                      },
+                      child: Center(
+                        child: guidance.imageBytes != null
+                            ? Image.memory(
+                                guidance.imageBytes,
+                                fit: BoxFit.cover,
+                              )
+                            : const Icon(CupertinoIcons.camera_on_rectangle_fill),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Title: ${guidance.title}'),
+                      Text('Paragraph: ${guidance.paragraph}'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              editVideoDetails(index);
+                            },
+                            icon: const Icon(Icons.edit),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              deletealldetails(index,context);
+                            },
+                            icon: const Icon(Icons.delete),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ],
-               )
-              ]
-             ),
-            ],
-          ),
-        );
-       }
+              ),
+            );
+          }).toList(),
+        ),
       ),
+    ),
   );
- }
+}
 }

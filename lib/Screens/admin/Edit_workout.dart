@@ -1,4 +1,7 @@
-// ignore_for_file: prefer_final_fields, unused_field, unused_local_variable, no_leading_underscores_for_local_identifiers, unnecessary_nullable_for_final_variable_declarations, unused_element
+// ignore_for_file: prefer_final_fields, unused_field, unused_local_variable,, no_leading_underscores_for_local_identifiers
+// no_leading_underscores_for_local_identifiers,
+// unnecessary_nullable_for_final_variable_declarations,
+// unused_element
 
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -9,7 +12,8 @@ import 'package:salsol_fitness/widgets/Functions.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class EditWorkout extends StatefulWidget {
-   EditWorkout({Key? key});
+   // ignore: use_key_in_widget_constructors
+   const EditWorkout({Key? key});
 
   @override
   State<EditWorkout> createState() => _EditWorkoutState();
@@ -45,6 +49,7 @@ class _EditWorkoutState extends State<EditWorkout> {
       final box = await Hive.openBox<Addvideomodel>('videos');
       final video = videoList[index];
       
+     // ignore: unnecessary_nullable_for_final_variable_declarations
      final Uint8List? currentImageBytes = video.imageBytes;
      if(currentImageBytes != null){
       await box.deleteAt(index);
@@ -161,20 +166,21 @@ class _EditWorkoutState extends State<EditWorkout> {
         context: context,
          builder: (BuildContext context){
           return AlertDialog(
-            title: Text('Edit Video URL'),
+            title: const Text('Edit Video URL'),
             content: TextField(
               controller: _videoUrlController,
-              decoration: InputDecoration(labelText: 'Enter the New URL'),
+              decoration:const InputDecoration(labelText: 'Enter the New URL'),
             ),
             actions: [
               TextButton(onPressed: (){
-                Navigator.pop(context,_videoUrlController.text);
-              }, child: Text('Save'),
+                Navigator.pop(context,
+                _videoUrlController.text);
+              }, child: const Text('Save'),
               ),
               TextButton(
                 onPressed: (){
                   Navigator.pop(context,null);
-              }, child: Text('Cancel'),)
+              }, child: const Text('Cancel'),)
             ],
           );
          });
@@ -186,7 +192,7 @@ class _EditWorkoutState extends State<EditWorkout> {
       appBar: AppBar(
         backgroundColor: Colors.grey,
         centerTitle: true,
-        leading: BackButton(),
+        leading: const BackButton(),
         title: const Text('Edit WorkOuts'),
       ),
       body: ListView.builder(
@@ -227,7 +233,7 @@ class _EditWorkoutState extends State<EditWorkout> {
                      padding: const EdgeInsets.all(16.0),
                      child: TextFormField(
                           readOnly: true,
-                          controller: TextEditingController(text: video.selectedCategory ?? ''),
+                          controller: TextEditingController(text: video.selectedCategory),
                           decoration: const InputDecoration(
                             labelText: 'Category',
                             border: OutlineInputBorder(),
@@ -242,7 +248,8 @@ class _EditWorkoutState extends State<EditWorkout> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          editVideoDetails(index,context,videoList, setState,saveUpdatedDetails); 
+                          editVideoDetails(index,context,videoList,
+                          setState,saveUpdatedDetails); 
                         },
                         icon: const Icon(Icons.edit),
                       ),

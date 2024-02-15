@@ -59,11 +59,11 @@ class _UserEditScreenState extends State<UserEditScreen> {
         showDialog(
          context: context,
          builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('New Email and confirm email do not match.'),
+          title: const Text('Error'),
+          content: const Text('New Email and confirm email do not match.'),
           actions: [
             TextButton(onPressed: ()=> Navigator.pop(context),
-             child: Text('Ok'),)
+             child: const Text('Ok'),)
            ],
          )
        );
@@ -81,7 +81,7 @@ class _UserEditScreenState extends State<UserEditScreen> {
         leading: BackButton(onPressed: (){
           Navigator.push(context,
           MaterialPageRoute(
-            builder: (context) => UserSettings(),));
+            builder: (context) => const UserSettings(),));
             },),
       ),
       body: Column(
@@ -90,16 +90,16 @@ class _UserEditScreenState extends State<UserEditScreen> {
            Row(
             children: [
               Padding(
-                padding:  EdgeInsets.only(top: 90,left: 75),
+                padding:  const EdgeInsets.only(top: 90,left: 75),
                 child: Center(
                   child: RichText(
                     text: TextSpan(
                     text: "Your current account email Address is:\n",
-                    style: TextStyle(color: Colors.grey),
+                    style: const TextStyle(color: Colors.grey),
                     children: [
                       TextSpan(
                         text: _currentEmail ?? '',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.black
                         )
@@ -121,8 +121,8 @@ class _UserEditScreenState extends State<UserEditScreen> {
               decoration: InputDecoration(
                 hintText: 'New Email',
                 hintStyle: const TextStyle(color: Colors.grey),
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.grey),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(7.0),

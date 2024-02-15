@@ -34,7 +34,7 @@ class WorkOutImage extends StatefulWidget {
 }
 
 class _WorkOutImageState extends State<WorkOutImage> {
-  bool isBookmarked = false;
+  late bool isBookmarked;
    late ValueNotifier<List<Addvideomodel>> addvideoListNotifier;
    
 
@@ -42,6 +42,7 @@ class _WorkOutImageState extends State<WorkOutImage> {
   void initState() {
     super.initState();
     addvideoListNotifier = widget.addVideoListNotifier;
+    isBookmarked = false;
   }
    
   @override
@@ -73,6 +74,7 @@ class _WorkOutImageState extends State<WorkOutImage> {
                           onPressed: (){
                             setState(() {
                               isBookmarked = !isBookmarked;
+                              print('widget refactoring');
                                  widget.onBookmarChanged(isBookmarked);
                             });
                           },

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:salsol_fitness/User_menu_Screen/user_ListTile/user_edit.dart';
 import 'package:salsol_fitness/Screens/login_screen.dart';
 import 'package:salsol_fitness/Screens/screen_home.dart';
 import 'package:salsol_fitness/main.dart';
@@ -53,7 +52,7 @@ class _SigninScreenState extends State<SigninScreen> {
       if (credentialsMatch) {
         final sharedPrefs = await SharedPreferences.getInstance();
         sharedPrefs.setBool(SAVE_KEY_NAME, true);
-
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const ScreenHome()),
         );
@@ -74,7 +73,7 @@ class _SigninScreenState extends State<SigninScreen> {
   }
 }
    Future<bool> validateCredentials(String email, String password) async {
-  final userBox = Hive.box('customer_db');
+  final userBox = Hive.box<fitnessModel>('customer_db');
   for (var i = 0; i < userBox.length; i++) {
     final user = userBox.getAt(i);
     if (email == user?.email && password == user?.password) {
@@ -92,7 +91,6 @@ class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
   final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       body:SingleChildScrollView(
         child: Form(

@@ -42,8 +42,8 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
     'No Equipment',
    ];
  
-
-   Future<void> _saveVideoDetails(List<String> selectedCategories) async{
+   Future<void> _saveVideoDetails(
+    List<String> selectedCategories) async{
     if(_title != null &&
      _videoUrl != null &&
       _description != null &&
@@ -64,21 +64,18 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
               final Box<Addvideomodel>videoBox = Hive.box<Addvideomodel>('videos');
               await videoBox.add(addvideomodel);
               debugPrint('added succesfully.');
-              print('This is the id:${addvideomodel.index}');
               //  await addvideo(addvideomodel);
               //  videoList.add(addvideomodel);
-              
-              final Box<int> categoryIndexBox = await Hive.openBox('selected_category_index');
-              await categoryIndexBox.put('index',id);
-
-              setState(() {
+                setState(() {
                 _title='';
                 _videoUrl='';
                 _description='';
-                _imageBytes=null;
+                _imageBytes = null;
                 _time = '';
                 _selectedCategory = null;
-              });          
+              });   
+              final Box<int> categoryIndexBox = await Hive.openBox('selected_category_index');
+              await categoryIndexBox.put('index',id);       
     }else{
       showDialog(context: context, builder:(BuildContext context){
         return AlertDialog(
@@ -116,21 +113,21 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
     @override
   void initState() {
     super.initState();
-    _getImageFromHive();
+    //_getImageFromHive();
     fetchGreatForHomeVideos();
     _items = categories
     .map((Category) =>MultiSelectItem<String>(
       Category, Category)).toList();
   }
 
-  Future<void> _getImageFromHive() async {
-    final imageBytes = await Hive.box('images').get('image') as Uint8List?;
-    if(imageBytes !=null){
-      setState(() {
-        _imageBytes = imageBytes;
-      });
-    }
-  }
+  // Future<void> _getImageFromHive() async {
+  //   final imageBytes = await Hive.box('images').get('image') as Uint8List?;
+  //   if(imageBytes !=null){
+  //     setState(() {
+  //       _imageBytes = imageBytes;
+  //     });
+  //   }
+  // }
 
   Future<void> _showOptionsDialog()  async{
     await showDialog(context: context, builder: (BuildContext context){
@@ -230,17 +227,22 @@ Future<void> fetchNewWorkoutvideos() async{
     }
   }
  }
- 
+ void _showFeedVideoMessage() {
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(content: Text('Video Has been successfully added!..',
+    ),
+    duration: Duration(seconds: 2),backgroundColor: Colors.red,));
+ }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
-        leading:IconButton(onPressed: (){
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const AdministrationScreen(),));
-         }, icon: const Icon(Icons.arrow_back),
-        ), 
+        leading:BackButton(
+          onPressed: () {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const AdministrationScreen(),));
+          },
+        ),
         centerTitle: true,
         title: const Text('Add Video'),
       ),
@@ -294,8 +296,9 @@ Future<void> fetchNewWorkoutvideos() async{
                 onChanged: (value) {
                   setState(() {
                     _title = value;
-                  });
-                },
+                  }
+                );
+              },
                 decoration: const InputDecoration(
                   labelText: 'Title',
                   hintText: 'Give an Title Here',
@@ -304,7 +307,7 @@ Future<void> fetchNewWorkoutvideos() async{
               TextFormField(
                 onChanged: (value) {
                   setState(() {
-                    _description = value;
+                  _description = value;
                   });
                 },
                 decoration: const InputDecoration(
@@ -315,7 +318,7 @@ Future<void> fetchNewWorkoutvideos() async{
               TextFormField(
                 onChanged: (value){
                   setState(() {
-                    _time = value;
+                  _time = value;
                   });
                 },
                 decoration: const InputDecoration(
@@ -340,8 +343,8 @@ Future<void> fetchNewWorkoutvideos() async{
                   initialValue: selectedCategories,
                   listType: MultiSelectListType.CHIP,
                   searchable: true,
-                  buttonText: Text('Select Categories'),
-                  title: Text('Categories'),
+                  buttonText:const Text('Select Categories'),
+                  title: const Text('Categories'),
                   items: _items,
                   onConfirm: (List<String?> values){
                      _updateSelectedCategories(values);
@@ -351,7 +354,14 @@ Future<void> fetchNewWorkoutvideos() async{
 
               const SizedBox(height: 20,),
               ElevatedButton(
-                onPressed: () => _saveVideoDetails(selectedCategories),
+                onPressed: (){ 
+                  _saveVideoDetails(selectedCategories);
+                _showFeedVideoMessage();
+             
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const AddVideoScreen(greatForHomeVideos: [],)));
+     
+
+                },
                child: const Text('Feed The Video')),
                 ]      
               ), 

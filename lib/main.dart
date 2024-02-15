@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:salsol_fitness/Screens/splash_screen.dart';
+import 'package:salsol_fitness/User_menu_Screen/user_ListTile/local_notifications.dart';
 import 'package:salsol_fitness/models/db_Guidance_add_function.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
 import 'package:salsol_fitness/models/db_admin_function.dart';
@@ -14,6 +15,7 @@ late SharedPreferences sharedpref;
 const SAVE_KEY_NAME = 'userLoggedIn';
 Future<void>main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await LocalNotifications.init();
   await Hive.initFlutter();
   Hive.registerAdapter(AddvideomodelAdapter());
   Hive.registerAdapter(AdminAdapter());

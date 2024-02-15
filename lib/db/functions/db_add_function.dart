@@ -39,8 +39,10 @@ Future<void> saveWorkouts(SavedWorkout savedWorkout) async{
 
  void deleteFromsavedWorkouts(int index) async{
   final SavedWorkoutBox = await Hive.openBox<SavedWorkout>('saved_workouts');
-  if(index >=0 && index < SavedWorkoutBox.length){
+  print('object');
+  // if(index >=0 && index < SavedWorkoutBox.length){
+  //   print('index');
     await SavedWorkoutBox.deleteAt(index);
      print('removed');
-  }
+  // }
  }

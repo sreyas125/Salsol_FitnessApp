@@ -2,7 +2,7 @@
 import 'dart:typed_data';
 
 import 'package:hive/hive.dart';
-   part 'db_admin_add_function.g.dart';
+part 'db_admin_add_function.g.dart';
 
    @HiveType(typeId: 1)
   class Addvideomodel{
