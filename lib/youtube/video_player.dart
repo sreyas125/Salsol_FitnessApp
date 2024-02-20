@@ -24,32 +24,35 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
       initializePlayer();
      
     }
+
+
   @override
   void dispose() {
     _playerController.dispose();
     super.dispose();
   }
    void initializePlayer(){
-    final extractedVideoId = YoutubePlayer.convertUrlToId(widget.videoModel.videoUrl);
+    final extractedVideoId = YoutubePlayer.convertUrlToId(
+      widget.videoModel.videoUrl
+      );
      if(extractedVideoId != null){
       print('......object');
     _playerController = YoutubePlayerController(
-     initialVideoId: extractedVideoId!, 
+     initialVideoId: extractedVideoId, 
     flags: const YoutubePlayerFlags(
       autoPlay: false,
       mute: true,
       controlsVisibleAtStart: true,
       showLiveFullscreenButton: true,
+      
     ),
   )..addListener(() {
-    if(_playerController.value.isReady){
-      print('object...');
-      setState(() {
-        _isPlayerReady = true;
-        print(_isPlayerReady);
-      });
-    }
-  });
+    print('object...');
+    setState(() {
+      _isPlayerReady = true;
+      print(_isPlayerReady);
+    });
+    });
    }else{
       debugPrint('Invalid Youtube video URL');
 
@@ -66,12 +69,14 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
    Widget _buildYoutubePlayer() {
      return YoutubePlayerBuilder(
       player: YoutubePlayer(
+
         controller: _playerController,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.black,
         onReady: () => debugPrint('Ready'),
         bottomActions: [  
           if(_isPlayerReady)...[
+            
           CurrentPosition(),
           ProgressBar(
             isExpanded: true,
@@ -80,20 +85,21 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
               handleColor: Colors.white24,
             ),
           ),
+          IconButton(
+            
+            onPressed: (){
+            _playerController.toggleFullScreenMode();
+          }, icon: Icon(
+            _playerController.value.isFullScreen
+          ?Icons.fullscreen_exit
+          :Icons.fullscreen)),
           const PlaybackSpeedButton(),
         ],
       ]
     ),
        builder: (context,player){
-          if(_playerController.value.isReady) {
-             return player;
-         }else{
-      return  const Center(
-        child: 
-         CircularProgressIndicator(
-          color: Colors.red,),
-          );
-        }   
+        print('get inside the context builder');  
+         return player;
       },
     );
    }

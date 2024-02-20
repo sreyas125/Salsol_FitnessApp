@@ -7,6 +7,7 @@ import 'package:salsol_fitness/models/db_admin_add_function.dart';
 import 'package:salsol_fitness/models/db_admin_function.dart';
 import 'package:salsol_fitness/models/db_saved_workout.dart';
 import 'package:salsol_fitness/models/sign_in_model.dart';
+import 'package:salsol_fitness/models/test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences sharedpref;
@@ -19,6 +20,7 @@ Future<void>main() async{
   Hive.registerAdapter(AddvideomodelAdapter());
   Hive.registerAdapter(AdminAdapter());
   Hive.registerAdapter(GuidanceAdapter());
+  Hive.registerAdapter(NotificationItemsAdapter());
   if(!Hive.isAdapterRegistered(fitnessModelAdapter().typeId)){
     Hive.registerAdapter(fitnessModelAdapter());
   }
@@ -30,6 +32,7 @@ Future<void>main() async{
   await Hive.openBox<Addvideomodel>('videos');
   await Hive.openBox<Guidance>('Guidance');
   await Hive.openBox<Guidance>('Guidanceimages');
+  await Hive.openBox<NotificationItems>('notifications');
   await LocalNotifications.init();
   runApp(const MyApp());
 }

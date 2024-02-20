@@ -1,6 +1,10 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_ListTile/another_Page.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_ListTile/local_notifications.dart';
+import 'package:salsol_fitness/models/test.dart';
 
 class CreateMeessage extends StatefulWidget {
   const CreateMeessage({super.key});
@@ -68,13 +72,22 @@ class _CreateMeessageState extends State<CreateMeessage> {
               child: const Text('No'),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
+              onPressed: ()async {
+                final NotificationItem = NotificationItems(
+                  notifications: _notificationbodycontroller.text,
+                   notificationbody: _notificationbodycontroller.text,
+                    notificationpayload: _notificationpayloadcontroller.text
+                    );
+                    final box = await Hive.openBox<NotificationItems>('notifications');
+                    await box.add(NotificationItem);
+
                 LocalNotifications.showSimpleNotification(
                   title: _notificationtitlecontroller.text.toString(),
                   body: _notificationbodycontroller.text.toString(),
                   payload: _notificationpayloadcontroller.text.toString(),
                 );
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pop();
               },
               child: const Text('Yes'),
             ),

@@ -231,7 +231,8 @@ Future<void> fetchNewWorkoutvideos() async{
   ScaffoldMessenger.of(context).showSnackBar(
     const SnackBar(content: Text('Video Has been successfully added!..',
     ),
-    duration: Duration(seconds: 2),backgroundColor: Colors.red,));
+    duration: Duration(seconds: 2),backgroundColor: Colors.green),
+    );
  }
   @override
   Widget build(BuildContext context) {

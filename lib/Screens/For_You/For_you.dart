@@ -19,7 +19,7 @@ class ForYou extends StatefulWidget {
 class _ForYouState extends State<ForYou> {
   List<Addvideomodel> videoList = [];
   List<Addvideomodel> greatForHomeVideos = [];
-  List<Addvideomodel> bookmarkedVideos = [];
+  List<Addvideomodel>limitedNewWorkouts = [];
   Uint8List? adminImageBytes;
   late ValueNotifier<List<Addvideomodel>> addvideoListNotifier;
 
@@ -33,6 +33,7 @@ class _ForYouState extends State<ForYou> {
     fetchVideos();
     fetchGreatForHomeVideos();
     __getImageFromAdmin();
+    _fetchLatestVideos();
   }
 
   Future<void> __getImageFromAdmin() async {
@@ -64,19 +65,19 @@ class _ForYouState extends State<ForYou> {
     });
   }
 
-  List<Addvideomodel> getLimitedNewWorkouts(){
-    final List<Addvideomodel> limitedList = [];
-    final int endIndex = newVideosOffset + maxVideosToshow;
+  Future<void> _fetchLatestVideos() async{
+    final box = await Hive.box<Addvideomodel>('videos');
+    final List<Addvideomodel> allVideos = box.values.toList();
 
-    for(int i=newVideosOffset;i<endIndex && i<videoList.length;i++){
-      limitedList.add(videoList[i]);
-    }
-    return limitedList;
+    allVideos.sort((a, b ) => b.index!.compareTo(a.index!));
+
+    setState(() {
+    limitedNewWorkouts = allVideos.take(maxVideosToshow).toList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Addvideomodel> limitedNewWorkouts = getLimitedNewWorkouts();
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,8 +90,8 @@ class _ForYouState extends State<ForYou> {
               scrollDirection: Axis.horizontal,
               itemCount: limitedNewWorkouts.length,
               itemBuilder: (BuildContext context, int index) {
-                final video = videoList[index];
-                print('id: ${video.index}');
+                final video = limitedNewWorkouts[index];
+                // print('id: ${video.index}');
                 return WorkOutImage(
                   workimage: video.imageBytes,
                   worktitle: video.title,
@@ -133,7 +134,7 @@ class _ForYouState extends State<ForYou> {
               },
             ),
           ),
-          SizedBox(height: 30,),
+          const SizedBox(height: 30,),
           const Padding(
             padding: EdgeInsets.only(left: 20),
             child: Text(

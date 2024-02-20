@@ -6,17 +6,17 @@ part of 'test.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class TestAdapter extends TypeAdapter<Test> {
+class NotificationItemsAdapter extends TypeAdapter<NotificationItems> {
   @override
   final int typeId = 5;
 
   @override
-  Test read(BinaryReader reader) {
+  NotificationItems read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Test(
+    return NotificationItems(
       notifications: fields[0] as String?,
       notificationbody: fields[1] as String?,
       notificationpayload: fields[2] as String?,
@@ -24,7 +24,7 @@ class TestAdapter extends TypeAdapter<Test> {
   }
 
   @override
-  void write(BinaryWriter writer, Test obj) {
+  void write(BinaryWriter writer, NotificationItems obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
@@ -41,7 +41,7 @@ class TestAdapter extends TypeAdapter<Test> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TestAdapter &&
+      other is NotificationItemsAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
