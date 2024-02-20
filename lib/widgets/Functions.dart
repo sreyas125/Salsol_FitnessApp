@@ -5,7 +5,9 @@ import 'package:salsol_fitness/models/db_admin_add_function.dart';
 
 
  editVideoDetails(int index,context,videoList, setStateCallback,saveUpdatedDetails){
-    showDialog(context: context, builder: (context) {
+    showDialog(
+      context: context,
+       builder: (context) {
       return AlertDialog(
         title: Text('Edit'),
         content: Container(

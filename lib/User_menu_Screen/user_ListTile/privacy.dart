@@ -42,7 +42,7 @@ I may update our Privacy Policy from time to time. Thus, you are advised to revi
 This policy is effective as of 2024-02-07
 Contact Us
 If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at sreyasps125@gmail.com.
-you can also contact me in my linkedin. linkedin.com/in/sreyas-ps-9a1b06250/.''' ;
+you can also contact me in my linkedin. linkedin.com/in/sreyas-ps-9a1b06250/.''';
   @override
   Widget build(BuildContext context) {
 
@@ -63,7 +63,7 @@ you can also contact me in my linkedin. linkedin.com/in/sreyas-ps-9a1b06250/.'''
               style: const TextStyle(
                 fontWeight: FontWeight.w400,
                  ),
-              )
+              ),
             ],
           ),
         ),

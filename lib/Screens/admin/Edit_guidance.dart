@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_element
 
 import 'dart:typed_data';
 
@@ -91,6 +91,7 @@ Future<void> deletealldetails(int index,BuildContext context) async {
   await box.put(index,guidanceList[index]); 
  }
  void _editImage(int index) async{
+  // ignore: non_constant_identifier_names
   final PickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
   if(PickedFile != null){
     final imageBytes = await PickedFile.readAsBytes();
@@ -109,49 +110,56 @@ Future<void> deletealldetails(int index,BuildContext context) async {
    }
  }
 editVideoDetails(int index){
-  showModalBottomSheet(context: context,
-   builder: (BuildContext context){
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
-            initialValue: guidanceList[index].title,
-            decoration: const InputDecoration(
-              labelText: 'title',
-              border: OutlineInputBorder(),
-              ),
-              onChanged: (newValue){
-                setState(() {
-                  guidanceList[index].title=newValue;
-                });
-              },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
-            initialValue: guidanceList[index].paragraph,
-            decoration: const InputDecoration(
-              labelText: 'Paragraph',border: OutlineInputBorder(),
-            ),
-            onChanged: (newValue){
-              setState(() {
-                guidanceList[index].paragraph = newValue;
-              });
-            },
-          ),
-        ),
-        const SizedBox(height: 16.0,),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(onPressed: (){
-            saveUpdatedDetails(index);
-            Navigator.pop(context);
-          }, child: const Text('Save')),
-        )
-      ]);
+  showDialog(
+    context: context,
+   builder: (context){
+    return AlertDialog(
+      title: const Text('Edit'),
+      content: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+         mainAxisSize: MainAxisSize.min,
+         children: [
+           Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: TextFormField(
+               initialValue: guidanceList[index].title,
+               decoration: const InputDecoration(
+                 labelText: 'title',
+                 border: OutlineInputBorder(),
+                 ),
+                 onChanged: (newValue){
+                   setState(() {
+                     guidanceList[index].title=newValue;
+                   });
+                 },
+             ),
+           ),
+           Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: TextFormField(
+               initialValue: guidanceList[index].paragraph,
+               decoration: const InputDecoration(
+                 labelText: 'Paragraph',border: OutlineInputBorder(),
+               ),
+               onChanged: (newValue){
+                 setState(() {
+                   guidanceList[index].paragraph = newValue;
+                 });
+               },
+             ),
+           ),
+           const SizedBox(height: 16.0,),
+           Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: ElevatedButton(onPressed: (){
+               saveUpdatedDetails(index);
+               Navigator.pop(context);
+             }, child: const Text('Save')),
+           )
+         ]),
+      ),
+    );
    });
  }
  @override

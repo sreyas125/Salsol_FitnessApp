@@ -24,14 +24,18 @@ class _SavedWorkoutsState extends State<SavedWorkouts> {
     _fetchSaved();
   }
 
-  Future<void> _fetchSaved()async{
-    await Hive.openBox<SavedWorkout>('saved_workouts').then((box) {
-      setState(() {
-        savedworkoutbox = box;  
-        _bookmarkedvideos = savedworkoutbox.values.toList();  
-      });
+Future<void> _fetchSaved() async {
+  await Hive.openBox<SavedWorkout>('saved_workouts').then((box) {
+    setState(() {
+      savedworkoutbox = box;
+      _bookmarkedvideos = savedworkoutbox.values.toList();
+      _bookmarkedvideos.removeWhere((video) =>
+      _bookmarkedvideos.any((v) => v.index == video.index) &&
+      _bookmarkedvideos.indexOf(video) != _bookmarkedvideos.lastIndexOf(video));
     });
-  }
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,34 +62,34 @@ class _SavedWorkoutsState extends State<SavedWorkouts> {
                   itemBuilder: (context, index) {
                     final video = _bookmarkedvideos[index];
                     return ListTile(
-                      // trailing: IconButton(
-                      //   onPressed: () async{
-                      //   bool deleteConfirmed = await showDialog( 
-                      //     context: context,
-                      //      builder: (BuildContext context) {
-                      //        return AlertDialog(
-                      //         title: const Text('Delete video'),
-                      //          content: const Text('Are you sure'),
-                      //          actions: [
-                      //           TextButton(onPressed: (){
-                      //             Navigator.of(context).pop(false);
-                      //           },
-                      //            child: const Text('Cancel')),
-                      //             TextButton(onPressed: () => Navigator.of(context).pop(true),
-                      //              child:const Text('Delete'),
-                      //              ),
-                      //            ],
-                      //          );
-                      //        }
-                      //     );
-                      //      if(deleteConfirmed == true){ 
-                      //       setState(() {
-                      //         _bookmarkedvideos.removeAt(index);
-                      //       });
-                      //       savedworkoutbox.deleteAt(index);
-                      //      }
-                      // },
-                      //  icon:const Icon(Icons.delete)),
+                      trailing: IconButton(
+                        onPressed: () async{
+                        bool deleteConfirmed = await showDialog( 
+                          context: context,
+                           builder: (BuildContext context) {
+                             return AlertDialog(
+                              title: const Text('Delete video'),
+                               content: const Text('Are you sure'),
+                               actions: [
+                                TextButton(onPressed: (){
+                                  Navigator.of(context).pop(false);
+                                },
+                                 child: const Text('Cancel')),
+                                  TextButton(onPressed: () => Navigator.of(context).pop(true),
+                                   child:const Text('Delete'),
+                                   ),
+                                 ],
+                               );
+                             }
+                          );
+                           if(deleteConfirmed == true){ 
+                            setState(() {
+                              _bookmarkedvideos.removeAt(index);
+                            });
+                            savedworkoutbox.deleteAt(index);
+                           }
+                      },
+                       icon:const Icon(Icons.delete)),
                       leading:Container(
                         width: 50,
                         height: 150,

@@ -95,11 +95,20 @@ class _ForYouState extends State<ForYou> {
                   workimage: video.imageBytes,
                   worktitle: video.title,
                   times: video.time,
-                  selectedCategory: '',
+                  selectedCategory: video.selectedCategory,
                   index: index,
                   videoUrl: video.videoUrl,
+                  nav: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => VideoScreenOne(
+                          addvideomodel: video,
+                        ),
+                      ),
+                    );
+                  },
                   onBookmarChanged: (bool isBookmarked) {
-                    if (isBookmarked == true) {
+                    if (isBookmarked) {
                       print('isBookmarked');
                      SavedWorkout workout = SavedWorkout(
                       discription: video.title,
@@ -120,15 +129,6 @@ class _ForYouState extends State<ForYou> {
                        }
                   },
                   addVideoListNotifier: addvideoListNotifier,
-                  nav: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => VideoScreenOne(
-                          addvideomodel: video,
-                        ),
-                      ),
-                    );
-                  },
                 );
               },
             ),

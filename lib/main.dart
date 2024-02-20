@@ -15,7 +15,6 @@ late SharedPreferences sharedpref;
 const SAVE_KEY_NAME = 'userLoggedIn';
 Future<void>main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await LocalNotifications.init();
   await Hive.initFlutter();
   Hive.registerAdapter(AddvideomodelAdapter());
   Hive.registerAdapter(AdminAdapter());
@@ -31,7 +30,7 @@ Future<void>main() async{
   await Hive.openBox<Addvideomodel>('videos');
   await Hive.openBox<Guidance>('Guidance');
   await Hive.openBox<Guidance>('Guidanceimages');
-
+  await LocalNotifications.init();
   runApp(const MyApp());
 }
 
