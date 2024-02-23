@@ -68,13 +68,12 @@ class _ForYouState extends State<ForYou> {
   Future<void> _fetchLatestVideos() async{
     final box = await Hive.box<Addvideomodel>('videos');
     final List<Addvideomodel> allVideos = box.values.toList();
-
     allVideos.sort((a, b ) => b.index!.compareTo(a.index!));
-
     setState(() {
     limitedNewWorkouts = allVideos.take(maxVideosToshow).toList();
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +90,7 @@ class _ForYouState extends State<ForYou> {
               itemCount: limitedNewWorkouts.length,
               itemBuilder: (BuildContext context, int index) {
                 final video = limitedNewWorkouts[index];
+                // print('this is the limited new workouts ${limitedNewWorkouts.length}');
                 // print('id: ${video.index}');
                 return WorkOutImage(
                   workimage: video.imageBytes,
@@ -120,13 +120,12 @@ class _ForYouState extends State<ForYou> {
                           title:video.title,
                            videoUrl:video.videoUrl
                            );
-                          
                            saveWorkouts(workout);
                            print('blahh');
                        }else{
                         print('inside the delete');
                            addVideoListNotifier.value = [...addVideoListNotifier.value]..remove(video);
-                            deleteFromsavedWorkouts(video.index!);
+                            deleteFromsavedWorkouts(index);
                        }
                   },
                   addVideoListNotifier: addvideoListNotifier,

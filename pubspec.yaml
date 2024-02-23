@@ -53,10 +53,17 @@ dependencies:
   flutter_local_notifications: ^16.3.2
   flutter_timezone: ^1.0.8
   rxdart: ^0.27.7
+  bmi_calculator: ^1.0.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: 'lib/Assets/Modern Stripe Stock Exchange Company Logo (1).png'
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -50,7 +50,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
        _imageBytes !=null &&
          _time != null&&
             _selectedCategory != null) {
-              final id = DateTime.now().millisecondsSinceEpoch;
+              final id = DateTime.now().microsecondsSinceEpoch;
           final addvideomodel = Addvideomodel(
             discription: _description!,
              title: _title!,

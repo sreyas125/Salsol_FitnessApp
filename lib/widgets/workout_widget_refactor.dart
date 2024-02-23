@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WorkOutImage extends StatefulWidget {
 
@@ -34,7 +35,7 @@ class WorkOutImage extends StatefulWidget {
 }
 
 class _WorkOutImageState extends State<WorkOutImage> {
-  late bool isBookmarked;
+  late bool isBookmarked = false;
    late ValueNotifier<List<Addvideomodel>> addvideoListNotifier;
    
 
@@ -42,7 +43,24 @@ class _WorkOutImageState extends State<WorkOutImage> {
   void initState() {
     super.initState();
     addvideoListNotifier = widget.addVideoListNotifier;
-    isBookmarked = false;
+    _loadBookmarkState();
+  }
+
+  Future<void> _loadBookmarkState() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool? bookmarked = prefs.getBool('${widget.index}');
+    setState(() {
+      isBookmarked = bookmarked ?? false;
+    });
+  }
+
+  Future<void> _toggleBookmarkState() async{
+    setState(() {
+      isBookmarked = !isBookmarked;
+    });
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('${widget.index}', isBookmarked);
+    widget.onBookmarChanged(isBookmarked);
   }
    
   @override
@@ -72,11 +90,12 @@ class _WorkOutImageState extends State<WorkOutImage> {
                        ),
                         child: IconButton(
                           onPressed: (){
-                            setState(() {
-                              isBookmarked = !isBookmarked;
-                              print('widget refactoring');
-                                 widget.onBookmarChanged(isBookmarked);
-                            });
+                            _toggleBookmarkState();
+                            // setState(() {
+                            
+                            //   print('widget refactoring');
+                            //      widget.onBookmarChanged(isBookmarked);
+                            // });
                           },
                           icon: Icon(
                             isBookmarked
