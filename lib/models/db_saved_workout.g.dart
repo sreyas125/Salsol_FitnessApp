@@ -24,13 +24,14 @@ class SavedWorkoutAdapter extends TypeAdapter<SavedWorkout> {
       time: fields[4] as String,
       title: fields[2] as String,
       videoUrl: fields[0] as String,
+      id: fields[7] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, SavedWorkout obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.videoUrl)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class SavedWorkoutAdapter extends TypeAdapter<SavedWorkout> {
       ..writeByte(5)
       ..write(obj.selectedCategory)
       ..writeByte(6)
-      ..write(obj.index);
+      ..write(obj.index)
+      ..writeByte(7)
+      ..write(obj.id);
   }
 
   @override

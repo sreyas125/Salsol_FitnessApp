@@ -26,6 +26,8 @@ class SavedWorkout {
   @HiveField(6)
    int? index;
 
+  @HiveField(7)
+   int? id;
 
   SavedWorkout({
     required this.discription,
@@ -35,5 +37,6 @@ class SavedWorkout {
     required this.time,
     required this.title,
     required this.videoUrl,
+    this.id
   });
 }

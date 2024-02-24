@@ -180,7 +180,7 @@ class _VideoScreenOneState extends State<VideoScreenOne> {
               left: 10,
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
+                  Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const ScreenHome(),
                     ),

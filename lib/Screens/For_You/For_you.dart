@@ -66,7 +66,7 @@ class _ForYouState extends State<ForYou> {
   }
 
   Future<void> _fetchLatestVideos() async{
-    final box = await Hive.box<Addvideomodel>('videos');
+    final box = Hive.box<Addvideomodel>('videos');
     final List<Addvideomodel> allVideos = box.values.toList();
     allVideos.sort((a, b ) => b.index!.compareTo(a.index!));
     setState(() {
@@ -90,6 +90,15 @@ class _ForYouState extends State<ForYou> {
               itemCount: limitedNewWorkouts.length,
               itemBuilder: (BuildContext context, int index) {
                 final video = limitedNewWorkouts[index];
+                 SavedWorkout workout = SavedWorkout(
+                      discription: video.title,
+                       imageBytes: video.imageBytes,
+                        index: video.index,
+                         selectedCategory:video.selectedCategory,
+                          time: video.time, 
+                          title:video.title,
+                           videoUrl:video.videoUrl,
+                           );
                 // print('this is the limited new workouts ${limitedNewWorkouts.length}');
                 // print('id: ${video.index}');
                 return WorkOutImage(
@@ -97,7 +106,7 @@ class _ForYouState extends State<ForYou> {
                   worktitle: video.title,
                   times: video.time,
                   selectedCategory: video.selectedCategory,
-                  index: index,
+                  index: video.index!,
                   videoUrl: video.videoUrl,
                   nav: () {
                     Navigator.of(context).pushReplacement(
@@ -111,21 +120,13 @@ class _ForYouState extends State<ForYou> {
                   onBookmarChanged: (bool isBookmarked) {
                     if (isBookmarked) {
                       print('isBookmarked');
-                     SavedWorkout workout = SavedWorkout(
-                      discription: video.title,
-                       imageBytes: video.imageBytes,
-                        index: video.index,
-                         selectedCategory:video.selectedCategory,
-                          time: video.time, 
-                          title:video.title,
-                           videoUrl:video.videoUrl
-                           );
+                          print(workout.index);
                            saveWorkouts(workout);
                            print('blahh');
                        }else{
                         print('inside the delete');
                            addVideoListNotifier.value = [...addVideoListNotifier.value]..remove(video);
-                            deleteFromsavedWorkouts(index);
+                            deleteFromsavedWorkouts(workout.index!);
                        }
                   },
                   addVideoListNotifier: addvideoListNotifier,
@@ -153,6 +154,17 @@ class _ForYouState extends State<ForYou> {
               itemCount: greatForHomeVideos.length,
               itemBuilder: (BuildContext context, int index) {
                 final video = greatForHomeVideos[index];
+                 SavedWorkout workout = SavedWorkout(
+                      discription: video.title,
+                       imageBytes: video.imageBytes,
+                        index: video.index,
+                         selectedCategory:video.selectedCategory,
+                          time: video.time, 
+                          title:video.title,
+                           videoUrl:video.videoUrl,
+                           );
+                // print('this is the limited new workouts ${limitedNewWorkouts.length}');
+                // print('id: ${video.index}');
                 return WorkOutImage(
                   workimage: video.imageBytes,
                    worktitle: video.title,
@@ -169,20 +181,11 @@ class _ForYouState extends State<ForYou> {
                       ));
                      }, onBookmarChanged: (bool isBookmarked) { 
                         if(isBookmarked){
-                          SavedWorkout workout = SavedWorkout(
-                            discription: video.title,
-                             imageBytes: video.imageBytes,
-                              index: index+1,
-                               selectedCategory: video.selectedCategory,
-                                time: video.time,
-                                 title: video.title,
-                                  videoUrl: video.videoUrl
-                                  );
-                                  saveWorkouts(workout);
+                            saveWorkouts(workout);
                         }else{
                           addvideoListNotifier.value = [...addvideoListNotifier.value]..remove(video);
+                          deleteFromsavedWorkouts(workout.index!);
 
-                          deleteFromsavedWorkouts(index);
                         }
                       }, addVideoListNotifier: addvideoListNotifier, 
                 );

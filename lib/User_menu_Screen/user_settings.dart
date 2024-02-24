@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:salsol_fitness/Screens/login_screen.dart';
 import 'package:salsol_fitness/Screens/screen_home.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_ListTile/about_you.dart';
+import 'package:salsol_fitness/User_menu_Screen/user_ListTile/delete_Account.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_ListTile/privacy.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_ListTile/user_edit.dart';
 import 'package:salsol_fitness/models/sign_in_model.dart';
@@ -91,6 +92,8 @@ class _UserSettingsState extends State<UserSettings> {
                  break;
                  case 2:
                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PrivacyScreen(),));
+                 case 4:
+                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => DeleteAccount(),));
                 case 5:
                   _showLogoutDialogs(context);
                 break;       

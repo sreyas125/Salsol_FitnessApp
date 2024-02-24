@@ -24,13 +24,14 @@ class AddvideomodelAdapter extends TypeAdapter<Addvideomodel> {
       time: fields[4] as String,
       selectedCategory: fields[5] as String,
       index: fields[6] as int?,
+      id: fields[7] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Addvideomodel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class AddvideomodelAdapter extends TypeAdapter<Addvideomodel> {
       ..writeByte(5)
       ..write(obj.selectedCategory)
       ..writeByte(6)
-      ..write(obj.index);
+      ..write(obj.index)
+      ..writeByte(7)
+      ..write(obj.id);
   }
 
   @override

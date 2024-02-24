@@ -110,25 +110,17 @@ class _EditWorkoutState extends State<EditWorkout> {
       ),
       PopupMenuItem(
         child: ListTile(
-          title: const Text('Strength'),
+          title: const Text('Full Equipment'),
           onTap: () {
-            _updateCategoryAndPop('Strength', index);
+            _updateCategoryAndPop('Full Equipment', index);
           },  
         ),
       ),
        PopupMenuItem(
         child: ListTile(
-          title: const Text('Mobility'),
+          title: const Text('No Equipment'),
           onTap: () {
-            _updateCategoryAndPop('Mobility', index);
-          },  
-        ),
-      ),
-       PopupMenuItem(
-        child: ListTile(
-          title: const Text('Overall Fitness'),
-          onTap: () {
-            _updateCategoryAndPop('Overall Fitness',index);
+            _updateCategoryAndPop('No Equipment', index);
           },  
         ),
       ),
@@ -141,15 +133,19 @@ class _EditWorkoutState extends State<EditWorkout> {
 
      final box = await Hive.openBox<Addvideomodel>('videos');
      await box.put(index, videoList[index]);
+
+     setState(() {
+       videoList[index] = videoList[index];
+     });
      // ignore: use_build_context_synchronously
      Navigator.of(context).pop();
    }
 
     Future<void>_editVideoUrl(int index) async{
+      final video = videoList[index];
       String? updatedVideoUrl = await showVideoUrlEditDialog(context);
     if(updatedVideoUrl != null){
       final box = await Hive.openBox<Addvideomodel>('videos');
-      final video = videoList[index];
       video.videoUrl = updatedVideoUrl;
       await box.put(index, video);
       setState(() {
@@ -169,10 +165,12 @@ class _EditWorkoutState extends State<EditWorkout> {
             title: const Text('Edit Video URL'),
             content: TextField(
               controller: _videoUrlController,
-              decoration:const InputDecoration(labelText: 'Enter the New URL'),
+              decoration:const InputDecoration(
+                labelText: 'Enter the New URL'),
             ),
             actions: [
-              TextButton(onPressed: (){
+              TextButton(
+                onPressed: (){
                 Navigator.pop(context,
                 _videoUrlController.text);
               }, child: const Text('Save'),
@@ -183,8 +181,9 @@ class _EditWorkoutState extends State<EditWorkout> {
               }, child: const Text('Cancel'),)
             ],
           );
-         });
-     }
+        }
+      );
+    }
     
   @override
   Widget build(BuildContext context) {

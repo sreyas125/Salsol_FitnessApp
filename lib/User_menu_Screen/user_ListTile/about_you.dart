@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AboutYouScreen extends StatefulWidget {
@@ -13,6 +12,7 @@ class _AboutYouScreenState extends State<AboutYouScreen> {
   final TextEditingController _weightController = TextEditingController();
   String selectedWeight = '161 Ibs';
   final int minHeight = 30;
+  bool agreed = false;
 
   void _showHeightDialog(BuildContext context) {
     final TextEditingController feetController = TextEditingController();
@@ -93,16 +93,28 @@ class _AboutYouScreenState extends State<AboutYouScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "We'd like this information to provide more accurate results,\nsuch as run distance, pace and calories. For coaching plans, this information, in addition to your age, helps personalize your plan to be right for you.",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
+              '''We'd like this information to provide more accurate results,
+              \nsuch as run distance, pace and calories.
+              For coaching plans, this information,
+              in addition to your age,
+              helps personalize your plan to be right for you.'''
+                "",
+                style: TextStyle(
+                  fontSize: 16,
+                   fontWeight: FontWeight.w400
+                   ),
+                 ),
+               ),
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   const Text('Height', style: TextStyle(fontSize: 16)),
+                  SizedBox(width: 5,),
                   Expanded(
                     child: TextFormField(
                       controller: _heightController,
@@ -123,6 +135,7 @@ class _AboutYouScreenState extends State<AboutYouScreen> {
                 child: Row(
                   children: [
                     const Text('Weight', style: TextStyle(fontSize: 16)),
+                    SizedBox(width: 5,),
                     Expanded(
                       child: DropdownButtonFormField<String>(
                         decoration: const InputDecoration(
@@ -147,6 +160,31 @@ class _AboutYouScreenState extends State<AboutYouScreen> {
                   ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20,top: 20),
+                child: Row(
+                  children: [
+                    StatefulBuilder(
+                      builder:(context, setState) {
+                        return Checkbox(
+                          overlayColor: MaterialStatePropertyAll(Colors.black),
+                          activeColor: Colors.black,
+                          value: agreed,
+                         onChanged: (value) {
+                           setState(() {
+                             agreed=value!;
+                           },);
+                         },);
+                      }, ),
+                      Text('Use default height and weight*',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300
+                        ),
+                     ),
+                  ],
+                ),
+              )
           ],
         ),
       ),

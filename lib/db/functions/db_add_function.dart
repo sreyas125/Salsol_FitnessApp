@@ -32,19 +32,30 @@ Future<void> saveWorkouts(SavedWorkout savedWorkout) async{
        selectedCategory: savedWorkout.selectedCategory,
         time: savedWorkout.time,
          title: savedWorkout.title,
-          videoUrl: savedWorkout.videoUrl
+          videoUrl: savedWorkout.videoUrl,
+          id: savedWorkout.id
           );
-          await savedworkoutbox.add(savedWorkouts);
+          bool alreadyExists = savedworkoutbox.values.any((favVideo) => favVideo.id == savedWorkout.id);
+          if (!alreadyExists) {
+  await savedworkoutbox.add(savedWorkouts);
+}
            savedworkoutbox.close();
 
 }
 
- void deleteFromsavedWorkouts(int index) async{
+void deleteFromsavedWorkouts(int id) async {
   final SavedWorkoutBox = await Hive.openBox<SavedWorkout>('saved_workouts');
-  print('object');
-  // if(index >=0 && index < SavedWorkoutBox.length){
-  //   print('index');
-    await SavedWorkoutBox.deleteAt(index);
-     print('removed');
-  // }
- }
+
+  // Find the workout with the specified ID
+  for (int i = 0; i < SavedWorkoutBox.length; i++) {
+    final workout = SavedWorkoutBox.getAt(i);
+    if (workout?.index == id) {
+      await SavedWorkoutBox.deleteAt(i);
+      print('Workout with ID $id removed');
+      return; // Exit the function once the workout is found and deleted
+    }
+  }
+
+  // If the workout with the specified ID is not found
+  print('Workout with ID $id not found');
+}
