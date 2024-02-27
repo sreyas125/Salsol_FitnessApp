@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:salsol_fitness/Screens/screen_home.dart';
@@ -20,7 +22,7 @@ class _InboxScreenState extends State<InboxScreen> {
   }
 
   Future<void> fetchVideos() async{
-    final box = await Hive.box<NotificationItems>('notifications');
+    final box =  Hive.box<NotificationItems>('notifications');
     setState(() {
       inboxvideos = box.values.toList();
     });

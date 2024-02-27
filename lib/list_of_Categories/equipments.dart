@@ -17,7 +17,7 @@ class EquipmentScreen extends StatefulWidget {
   }){
     return EquipmentScreen(
       key: UniqueKey(),
-      videoList: [],
+      videoList: const [],
        selectedCategories: selectedCategories
        );
   }

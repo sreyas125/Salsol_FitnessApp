@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:salsol_fitness/Screens/admin/home_admin.dart';
 import 'package:salsol_fitness/db/functions/db_function.dart';

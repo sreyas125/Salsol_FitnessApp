@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unused_field, file_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -254,8 +254,8 @@ void _showDropdown(
           context,
           MaterialPageRoute(
             builder: (context) => Endurance.create(
-              categoryVideoList: [],
-              selectedCategories:[],
+              categoryVideoList: const [],
+              selectedCategories:const [],
               ),
             ), 
           );
@@ -263,22 +263,22 @@ void _showDropdown(
       case 'Yoga':
       Navigator.push(context, MaterialPageRoute(
         builder: (context) => Endurance.create(
-          categoryVideoList: [],
-          selectedCategories: [],
+          categoryVideoList: const [],
+          selectedCategories: const [],
         ),));
       break;
       case 'Abs & Core':
       Navigator.push(context, MaterialPageRoute(
         builder: (context) => MuscleGroupScreen.create(
-          categoryvideoList: [],
-          selectedCategories: [],
+          categoryvideoList: const [],
+          selectedCategories: const [],
         ),));
         break;
         case 'Full Equipment':
         Navigator.push(context, MaterialPageRoute(
           builder: (context) => EquipmentScreen.create(
-          categoryVideoList: [],
-           selectedCategories: [],
+          categoryVideoList: const [],
+           selectedCategories: const [],
            ),));
            break;
     }

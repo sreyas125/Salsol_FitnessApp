@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:salsol_fitness/Screens/videoScreens/video_screen.dart';
@@ -18,7 +20,7 @@ factory MuscleGroupScreen.create({
 }){
   return MuscleGroupScreen(
     key: UniqueKey(),
-    videoList: [],
+    videoList: const [],
      selectedCategories: selectedCategories
      );
 }
@@ -80,7 +82,7 @@ class MuscleGroupScreenState extends State<MuscleGroupScreen>with SingleTickerPr
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          leading: BackButton(),
+          leading: const BackButton(),
           backgroundColor: Colors.grey,
           bottom: TabBar(
             controller: _tabController,

@@ -19,7 +19,7 @@ class YogaScreen extends StatefulWidget {
   }){
     return YogaScreen(
       key: UniqueKey(),
-      videoList: [],
+      videoList: const [],
       selectedCategories: selectedCategories,
       );
   }
@@ -29,10 +29,10 @@ class YogaScreen extends StatefulWidget {
 }
 
 class _YogaScreenState extends State<YogaScreen> {
+    // ignore: non_constant_identifier_names
     List<Addvideomodel>YogaVideos=[];
 
   Future<void> _fetchyogadata() async{
-    print('inside the box');
      final box = await Hive.openBox<Addvideomodel>('videos');
     final List<Addvideomodel> allVideos = box.values.toList();
 

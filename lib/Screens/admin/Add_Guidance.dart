@@ -1,5 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, unused_local_variable
-import 'dart:typed_data';
+// ignore_for_file: non_constant_identifier_names, unused_local_variable, file_names
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +44,7 @@ class _AddGuidanceState extends State<AddGuidance> {
       imageBytes: _imageBytes!
       );
 
-      final Box<Guidance>readingBox = await Hive.box<Guidance>('Guidance');
+      final Box<Guidance>readingBox = Hive.box<Guidance>('Guidance');
         await readingBox.add(Guidances);
         debugPrint('Successfully');
         setState(() {

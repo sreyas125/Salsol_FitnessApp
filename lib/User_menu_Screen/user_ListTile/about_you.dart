@@ -1,3 +1,5 @@
+// ignore_for_file: use_super_parameters
+
 import 'package:flutter/material.dart';
 
 class AboutYouScreen extends StatefulWidget {
@@ -93,9 +95,9 @@ class _AboutYouScreenState extends State<AboutYouScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: const Text(
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
               '''We'd like this information to provide more accurate results,
               \nsuch as run distance, pace and calories.
               For coaching plans, this information,
@@ -114,7 +116,7 @@ class _AboutYouScreenState extends State<AboutYouScreen> {
               child: Row(
                 children: [
                   const Text('Height', style: TextStyle(fontSize: 16)),
-                  SizedBox(width: 5,),
+                  const SizedBox(width: 5,),
                   Expanded(
                     child: TextFormField(
                       controller: _heightController,
@@ -135,7 +137,7 @@ class _AboutYouScreenState extends State<AboutYouScreen> {
                 child: Row(
                   children: [
                     const Text('Weight', style: TextStyle(fontSize: 16)),
-                    SizedBox(width: 5,),
+                    const SizedBox(width: 5,),
                     Expanded(
                       child: DropdownButtonFormField<String>(
                         decoration: const InputDecoration(
@@ -167,7 +169,7 @@ class _AboutYouScreenState extends State<AboutYouScreen> {
                     StatefulBuilder(
                       builder:(context, setState) {
                         return Checkbox(
-                          overlayColor: MaterialStatePropertyAll(Colors.black),
+                          overlayColor: const MaterialStatePropertyAll(Colors.black),
                           activeColor: Colors.black,
                           value: agreed,
                          onChanged: (value) {
@@ -176,7 +178,7 @@ class _AboutYouScreenState extends State<AboutYouScreen> {
                            },);
                          },);
                       }, ),
-                      Text('Use default height and weight*',
+                      const Text('Use default height and weight*',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w300

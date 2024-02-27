@@ -1,8 +1,14 @@
+// ignore_for_file: use_build_context_synchronously, file_names
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:salsol_fitness/Screens/login_screen.dart';
+import 'package:salsol_fitness/models/sign_in_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DeleteAccount extends StatefulWidget {
-  const DeleteAccount({Key? key}) : super(key: key);
+  const DeleteAccount({super.key});
 
   @override
   State<DeleteAccount> createState() => _DeleteAccountState();
@@ -10,6 +16,12 @@ class DeleteAccount extends StatefulWidget {
 
 class _DeleteAccountState extends State<DeleteAccount> {
   bool agreed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +32,13 @@ class _DeleteAccountState extends State<DeleteAccount> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
-        leading: BackButton(),
+        leading: const BackButton(),
         centerTitle: true,
         title: const Text('Delete Account'),
       ),
       body: Column(
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 30, left: 20),
             child: Text(
               'Are You Sure You Want to Delete Your Account?',
@@ -36,8 +48,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
                   color: Color.fromARGB(255, 52, 51, 51)),
             ),
           ),
-          SizedBox(height: 20),
-          Row(
+          const SizedBox(height: 20),
+          const Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
@@ -52,8 +64,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
               ),
             ],
           ),
-          SizedBox(height: 20),
-          Row(
+          const SizedBox(height: 20),
+          const Row(
             children: [
               Padding(
                 padding: EdgeInsets.all(10.0),
@@ -72,8 +84,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
               ),
             ],
           ),
-          SizedBox(height: 15),
-          Row(
+          const SizedBox(height: 15),
+          const Row(
             children: [
               Padding(
                 padding: EdgeInsets.all(10.0),
@@ -92,8 +104,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
               )
             ],
           ),
-          SizedBox(height: 20),
-          Row(
+          const SizedBox(height: 20),
+          const Row(
             children: [
               Padding(
                 padding: EdgeInsets.all(10.0),
@@ -112,8 +124,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
               )
             ],
           ),
-          SizedBox(height: 30),
-          Padding(
+          const SizedBox(height: 30),
+          const Padding(
             padding: EdgeInsets.all(10.0),
             child: Text(
               "Once you delete your account, you'll be logged out of this app. If you're logged into this salsol app, it could take up to 1 hour for your session to expire.",
@@ -124,8 +136,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
               ),
             ),
           ),
-          SizedBox(height: 20),
-          Padding(
+          const SizedBox(height: 20),
+          const Padding(
             padding: EdgeInsets.all(10.0),
             child: Text(
               'If you change your mind, you can always come back and open a new account with us.',
@@ -136,8 +148,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
               ),
             ),
           ),
-          SizedBox(height: 20),
-          Padding(
+          const SizedBox(height: 20),
+          const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
               "Are you sure you want to delete your account? (This can't be undone)",
@@ -159,28 +171,64 @@ class _DeleteAccountState extends State<DeleteAccount> {
                     onChanged: (value) {
                       setState(() {
                         agreed = value!;
-                        buttonColor = agreed ? Colors.black : const Color.fromARGB(255, 180, 178, 178);
-                        textColor = agreed ? Colors.white : const Color.fromARGB(255, 112, 108, 108);
+                        if (agreed) {
+                          buttonColor = Colors.black;
+                          textColor = Colors.white;
+                        }else{
+                        buttonColor = const Color.fromARGB(255, 180, 178, 178);
+                        textColor = const Color.fromARGB(255, 112, 108, 108);
+                        }
                       });
                     },
                   );
                 },
               ),
-              Text(
+             const  Text(
                 'Yes, I want to delete my account.',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
-                  color: const Color.fromARGB(255, 73, 71, 71),
+                  color:Color.fromARGB(255, 73, 71, 71),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           ElevatedButton(
             onPressed: agreed
                 ? () {
-                    
+                      showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Are you sure you want to delete this account?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); 
+                              },
+                              child: const Text("Cancel",style: TextStyle(color: Colors.black),),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                final userIdBox = Hive.box<fitnessModel>('customer_db');
+                                userIdBox.clear();
+                                final prefs = await SharedPreferences.getInstance();
+                                prefs.clear();
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const ScreenLogin(),
+                                  ),
+                                  (route) => false,
+                                );
+                              },
+                              child: const Text("Delete Account",style: TextStyle(color: Colors.red),),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   }
                 : null,
             style: ElevatedButton.styleFrom(
@@ -201,14 +249,14 @@ class _DeleteAccountState extends State<DeleteAccount> {
               ),
             ),
           ),
-           SizedBox(height: 20,),
+           const SizedBox(height: 20,),
           ElevatedButton(
             onPressed:(){
              Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.black,width: 0.4,),
+                side: const BorderSide(color: Colors.black,width: 0.4,),
                 borderRadius: BorderRadius.circular(25.0),
               ),
               backgroundColor: Colors.white,
@@ -216,7 +264,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: screenWidth * 0.33, vertical: 18),
-              child: Text(
+              child: const Text(
                 'Cancel',
                 style: TextStyle(
                   color: Color.fromARGB(255, 47, 45, 45),
@@ -226,7 +274,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );

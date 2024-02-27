@@ -28,9 +28,6 @@ part 'db_admin_add_function.g.dart';
    @HiveField(6)
      int? index;
 
-   @HiveField(7)
-     int? id;
-
    Addvideomodel({
     required this.discription,
     required this.title,
@@ -39,6 +36,5 @@ part 'db_admin_add_function.g.dart';
     required this.time,
     required this.selectedCategory,
     required this.index,
-    this.id
    });
   }

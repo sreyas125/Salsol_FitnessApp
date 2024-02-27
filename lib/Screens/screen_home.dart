@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors
+// ignore_for_file: use_key_in_widget_constructors, prefer_final_fields
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:salsol_fitness/Screens/For_You/for_you.dart';
@@ -36,7 +36,7 @@ class _ScreenHomeState extends State<ScreenHome> with SingleTickerProviderStateM
     super.dispose();
   }
 Future<void> loadcustomer() async{
-  final box = await Hive.box<fitnessModel>('customer_db');
+  final box =  Hive.box<fitnessModel>('customer_db');
   final value = box.getAt(0);
   if(value != null){
     setState(() {
@@ -78,17 +78,17 @@ Future<void> loadcustomer() async{
             shrinkWrap: true,
             children: [
                DrawerHeader(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 250, 250, 250)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.account_circle,
+                    const Icon(Icons.account_circle,
                     size: 60,
                     color: Colors.blueAccent,),
-                    SizedBox(height: 10,),
-                    Text(_usernamecontroller.text ?? 'Username',
-                    style: TextStyle(
+                    const SizedBox(height: 10,),
+                    Text(_usernamecontroller.text,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold),),

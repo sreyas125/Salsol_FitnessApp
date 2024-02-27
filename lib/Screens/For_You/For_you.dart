@@ -119,12 +119,12 @@ class _ForYouState extends State<ForYou> {
                   },
                   onBookmarChanged: (bool isBookmarked) {
                     if (isBookmarked) {
-                      print('isBookmarked');
-                          print(workout.index);
+                      // print('isBookmarked');
+                      //     print(workout.index);
                            saveWorkouts(workout);
-                           print('blahh');
+                          //  print('blahh');
                        }else{
-                        print('inside the delete');
+                        // print('inside the delete');
                            addVideoListNotifier.value = [...addVideoListNotifier.value]..remove(video);
                             deleteFromsavedWorkouts(workout.index!);
                        }
@@ -163,8 +163,6 @@ class _ForYouState extends State<ForYou> {
                           title:video.title,
                            videoUrl:video.videoUrl,
                            );
-                // print('this is the limited new workouts ${limitedNewWorkouts.length}');
-                // print('id: ${video.index}');
                 return WorkOutImage(
                   workimage: video.imageBytes,
                    worktitle: video.title,

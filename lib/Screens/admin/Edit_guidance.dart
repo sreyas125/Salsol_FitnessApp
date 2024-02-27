@@ -86,6 +86,7 @@ Future<void> deletealldetails(int index,BuildContext context) async {
     },
   );
 }
+ // ignore: non_constant_identifier_names
  void _SaveUpdatedDetails(int index)async {
   final box = await Hive.openBox<Guidance>('Guidance');
   await box.put(index,guidanceList[index]); 
@@ -98,6 +99,7 @@ Future<void> deletealldetails(int index,BuildContext context) async {
     final box = await Hive.openBox<Guidance>('Guidance');
     final  image = guidanceList[index];
 
+    // ignore: unnecessary_nullable_for_final_variable_declarations
     final Uint8List? currentImageBytes = image.imageBytes;
     if(currentImageBytes != null){
        await box.deleteAt(index);
@@ -194,6 +196,7 @@ Widget build(BuildContext context) {
                         _editImage(index);
                       },
                       child: Center(
+                        // ignore: unnecessary_null_comparison
                         child: guidance.imageBytes != null
                             ? Image.memory(
                                 guidance.imageBytes,

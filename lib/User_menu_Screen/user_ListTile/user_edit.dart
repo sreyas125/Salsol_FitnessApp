@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_settings.dart';
@@ -41,12 +43,10 @@ class _UserEditScreenState extends State<UserEditScreen> {
 
       final box = await Hive.openBox<fitnessModel>('customer_db');
       final index = await box.add(userModel);
-      print('updated usermodel at index $index');
 
       if(box.isNotEmpty){
         final previousIndex = box.keys.first;
         box.delete(previousIndex);
-        print('previous email removed $previousIndex');
       }
 
       setState(() {

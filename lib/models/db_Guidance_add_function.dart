@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, file_names
 import 'dart:typed_data';
 import 'package:hive/hive.dart';
 part 'db_Guidance_add_function.g.dart';

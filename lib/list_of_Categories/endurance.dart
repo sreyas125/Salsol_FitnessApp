@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:salsol_fitness/Screens/videoScreens/video_screen.dart';
@@ -66,7 +68,7 @@ class _EnduranceState extends State<Endurance> with SingleTickerProviderStateMix
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          leading: BackButton(),
+          leading: const BackButton(),
           backgroundColor: Colors.grey,
           bottom: TabBar(
             controller: _tabController,

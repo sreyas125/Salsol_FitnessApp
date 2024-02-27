@@ -61,7 +61,7 @@ Future<void> signOutUser() async {
           switch (index) {
             case 0:
               return  ListTile(
-                title: Text('User Edit'),
+                title: const Text('User Edit'),
                 onTap: () {
                  final userModel = Hive.box<fitnessModel>('customer_db').getAt(index);
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserEditScreen(userModelFuture: Future.value(userModel),),));

@@ -9,7 +9,7 @@ import 'package:salsol_fitness/models/db_admin_add_function.dart';
       context: context,
        builder: (context) {
       return AlertDialog(
-        title: Text('Edit'),
+        title: const Text('Edit'),
         content: Container(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -82,7 +82,9 @@ import 'package:salsol_fitness/models/db_admin_add_function.dart';
         );
        });
   }
+   // ignore: non_constant_identifier_names
    Future<void> deleteDetails(int index,SetStateCallback,List videoList,) async{
+    // ignore: non_constant_identifier_names
     final Box = await Hive.openBox<Addvideomodel>('videos');
     await Box.deleteAt(index);
 

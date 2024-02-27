@@ -6,6 +6,7 @@ part of 'sign_in_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
+// ignore: camel_case_types
 class fitnessModelAdapter extends TypeAdapter<fitnessModel> {
   @override
   final int typeId = 2;

@@ -93,7 +93,7 @@ class _UserSettingsState extends State<UserSettings> {
                  case 2:
                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PrivacyScreen(),));
                  case 4:
-                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => DeleteAccount(),));
+                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DeleteAccount(),));
                 case 5:
                   _showLogoutDialogs(context);
                 break;       

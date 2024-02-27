@@ -1,6 +1,7 @@
+// ignore_for_file: depend_on_referenced_packages, non_constant_identifier_names
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import  'package:timezone/timezone.dart' as tz;
 
@@ -21,9 +22,10 @@ static final FlutterLocalNotificationsPlugin
     AndroidInitializationSettings('@mipmap/ic_launcher');
 final DarwinInitializationSettings initializationSettingsDarwin =
     DarwinInitializationSettings(
-        onDidReceiveLocalNotification: (id, title, body, payload) => null,
+        onDidReceiveLocalNotification: (id, title, body, payload) {},
         );
 final LinuxInitializationSettings initializationSettingsLinux =
+    // ignore: prefer_const_constructors
     LinuxInitializationSettings(
         defaultActionName: 'Open notification');
 final InitializationSettings initializationSettings = InitializationSettings(

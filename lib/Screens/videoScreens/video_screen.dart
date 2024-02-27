@@ -155,7 +155,6 @@ class _VideoScreenOneState extends State<VideoScreenOne> {
               bottom: 60,
               child: ElevatedButton(
             onPressed: (){
-              print('Video URL: ${widget.addvideomodel.videoUrl}');
            Navigator.push(
             context,
              MaterialPageRoute(

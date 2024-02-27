@@ -37,6 +37,6 @@ class SavedWorkout {
     required this.time,
     required this.title,
     required this.videoUrl,
-    this.id
+    this.id,
   });
 }

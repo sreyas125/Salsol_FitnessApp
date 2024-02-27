@@ -32,7 +32,7 @@ class _AdminLoginState extends State<AdminLogin> {
           
 
           // ignore: use_build_context_synchronously
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AdministrationScreen(),));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const AdministrationScreen(),));
        
         }else{
           if(!isValidCredentials(emailcontroller.text, passwordcontroller.text)){

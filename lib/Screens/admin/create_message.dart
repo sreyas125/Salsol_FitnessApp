@@ -28,7 +28,6 @@ class _CreateMeessageState extends State<CreateMeessage> {
   }
 
   listenToNotifications() {
-    print('Listening to notification');
     LocalNotifications.onClickNotification.stream.listen((event) {
       Navigator.push(
         context,

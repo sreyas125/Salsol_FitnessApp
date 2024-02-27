@@ -36,7 +36,6 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
       widget.videoModel.videoUrl
       );
      if(extractedVideoId != null){
-      print('......object');
     _playerController = YoutubePlayerController(
      initialVideoId: extractedVideoId, 
     flags: const YoutubePlayerFlags(
@@ -47,15 +46,10 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
       
     ),
   )..addListener(() {
-    print('object...');
     setState(() {
       _isPlayerReady = true;
-      print(_isPlayerReady);
     });
     });
-   }else{
-      debugPrint('Invalid Youtube video URL');
-
    }
      }
 
@@ -98,7 +92,6 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
       ]
     ),
        builder: (context,player){
-        print('get inside the context builder');  
          return player;
       },
     );
