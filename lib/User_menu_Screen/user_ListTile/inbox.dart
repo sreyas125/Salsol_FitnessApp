@@ -41,19 +41,28 @@ class _InboxScreenState extends State<InboxScreen> {
         child: Column(
           children: [
             ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: inboxvideos.length,
-              itemBuilder:(BuildContext context,int index){
-                final inboxvideo =  inboxvideos[index];
-                 return ListTile(
-                  title: Text(inboxvideo.notifications ?? ''),
-                  subtitle: Text(inboxvideo.notificationbody ?? ''),
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ScreenHome(),));
-                  },
-                 );
-              })
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: inboxvideos.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final inboxvideo = inboxvideos[index];
+                  return Column(
+                    children: [
+                      ListTile(
+                        title: Text(inboxvideo.notifications ?? ''),
+                        subtitle: Text(inboxvideo.notificationbody ?? ''),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ScreenHome()),
+                          );
+                        },
+                      ),
+                      if (index != inboxvideos.length - 1) const Divider(thickness: 1), 
+                    ],
+                  );
+                },
+              )
           ],
         ),
       ),

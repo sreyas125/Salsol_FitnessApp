@@ -19,7 +19,7 @@ class Endurance extends StatefulWidget {
   }){
     return Endurance(
       key: UniqueKey(),
-     VideoList: [],
+     VideoList: const [],
        selectedCategories: selectedCategories
        );
   }

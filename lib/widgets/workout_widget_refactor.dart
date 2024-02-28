@@ -91,11 +91,6 @@ class _WorkOutImageState extends State<WorkOutImage> {
                         child: IconButton(
                           onPressed: (){
                             _toggleBookmarkState();
-                            // setState(() {
-                            
-                            //   print('widget refactoring');
-                            //      widget.onBookmarChanged(isBookmarked);
-                            // });
                           },
                           icon: Icon(
                             isBookmarked
