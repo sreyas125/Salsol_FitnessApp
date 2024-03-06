@@ -98,42 +98,40 @@ class _ForYouState extends State<ForYou> {
                           time: video.time, 
                           title:video.title,
                            videoUrl:video.videoUrl,
-                           );
-                // print('this is the limited new workouts ${limitedNewWorkouts.length}');
-                // print('id: ${video.index}');
-                return WorkOutImage(
-                  workimage: video.imageBytes,
-                  worktitle: video.title,
-                  times: video.time,
-                  selectedCategory: video.selectedCategory,
-                  index: video.index!,
-                  videoUrl: video.videoUrl,
-                  nav: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => VideoScreenOne(
-                          addvideomodel: video,
-                        ),
-                      ),
+                  );
+                    return WorkOutImage(
+                      workimage: video.imageBytes,
+                      worktitle: video.title,
+                      times: video.time,
+                      selectedCategory: video.selectedCategory,
+                      index: video.index!,
+                      videoUrl: video.videoUrl,
+                      nav: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => VideoScreenOne(
+                              addvideomodel: video,
+                            ),
+                          ),
+                        );
+                      },
+                      onBookmarChanged: (bool isBookmarked) {
+                        if (isBookmarked) {
+                          // print('isBookmarked');
+                          //     print(workout.index);
+                              saveWorkouts(workout);
+                              //  print('blahh');
+                          }else{
+                            // print('inside the delete');
+                              addVideoListNotifier.value = [...addVideoListNotifier.value]..remove(video);
+                                deleteFromsavedWorkouts(workout.index!);
+                          }
+                      },
+                      addVideoListNotifier: addvideoListNotifier,
                     );
                   },
-                  onBookmarChanged: (bool isBookmarked) {
-                    if (isBookmarked) {
-                      // print('isBookmarked');
-                      //     print(workout.index);
-                           saveWorkouts(workout);
-                          //  print('blahh');
-                       }else{
-                        // print('inside the delete');
-                           addVideoListNotifier.value = [...addVideoListNotifier.value]..remove(video);
-                            deleteFromsavedWorkouts(workout.index!);
-                       }
-                  },
-                  addVideoListNotifier: addvideoListNotifier,
-                );
-              },
-            ),
-          ),
+                ),
+              ),
           const SizedBox(height: 30,),
           const Padding(
             padding: EdgeInsets.only(left: 20),

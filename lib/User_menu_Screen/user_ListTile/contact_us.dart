@@ -7,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 class ContactUs extends StatelessWidget {
   const ContactUs({super.key});
 
-  // Function to launch the Twitter link
   Future<void> _launchTwitter() async {
     const url = 'https://twitter.com/Sreyas_kurup_';
     if (await canLaunch(url)) {
@@ -49,7 +48,7 @@ class ContactUs extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue, // Make the text blue
+                    color: Colors.blue, 
                   ),
                 ),
               ],

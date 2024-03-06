@@ -57,7 +57,9 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     body: _buildYoutubePlayer(),
+      backgroundColor: Colors.black,
+     body: Center(
+      child: _buildYoutubePlayer()),
     );
   }
    Widget _buildYoutubePlayer() {
@@ -66,7 +68,7 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
 
         controller: _playerController,
         showVideoProgressIndicator: true,
-        progressIndicatorColor: Colors.black,
+        progressIndicatorColor: Colors.white,
         onReady: () => debugPrint('Ready'),
         bottomActions: [  
           if(_isPlayerReady)...[

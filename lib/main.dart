@@ -16,6 +16,7 @@ late SharedPreferences sharedpref;
 const SAVE_KEY_NAME = 'userLoggedIn';
 Future<void>main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  sharedpref = await SharedPreferences.getInstance();
   await Hive.initFlutter();
   Hive.registerAdapter(AddvideomodelAdapter());
   Hive.registerAdapter(AdminAdapter());

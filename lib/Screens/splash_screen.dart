@@ -15,6 +15,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   late VideoPlayerController _controller;
+  late SharedPreferences sharedprefs;
   late String Savekeyname = 'userLoggedIn';
 
   @override
@@ -33,8 +34,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> checkUserLoggedIn() async {
-    final sharedprefs = await SharedPreferences.getInstance();
-    final userLoggedIn = sharedprefs.getBool(SAVE_KEY_NAME,);
+   final SharedPreferences  sharedprefs = await SharedPreferences.getInstance();
+    final bool? userLoggedIn = sharedprefs.getBool(SAVE_KEY_NAME,);
 
     await Future.delayed(const Duration(seconds: 2));
 

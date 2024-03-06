@@ -1,5 +1,3 @@
-// ignore_for_file: use_super_parameters
-
 import 'package:flutter/material.dart';
 
 class AboutYouScreen extends StatefulWidget {
@@ -98,18 +96,14 @@ class _AboutYouScreenState extends State<AboutYouScreen> {
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-              '''We'd like this information to provide more accurate results,
-              \nsuch as run distance, pace and calories.
-              For coaching plans, this information,
-              in addition to your age,
-              helps personalize your plan to be right for you.'''
-                "",
+                '''We'd like this information to provide more accurate results,\nsuch as run distance, pace and calories.For coaching plans, this information,in addition to your age,helps personalize your plan to be right for you.'''
+                    "",
                 style: TextStyle(
-                  fontSize: 16,
-                   fontWeight: FontWeight.w400
-                   ),
-                 ),
-               ),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400
+                ),
+              ),
+            ),
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -133,60 +127,65 @@ class _AboutYouScreenState extends State<AboutYouScreen> {
               ),
             ),
             Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    const Text('Weight', style: TextStyle(fontSize: 16)),
-                    const SizedBox(width: 5,),
-                    Expanded(
-                      child: DropdownButtonFormField<String>(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                        value: selectedWeight,
-                        onChanged: (newValue) {
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  const Text('Weight', style: TextStyle(fontSize: 16)),
+                  const SizedBox(width: 5,),
+                  Expanded(
+                    child: DropdownButtonFormField<String>(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      value: selectedWeight,
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedWeight = newValue!;
+                          _weightController.text = newValue;
+                        });
+                      },
+                      items: List.generate(481, (index) => '${index + minHeight} Ibs')
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20,top: 20),
+              child: Row(
+                children: [
+                  StatefulBuilder(
+                    builder:(context, setState) {
+                      return Checkbox(
+                        overlayColor: const MaterialStatePropertyAll(Colors.black),
+                        activeColor: Colors.black,
+                        value: agreed,
+                        onChanged: (value) {
                           setState(() {
-                            selectedWeight = newValue!;
-                            _weightController.text = newValue;
+                            agreed=value!;
+                            if(agreed){
+                              _heightController.text = '6.0';
+                              _weightController.text = '161 Ibs';
+                            }
                           });
                         },
-                        items: List.generate(481, (index) => '${index + minHeight} Ibs')
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20,top: 20),
-                child: Row(
-                  children: [
-                    StatefulBuilder(
-                      builder:(context, setState) {
-                        return Checkbox(
-                          overlayColor: const MaterialStatePropertyAll(Colors.black),
-                          activeColor: Colors.black,
-                          value: agreed,
-                         onChanged: (value) {
-                           setState(() {
-                             agreed=value!;
-                           },);
-                         },);
-                      }, ),
-                      const Text('Use default height and weight*',
-                      style: TextStyle(
+                      );
+                    }, ),
+                  const Text('Use default height and weight*',
+                    style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w300
-                        ),
-                     ),
-                  ],
-                ),
-              )
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

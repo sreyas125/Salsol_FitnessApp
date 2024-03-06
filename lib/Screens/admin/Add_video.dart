@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'package:salsol_fitness/Screens/admin/home_admin.dart';
 import 'package:salsol_fitness/models/db_admin_add_function.dart';
 
 class AddVideoScreen extends StatefulWidget {
@@ -33,11 +32,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
     'Endurance',
     'Arms & Shoulder',
     'Abs & core',
-    'Mindfulness',
-    'Strength,mindfulness',
     'Great From Home',
-    'Mobility',
-    'Overall Fitness',
     'Full Equipment',
     'No Equipment',
    ];
@@ -64,8 +59,6 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
               final Box<Addvideomodel>videoBox = Hive.box<Addvideomodel>('videos');
               await videoBox.add(addvideomodel);
               debugPrint('added succesfully.');
-              //  await addvideo(addvideomodel);
-              //  videoList.add(addvideomodel);
                 setState(() {
                 _title='';
                 _videoUrl='';
@@ -120,15 +113,6 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
       Category, Category)).toList();
   }
 
-  // Future<void> _getImageFromHive() async {
-  //   final imageBytes = await Hive.box('images').get('image') as Uint8List?;
-  //   if(imageBytes !=null){
-  //     setState(() {
-  //       _imageBytes = imageBytes;
-  //     });
-  //   }
-  // }
-
   Future<void> _showOptionsDialog()  async{
     await showDialog(context: context, builder: (BuildContext context){
       return AlertDialog(
@@ -154,7 +138,7 @@ class _AddVideoScreenState extends State<AddVideoScreen> {
    void _viewImageFullScreen() async{
     Navigator.push(context, MaterialPageRoute(
       builder: (context) => Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(backgroundColor: Colors.grey),
         body: Center(
       child: Hero(
         tag: 'imageFullScreen', 
@@ -239,11 +223,7 @@ Future<void> fetchNewWorkoutvideos() async{
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
-        leading:BackButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const AdministrationScreen(),));
-          },
-        ),
+        leading:const BackButton(),
         centerTitle: true,
         title: const Text('Add Video'),
       ),
@@ -290,9 +270,10 @@ Future<void> fetchNewWorkoutvideos() async{
                     decoration: const InputDecoration(
                       labelText: 'Video URL',
                       hintText: 'Give Video Link ',
+                      border: OutlineInputBorder()
                     ),
                   ),
-                     
+                     const SizedBox(height: 10,),
               TextFormField(
                 onChanged: (value) {
                   setState(() {
@@ -303,9 +284,12 @@ Future<void> fetchNewWorkoutvideos() async{
                 decoration: const InputDecoration(
                   labelText: 'Title',
                   hintText: 'Give an Title Here',
+                  border: OutlineInputBorder()
                 ),
               ),
+              const SizedBox(height: 10,),
               TextFormField(
+                maxLines: 4,
                 onChanged: (value) {
                   setState(() {
                   _description = value;
@@ -314,8 +298,10 @@ Future<void> fetchNewWorkoutvideos() async{
                 decoration: const InputDecoration(
                   labelText: 'Description',
                   hintText: 'Enter the video Description',
+                border: OutlineInputBorder()
                 ),
               ),
+              const SizedBox(height: 10,),
               TextFormField(
                 onChanged: (value){
                   setState(() {
@@ -325,6 +311,7 @@ Future<void> fetchNewWorkoutvideos() async{
                 decoration: const InputDecoration(
                   labelText: 'time',
                   hintText: 'Enter the video duration',
+                  border: OutlineInputBorder()
                 ),
               ),
               const SizedBox(height: 20,),
@@ -338,9 +325,7 @@ Future<void> fetchNewWorkoutvideos() async{
                     );
                 }).toList(),
               ),
-                Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: MultiSelectBottomSheetField<String?>(
+                MultiSelectBottomSheetField<String?>(
                   initialValue: selectedCategories,
                   listType: MultiSelectListType.CHIP,
                   searchable: true,
@@ -350,20 +335,22 @@ Future<void> fetchNewWorkoutvideos() async{
                   onConfirm: (List<String?> values){
                      _updateSelectedCategories(values);
                   },
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black)
                 ),
-              ),
+                ),
 
               const SizedBox(height: 20,),
               ElevatedButton(
                 onPressed: (){ 
                   _saveVideoDetails(selectedCategories);
                 _showFeedVideoMessage();
-             
                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const AddVideoScreen(greatForHomeVideos: [],)));
-     
-
                 },
-               child: const Text('Feed The Video')),
+               style: const ButtonStyle(
+                backgroundColor:MaterialStatePropertyAll(
+                  Color.fromARGB(255, 165, 47, 39))),
+               child:  const Text('Feed The Video')),
                 ]      
               ), 
             ),

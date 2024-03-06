@@ -185,8 +185,8 @@ class _EquipmentScreenState extends State<EquipmentScreen> with SingleTickerProv
                 ),
               ],
             ),
-
-          ]),
+          ]
+        ),
        ));
   }
 }

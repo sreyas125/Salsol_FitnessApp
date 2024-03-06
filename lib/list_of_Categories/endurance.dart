@@ -52,9 +52,7 @@ class _EnduranceState extends State<Endurance> with SingleTickerProviderStateMix
          setState(() {
       EnduranceVideos = filteredVideos;
     });
-
   }
-  
 
   @override
   void dispose() {
@@ -97,7 +95,8 @@ class _EnduranceState extends State<Endurance> with SingleTickerProviderStateMix
                             shape: BoxShape.rectangle,
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: MemoryImage(video.imageBytes
+                              image: MemoryImage(
+                              video.imageBytes
                               ),
                             ),
                           ),
@@ -105,23 +104,25 @@ class _EnduranceState extends State<Endurance> with SingleTickerProviderStateMix
                         title: Text(video.title),
                         subtitle: Text(video.time),
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => VideoScreenOne(
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => VideoScreenOne(
                             addvideomodel: Addvideomodel(
                               discription:video.discription,
                                title:video.title,
                                 videoUrl:video.videoUrl,
-                                 imageBytes:video.imageBytes,
-                                  time:video.time,
-                                   selectedCategory: video.selectedCategory,
-                                    index: index,
-                                    )
-                                  ),
-                                  )
-                                );
-                             },
-                         );
-                    }),
-                )
+                                imageBytes:video.imageBytes,
+                                time:video.time,
+                                selectedCategory: video.selectedCategory,
+                                index: index,
+                                ),
+                              ),
+                            ),
+                          );
+                         },
+                       );
+                    }
+                  ),
+                ),
               ],
             ),
             YogaScreen(videoList: widget.VideoList,

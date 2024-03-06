@@ -7,7 +7,9 @@ import 'package:salsol_fitness/User_menu_Screen/user_ListTile/contact_us.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_ListTile/delete_Account.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_ListTile/privacy.dart';
 import 'package:salsol_fitness/User_menu_Screen/user_ListTile/user_edit.dart';
+import 'package:salsol_fitness/main.dart';
 import 'package:salsol_fitness/models/sign_in_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({super.key});
@@ -17,6 +19,13 @@ class UserSettings extends StatefulWidget {
 }
 
 class _UserSettingsState extends State<UserSettings> {
+
+  Future<void> _logout() async {
+  final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+  await sharedPrefs.setBool(SAVE_KEY_NAME, false); 
+  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const ScreenLogin(),), (route) => false);
+}
+
 
 
   Future<void> _showLogoutDialogs(BuildContext context) async {
@@ -35,13 +44,11 @@ class _UserSettingsState extends State<UserSettings> {
                     },
                   ),
           TextButton(
-            child: const Text('Logout',style: TextStyle(color: Colors.red),),
-            onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (context) =>const ScreenLogin()),
-                   (route) => false);
-            },
+            child: const Text('Logout',
+            style: TextStyle(color: Colors.red),),
+            onPressed: (){
+              _logout();
+            }
           ),
         ],
       );

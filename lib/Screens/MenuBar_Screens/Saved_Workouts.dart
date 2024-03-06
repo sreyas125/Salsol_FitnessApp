@@ -58,45 +58,49 @@ Future<void> _fetchSaved() async {
                 child: Text('No videos Available')),
              )
           else
-            ListView.builder(
-              itemCount: _bookmarkedvideos.length,
-              shrinkWrap: true,
-              itemBuilder: (context,index){
-                final video = _bookmarkedvideos[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: ListTile(
-                    leading: SizedBox(
-                      height: 280,
-                      width: 100,
-                      child: Image(
-                        fit: BoxFit.cover,
-                        image: MemoryImage(
-                          video.imageBytes
-                          ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _bookmarkedvideos.length,
+                shrinkWrap: true,
+                itemBuilder: (context,index){
+                  final video = _bookmarkedvideos[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: ListTile(
+                      leading: Container(
+                        height: 280,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          image: DecorationImage(
+                            image: MemoryImage(
+                              video.imageBytes
+                            )
+                          )
                         ),
-                    ),
-                    title: Text(video.title),
-                    subtitle: Text(video.time),
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => VideoScreenOne(
-                        addvideomodel: Addvideomodel(
-                          discription:video.discription,
-                           title:video.title,
-                            videoUrl:video.videoUrl,
-                            imageBytes:video.imageBytes,
-                             time: video.time,
-                              selectedCategory: video.selectedCategory,
-                               index: index
-                               ),
+                      ),
+                      title: Text(video.title),
+                      subtitle: Text(video.time),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => VideoScreenOne(
+                          addvideomodel: Addvideomodel(
+                            discription:video.discription,
+                             title:video.title,
+                              videoUrl:video.videoUrl,
+                              imageBytes:video.imageBytes,
+                               time: video.time,
+                                selectedCategory: video.selectedCategory,
+                                 index: index
+                                 ),
+                                ),
                               ),
-                            ),
-                          );
-                    },
-                  ),
-                );
-              })
+                            );
+                      },
+                    ),
+                  );
+                }),
+            )
         ],
       ),
     );

@@ -37,7 +37,7 @@ The terms used in this Privacy Policy have the same meanings as in our Terms and
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Privacy Policy',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -47,7 +47,7 @@ The terms used in this Privacy Policy have the same meanings as in our Terms and
             const SizedBox(height: 8),
             Text(
               policy,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 15,
               fontWeight: FontWeight.w400),
             ),
@@ -57,7 +57,7 @@ The terms used in this Privacy Policy have the same meanings as in our Terms and
                 _launchUrl(
                     'https://sites.google.com/view/salsolfitness-privacy-policy/home');
               },
-              child: Text(
+              child: const Text(
                 'View More Details of privacy policy',
                 style: TextStyle(
                   color: Colors.blue,
